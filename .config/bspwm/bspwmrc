@@ -69,9 +69,17 @@ bspc config urgent_border_color 	      "#dd2727"
 
 #polybar hidden when fullscreen for vlc, youtube, mpv ...
 #find out the name of your monitor with xrandr
-#xdo below -t $(xdo id -n root) $(xdo id -a polybar-main_DVI-I-0)
-#xdo below -t $(xdo id -n root) $(xdo id -a polybar-main_DVI-D-0)
-#xdo below -t $(xdo id -n root) $(xdo id -a polybar-main_HDMI-0)
+
+if [[$(hostname) == 'hades']]; then
+    xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_HDMI-0)
+    xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_aux_DVI-I-0)
+    xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_aux_DVI-D-0)
+
+elif [[ $(hostname) == 'udaicfernando']]; then
+    xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_aux_HDMI-0)
+    xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_DVI-I-0)
+    #xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_aux_DVI-D-0)
+fi
 
 #bspc rule -a '*:yad' state=floating follow=on focus=on
 #bspc rule -a Gimp desktop='^8' state=floating follow=on
