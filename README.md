@@ -27,29 +27,17 @@ Como lo que quiero es controlar mi home (/home/caronte/) y el repositorio esta e
 		touch ~/README.md
 		config add README.md
 
-* Hacemos el commit
+* Hacemos el commit, si no tienes configurado tu usuario y nombre es el momento
 
 		config commit -am "Primer commit"
 
-* Creamos el .git
-
-		touch .git
-
 * Añadimos el repositorio remoto que hemos creado en GitHub
 	
-		git remote add origin http://github.com/usuario/repositorio.git
+		config remote add origin http://github.com/usuario/repositorio.git
 
 * Hacemos el primer push (pedira usuario y contraseña, se los damos claro)
 	
-		git push -u origin master
-
-* Creamos el alias para la gestión. Añadimos a .bashrc. OJO CON LOS DIRECTORIOS
-
-		#========================================================================
-		#---------------- ALIAS MIOS --------------------------------------------
-		#========================================================================
-		#Gestion git para configs
-		alias config="/usr/bin/git --git-dir=$HOME/GIT/dir_repo/.git --work-tree=$HOME"
+		config push -u origin master
 
 
 A partir de este momento podemos usar config
