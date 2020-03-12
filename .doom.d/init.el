@@ -176,3 +176,4 @@
        :config
        ;;literate
        (default +bindings +smartparens))
+       (setq frame-resize-pixelwise t)
