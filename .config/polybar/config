@@ -65,10 +65,10 @@ blue-gray = #546e7a
 
 [bar/top]
 monitor=${env:MONITOR}
-width = 96%
+width = 98%
 height = 32
-offset-x = 10
-offset-y = 10
+offset-x = 1%
+offset-y = 1%
 bottom = false
 fixed-center = false
 line-size = 2
@@ -97,10 +97,10 @@ modules-right = pkg volume network date powermenu
 
 [bar/top_aux]
 monitor=${env:MONITOR}
-width = 96%
+width = 98%
 height = 32
-offset-x = 2%
-offset-y = 2%
+offset-x = 1%
+offset-y = 1%
 bottom = false
 fixed-center = false
 line-size = 2
