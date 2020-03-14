@@ -5,17 +5,17 @@ killall sxhkd &
 sxhkd &
 
 #---- compositing
-killall -q picom
-picom &
+#killall -q picom
+#picom &
 
 #---- wallpapers
-killall -q nitrogen
-nitrogen --restore &
+#killall -q nitrogen
+#nitrogen --restore &
 
 
 
 #---- arrancamos polkit para poder usar pamac, si no se queja de que falla al identificación de root
-exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
+#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
 
  #--------- nombre de los monitores con xrandr -q | grep -w connected
 if [[ $(hostname) == 'hades' ]]; then

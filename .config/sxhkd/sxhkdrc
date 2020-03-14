@@ -21,7 +21,7 @@ super + Escape
 
 # Menu de salida
 super + alt + Escape
-	~/.config/rofi/rofi-logout.sh
+	~/.config/rofi/rofi_logout.sh
 
 # Ayuda BSPWM
 super + F1

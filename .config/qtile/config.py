@@ -80,6 +80,7 @@ keys = [
     Key([mod, "mod1"], "r", lazy.restart()),
     Key([mod, "mod1"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawncmd()),
+    Key([mod, "mod1"], "Escape", lazy.spawn(home + '/.config/rofi/rofi_logout.sh') ),
 
     Key([mod], "space", lazy.spawn(home + '/.config/rofi/rofi_menu.sh')),
 ]
