@@ -30,6 +30,8 @@ import socket
 import subprocess
 import platform
 import sys
+import logging
+
 
 from libqtile.config import Key, Screen, Group, Drag, Click
 from libqtile.lazy import lazy
@@ -37,10 +39,47 @@ from libqtile import layout, bar, widget, hook
 
 from typing import List  # noqa: F401
 
+
+#======================================================================================
+# ---- CHANGE THIS CONFIG
+#======================================================================================
 DEBUG = os.environ.get("DEBUG")
-home = os.path.expanduser('~')
+HOME = os.path.expanduser('~')
+QTILE_CONFIG_DIR = HOME + '/.config/qtile/'
+ROFI_SCRIPTS_DIR = HOME + '/.config/rofi/'
+MY_TERM = "alacritty"
+MY_ETHERNET = "enp3s0"
+
+#----------- LOGGIN
+LOG=True
+LOG_DIR=HOME + "/.local/share/qtile/caronte/"
+
+
+#======================================================================================
+# ---- LOGGER
+#======================================================================================
+if LOG:
+    if not os.path.exists(LOG_DIR):
+        os.mkdir(LOG_DIR)
+
+    logging.basicConfig(
+        filename=LOG_DIR + 'caronte_qtile.log',
+        filemode="a",
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        level=logging.INFO,
+    )
+
+
+logging.info("ARRANCAMOS QTILE")
+
+
+
+
+
+#======================================================================================
+# ---- QTILE CONFIG
+#======================================================================================
 hostname = platform.uname().node
-mi_terminal = "alacritty"
 mod = "mod4"
 space = 12
 
@@ -49,7 +88,7 @@ space = 12
 # Si arrancamos en modo debug cambiamos el "modificador" a bloqueo de mays, para evitar liarla con los qtile al tiempo
 if DEBUG:
     hostname = "PRUEBAS"
-    mod = "mod3"
+    mod = "lock"  # Cambiamos el MOD a Caps-Lock
 
 keys = [
     # Switch between windows in current stack pane
@@ -71,18 +110,19 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
-    Key([mod], "Return", lazy.spawn(mi_terminal)),
+    Key([mod], "Return", lazy.spawn(MY_TERM)),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout()),
     Key([mod], "w", lazy.window.kill()),
 
-    Key([mod, "mod1"], "r", lazy.restart()),
+    # Key([mod, "mod1"], "r", lazy.restart()), # lo quito porque hago la validación abajo
+    # Key(["mod4", "control"], "r", validate_and_restart),
     Key([mod, "mod1"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawncmd()),
-    Key([mod, "mod1"], "Escape", lazy.spawn(home + '/.config/rofi/rofi_logout.sh') ),
+    Key([mod, "mod1"], "Escape", lazy.spawn(ROFI_SCRIPTS_DIR +'rofi_logout.sh') ),
 
-    Key([mod], "space", lazy.spawn(home + '/.config/rofi/rofi_menu.sh')),
+    Key([mod], "space", lazy.spawn(ROFI_SCRIPTS_DIR + 'rofi_menu.sh')),
 ]
 
 
@@ -95,7 +135,7 @@ group_names = [("MAIN", {'layout': 'monadtall'}),
                ("FONDO1", {'layout': 'monadtall'}),
                ("FONDO2", {'layout': 'monadtall'}),
                ("FONDO3", {'layout': 'monadtall'}),
-               ("", {'layout': 'floating'})]
+               ("GTX", {'layout': 'floating'})]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
@@ -241,7 +281,7 @@ def init_widgets_list():
                         text='',
                         background = colors[4],
                         foreground = colors[5],
-                        padding=0,
+                        padding= 0,
                         fontsize=37
                         ),
                widget.TextBox(
@@ -271,7 +311,7 @@ def init_widgets_list():
                         fontsize=14
                         ),
                widget.Net(
-                        interface = "enp6s0",
+                        interface = MY_ETHERNET,
                         foreground = colors[2],
                         background = colors[4],
                         padding = 5
@@ -427,6 +467,9 @@ floating_layout = layout.Floating(float_rules=[
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 
+@hook.subscribe.startup_once
+def autostart():
+    subprocess.call(QTILE_CONFIG_DIR + 'autostart.sh')
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
@@ -437,3 +480,108 @@ focus_on_window_activation = "smart"
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
+
+
+
+
+#========================================================================
+# ----------- SCRIPT DE CONTROL DE CONFIGURACION
+# =======================================================================
+import sys
+import subprocess
+import importlib
+
+from libqtile.confreader import Config, ConfigError
+from libqtile.command import lazy
+from libqtile.xkeysyms import keysyms
+# from libqtile.core.xcore import XCore
+from libqtile.backend.x11 import xcore
+
+# python package 'regex' is required
+# will fail gracefully if it is not importable, see validate_config
+def find_similar_keys(key):
+    import regex
+
+    regexp = regex.compile(
+        r"({}{{e<{}}})".format(key, len(key)), regex.IGNORECASE
+    )
+    similar_keys = []
+    for qtile_key in keysyms.keys():
+        if regexp.match(qtile_key):
+            similar_keys.append(qtile_key)
+    if not similar_keys:
+        return "No key similar to '{}' could be found in libqtile.xkeysyms.keysyms :/".format(
+            key
+        )
+    if len(similar_keys) == 1:
+        return "Maybe you meant '{}'?".format(similar_keys[0])
+    return "Maybe you meant '{}', or '{}'?".format(
+        "', '".join(similar_keys[:-1]), similar_keys[-1]
+    )
+
+
+def validate_config():
+    output = [
+        "The configuration file '",
+        __file__,
+        "' generated the following error:\n\n",
+    ]
+
+
+    try:
+        # mandatory: we must reload the module (the config file was modified)
+        importlib.reload(sys.modules[__name__])
+        Config.from_file(XCore(), __file__)
+
+    except ConfigError as error:
+        output.append(str(error))
+
+        # handle the case when a key is erroneous
+        # more cases could be handled maybe
+        if str(error).startswith("No such key"):
+            output.append("\n\n")
+            key = str(error).replace("No such key: ", "")
+            try:
+                similar_keys = find_similar_keys(key)
+            except ImportError:
+                output.append("Install 'regex' if you want to see valid similar keys")
+            else:
+                output.append(similar_keys)
+        raise ConfigError("".join(output))
+
+    except Exception as error:
+        # here we handle SyntaxError and the likes
+        print("ERROR DE SINTAXIS")
+        output.append("{}: {}".format(sys.exc_info()[0].__name__, str(error)))
+        raise ConfigError("".join(output))
+
+@lazy.function
+def validate_and_restart(qtile):
+    try:
+        validate_config()
+    except ConfigError as error:
+        # adapt to fit your needs: here I pop a system notification with the error
+        subprocess.call(["notify-send", "-t", "10000", str(error)])
+    else:
+        qtile.cmd_restart()
+
+#---------------------------------------------------------
+#   recuerda cambiar la tecla en los keybindings arriba
+#--------------------------------------------------------
+# keys = [
+# ...
+    # Key(["mod4", "control"], "r", validate_and_restart),
+    # ...
+# ]
+# keys.append(Key([mod, "mod1"], "r", validate_and_restart)) # lo quito porque hago la validación abajo)
+# print(__name__)
+
+if __name__ == "__main__":
+    try:
+        validate_config()
+    except ConfigError as error:
+        print(str(error), file=sys.stderr)
+        sys.exit(1)
+    else:
+        print("OK!")
+        sys.exit(0)
