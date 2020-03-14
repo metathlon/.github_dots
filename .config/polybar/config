@@ -68,7 +68,7 @@ monitor=${env:MONITOR}
 width = 98%
 height = 32
 offset-x = 1%
-offset-y = 1%
+offset-y = 2%
 bottom = false
 fixed-center = false
 line-size = 2
@@ -76,22 +76,18 @@ line-size = 2
 background = ${color.bg}
 foreground = ${color.fg}
 
+tray-position=center
 ;==========================================================
-
-font-0 = "Fantasque Sans Mono:pixelsize=10;3"
+font-0 = "Fantasque Sans Mono:pixelsize=13;3"
 font-1 = "Iosevka Nerd Font:pixelsize=13;3"
 
 ;==========================================================
-
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-; scroll-up = i3wm-wsnext
-; scroll-down = i3wm-wsprev
-
 ;== Module Location ========================================================
 
-modules-left = arch bspwm google github youtube
+modules-left = bspwm
 modules-right = pkg volume network date powermenu
  
 
@@ -100,7 +96,7 @@ monitor=${env:MONITOR}
 width = 98%
 height = 32
 offset-x = 1%
-offset-y = 1%
+offset-y = 2%
 bottom = false
 fixed-center = false
 line-size = 2
@@ -109,22 +105,15 @@ background = ${color.bg}
 foreground = ${color.fg}
 
 ;==========================================================
-
-font-0 = "Fantasque Sans Mono:pixelsize=10;3"
+font-0 = "Fantasque Sans Mono:pixelsize=13;3"
 font-1 = "Iosevka Nerd Font:pixelsize=13;3"
-
 ;==========================================================
-
 cursor-click = pointer
 cursor-scroll = ns-resize
-
-scroll-up = i3wm-wsnext
-scroll-down = i3wm-wsprev
 
 ;== Module Location ========================================================
 
 modules-left = bspwm 
-;modules-right = pkg volume network date powermenu
 
 ;== Modules ========================================================
 
@@ -159,70 +148,7 @@ content-foreground = ${color.fg}
 click-left = ~/.config/polibar/scripts/rmenu_1.sh
 click-right = ~/.config/polibar/scripts/rmenu_wi_1.sh
 
-[module/workspaces]
-type = internal/xworkspaces
-pin-workspaces = false
-enable-click = true
-enable-scroll = true
-format-padding = 1
 
-;icon-0 = 1;❶
-;icon-1 = 2;❷
-;icon-2 = 3;❸
-;icon-3 = 4;❹
-;icon-4 = 5;❺
-;icon-5 = 6;❻
-;icon-6 = 7;❼
-;icon-7 = 8;❽
-;icon-8 = 9;❾
-;icon-9 = 10;❿
-
-icon-default = 
-
-format = <label-state>
-format-background = ${color.shade2}
-label-active = 
-label-occupied = 
-label-urgent = 
-label-empty = 
-
-label-empty-padding = 1
-label-active-padding = 1
-label-urgent-padding = 1
-label-occupied-padding = 1
-
-label-empty-foreground = ${color.fg}
-label-active-foreground = ${color.acolor}
-label-urgent-foreground = ${color.curgent}
-label-occupied-foreground = ${color.coccupied}
-
-[module/google]
-type = custom/text
-content = 
-content-padding = 2
-content-foreground = ${color.fg-alt}
-click-left = xdg-open https://www.google.com/ 
-
-[module/github]
-type = custom/text
-content = 
-content-padding = 2
-content-foreground = ${color.fg-alt}
-click-left = xdg-open https://www.github.com/metathlon/ 
-
-[module/reddit]
-type = custom/text
-content = 
-content-padding = 2
-content-foreground = ${color.fg-alt}
-click-left = xdg-open https://www.reddit.com/
-
-[module/youtube]
-type = custom/text
-content = 
-content-padding = 2
-content-foreground = ${color.fg-alt}
-click-left = xdg-open https://www.youtube.com/
 
 ;==========================================================
 
@@ -233,9 +159,10 @@ click-left = xdg-open https://www.youtube.com/
 type = custom/script
 exec = ~/.config/polybar/scripts/updates.sh
 format-background = ${color.shade7}
+format = <label>
 format-padding = 2
 tail = true
-
+click-left = pamac
 
 [module/battery]
 type = internal/battery
@@ -313,8 +240,7 @@ interval = 30
 label =  %time%
 label-padding = 3
 label-background = ${color.shade3}
-time =   %H:%M %p %Y-%m-%d
-time-alt =  %Y-%m-%d
+time =   %H:%M  %Y-%m-%d
 
 [module/powermenu]
 type = custom/text

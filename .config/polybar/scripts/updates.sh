@@ -1,23 +1,52 @@
 #!/usr/bin/env bash
 
-count=0
+BAR_ICON=" "
+# BAR_ICON=" "
+NOTIFY_ICON=/usr/share/icons/Papirus/32x32/apps/system-software-update.svg
 
-disconnected="睊"
-disconnected2="睊"
-wireless_connected="直"
-ethernet_connected="囹"
-
-ID="$(ip link | awk '/state UP/ {print $2}')"
+get_total_updates() { UPDATES=$(checkupdates 2>/dev/null | wc -l); }
 
 while true; do
-    if (ping -c 1 archlinux.org || ping -c 1 google.com || ping -c 1 bitbucket.org || ping -c 1 github.com || ping -c 1 sourceforge.net) &>/dev/null; then
-        if [[ $ID == e* ]]; then
-            echo "$ethernet_connected" ; sleep 25
-        else
-            echo "$wireless_connected" ; sleep 25
+    get_total_updates
+
+    # notify user of updates
+    if hash notify-send &>/dev/null; then
+        if (( UPDATES > 50 )); then
+            notify-send -u critical -i $NOTIFY_ICON \
+                "You really need to update!!" "$UPDATES New packages"
+        elif (( UPDATES > 25 )); then
+            notify-send -u normal -i $NOTIFY_ICON \
+                "You should update soon" "$UPDATES New packages"
+        elif (( UPDATES > 2 )); then
+            notify-send -u low -i $NOTIFY_ICON \
+                "$UPDATES New packages"
         fi
-    else
-        echo "$disconnected" ; sleep 0.5
-        echo "$disconnected2" ; sleep 0.5
     fi
+
+    # when there are updates available
+    # every 10 seconds another check for updates is done
+    while (( UPDATES > 0 )); do
+        #if (( UPDATES == 1 )); then
+        #    echo " $UPDATES Update"
+        #elif (( UPDATES > 1 )); then
+        #    echo " $UPDATES Updates"
+        #else
+        if (( UPDATES == 1 )); then
+            echo " $UPDATES"
+        elif (( UPDATES > 1 )); then
+            echo " $UPDATES"
+        else
+            echo $BAR_ICON
+        fi
+        sleep 10
+        get_total_updates
+    done
+
+    # when no updates are available, use a longer loop, this saves on CPU
+    # and network uptime, only checking once every 30 min for new updates
+    while (( UPDATES == 0 )); do
+        echo $BAR_ICON
+        sleep 1800
+        get_total_updates
+    done
 done

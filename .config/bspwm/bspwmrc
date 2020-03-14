@@ -71,9 +71,11 @@ bspc config urgent_border_color 	      "#dd2727"
 #find out the name of your monitor with xrandr
 
 if [[$(hostname) == 'hades']]; then
-    xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_HDMI-0)
+    # xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_HDMI-0)
     xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_aux_DVI-I-0)
     xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_aux_DVI-D-0)
+
+    xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" $(xdo id -n polybar-top_HDMI-0)
 
 elif [[ $(hostname) == 'udaicfernando']]; then
     xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_aux_HDMI-0)
