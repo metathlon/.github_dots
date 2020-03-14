@@ -86,15 +86,15 @@ keys = [
 
 
 ##### GROUPS #####
-group_names = [("WWW", {'layout': 'monadtall'}),
-               ("DEV", {'layout': 'monadtall'}),
-               ("SYS", {'layout': 'monadtall'}),
-               ("DOC", {'layout': 'monadtall'}),
-               ("VBOX", {'layout': 'monadtall'}),
-               ("CHAT", {'layout': 'monadtall'}),
-               ("MUS", {'layout': 'monadtall'}),
-               ("VID", {'layout': 'monadtall'}),
-               ("GFX", {'layout': 'floating'})]
+group_names = [("MAIN", {'layout': 'monadtall'}),
+               ("INFO", {'layout': 'monadtall'}),
+               ("VIDEO", {'layout': 'monadtall'}),
+               ("STATS", {'layout': 'monadtall'}),
+               ("GAMES", {'layout': 'monadtall'}),
+               ("FONDO1", {'layout': 'monadtall'}),
+               ("FONDO2", {'layout': 'monadtall'}),
+               ("FONDO3", {'layout': 'monadtall'}),
+               ("", {'layout': 'floating'})]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
 

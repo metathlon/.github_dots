@@ -9,7 +9,7 @@ killall -q picom
 picom &
 
 #---- wallpapers
-killall -q nitrogen &
+killall -q nitrogen
 nitrogen --restore &
 
 
