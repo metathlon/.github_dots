@@ -39,6 +39,10 @@ from libqtile import layout, bar, widget, hook
 
 from typing import List  # noqa: F401
 
+from qtile_caronte_monitor_num import *
+from qtile_caronte_widgets import *
+from qtile_validate_and_reload import *
+
 
 #======================================================================================
 # ---- CHANGE THIS CONFIG
@@ -49,11 +53,54 @@ QTILE_CONFIG_DIR = HOME + '/.config/qtile/'
 ROFI_SCRIPTS_DIR = HOME + '/.config/rofi/'
 MY_TERM = "alacritty"
 MY_ETHERNET = "enp3s0"
+MAIN_MONITOR_NUM = 0     # to configure this you can run "python ~/.config/qtile/config.py" it will show the numbes
+
+#------------------------------------------------------------------------------------------------------
+# If you want all groups in all monitors:
+#
+# MONITOR_GROUP_DIVIDE = FALSE
+#
+# If you want groups to be assigned a monitors:
+#
+# To assign a group name to a monitor, the monitor numbers go from 0 to (total of monitors -1)
+# you can find how many you have with python config.py
+#
+# MONITOR_GROUPS_NUM[MONITOR_NUM] = "GROUP_NAME"
+#
+# To assign tags to the monitor group
+# MONITOR_GROUPS["GROUP_NAME"] = ["G1", "G2"]
+#
+# The groups will be accesible with numbers
+#
+#
+#--------------------------------------------------------------------------------------------------------
+# *** monitor_num -> group_name
+MONITOR_GROUPS_NUM = {}
+MONITOR_GROUPS_NUM[0] = "MAIN"
+MONITOR_GROUPS_NUM[1] = "AUX_LEFT"
+MONITOR_GROUPS_NUM[2] = "AUX_RIGHT"
+
+MONITOR_GROUPS = {}
+MONITOR_GROUPS["MAIN"] = [
+                          ("MAIN", {'layout': 'monadtall'}),
+                          ("CODE", {'layout': 'monadtall'}),
+                          ("GAMES", {'layout': 'monadtall'}),
+                          ]
+MONITOR_GROUPS["AUX_RIGHT"] = [
+                                  ("WWW", {'layout': 'monadtall'}),
+                                  ("WWW2", {'layout': 'monadtall'}),
+                                  ("WWW3", {'layout': 'monadtall'}),
+                              ]
+MONITOR_GROUPS["AUX_LEFT"] = [
+                                  ("VIDEO", {'layout': 'monadtall'}),
+                                  ("AUX2", {'layout': 'monadtall'}),
+                                  ("AUX3", {'layout': 'monadtall'}),
+
+                             ]
 
 #----------- LOGGIN
 LOG=True
 LOG_DIR=HOME + "/.local/share/qtile/caronte/"
-
 
 #======================================================================================
 # ---- LOGGER
@@ -70,10 +117,11 @@ if LOG:
     )
 
 
-logging.info("ARRANCAMOS QTILE")
-
-
-
+#======================================================================================
+# ---- MONITORS IDENTIFICATION
+#======================================================================================
+monitor_list = get_monitors()
+num_monitors = get_num_monitors(monitor_list)
 
 
 #======================================================================================
@@ -90,17 +138,75 @@ if DEBUG:
     hostname = "PRUEBAS"
     mod = "lock"  # Cambiamos el MOD a Caps-Lock
 
+
+#-----------------------------------------------------------------------
+# --- ASSIGN BARS TO MONITORS
+#---------------------------------------------------------------------
+
+if 'MAIN_MONITOR_NUM' not in globals():
+    print("NO MAIN MONITOR SELECTED - edit ~/.conifg/qtile/config.py  to select main monitor. Defaulting to 0")
+    MAIN_MONITOR_NUM = 0
+
+
+print("MONITORS TOTAL: ", num_monitors)
+# screens = []
+if num_monitors > 1:
+    # screens =[]
+    for count in range(num_monitors):
+        current_group = MONITOR_GROUPS_NUM[count]
+        widgets = []
+
+        if (count == MAIN_MONITOR_NUM):
+            #---- this is the main monitor
+            widgets_no_group = init_widgets_list(MY_ETHERNET)
+        else:
+            widgets_no_group = init_widgets_list(MY_ETHERNET)[0:5]
+
+        #widgets_with_group = []
+        #widgets_with_group.append([widget.GroupBox(visible_groups = MONITOR_GROUPS[current_group])])
+        widgets_with_group = [widget.GroupBox(visible_groups = [name for name in MONITOR_GROUPS[current_group]])]+widgets_no_group
+        
+
+        # print(widgets_with_group)
+        if count > 0:
+            #print("ADD OTHER SCREEN")
+            #groups = groups + [Group(name, **kwargs) for name, kwargs in MONITOR_GROUPS[current_group]]
+            for name, kwargs in MONITOR_GROUPS[current_group]:
+                print(name)
+                groups = groups + [Group(name, **kwargs)]
+            screens.append(
+                           Screen(top=bar.Bar(widgets=widgets_with_group, opacity=0.95, size=20)),
+            )
+        else:
+            #print("ADD FIRST SCREEN")
+            groups =[]
+            for name, kwargs in MONITOR_GROUPS[current_group]:
+                print(name)
+                groups = groups + [Group(name, **kwargs)]
+            #groups = [Group(name, **kwargs) for name, kwargs in MONITOR_GROUPS[current_group]]
+            screens = [Screen(top=bar.Bar(widgets=widgets_with_group, opacity=0.95, size=20)),]
+else:
+    groups = [Group(name, **kwargs) for name, kwargs in MONITOR_GROUPS["MAIN"]]
+    screens = [
+                Screen(top=bar.Bar(widgets=init_widgets_list(MY_ETHERNET), opacity=0.95, size=20)),
+              ]
+
+
+
+# assign_bar_to_monitors()
+# print(screens)
+
 keys = [
     # Switch between windows in current stack pane
     Key([mod], "k", lazy.layout.down()),
     Key([mod], "j", lazy.layout.up()),
 
-    # Move windows up or down in current stack
+   # Move windows up or down in current stack
     Key([mod, "control"], "k", lazy.layout.shuffle_down()),
     Key([mod, "control"], "j", lazy.layout.shuffle_up()),
 
     # Switch window focus to other pane(s) of stack
-    Key([mod], "space", lazy.layout.next()),
+    # Key([mod], "space", lazy.layout.next()),
 
     # Swap panes of split stack
     Key([mod, "shift"], "space", lazy.layout.rotate()),
@@ -117,7 +223,8 @@ keys = [
     Key([mod], "w", lazy.window.kill()),
 
     # Key([mod, "mod1"], "r", lazy.restart()), # lo quito porque hago la validación abajo
-    # Key(["mod4", "control"], "r", validate_and_restart),
+    Key([mod, "control"], "r", lazy.restart()),
+    Key([mod, "mod1"], "r", validate_and_restart),
     Key([mod, "mod1"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawncmd()),
     Key([mod, "mod1"], "Escape", lazy.spawn(ROFI_SCRIPTS_DIR +'rofi_logout.sh') ),
@@ -127,21 +234,21 @@ keys = [
 
 
 ##### GROUPS #####
-group_names = [("MAIN", {'layout': 'monadtall'}),
-               ("INFO", {'layout': 'monadtall'}),
-               ("VIDEO", {'layout': 'monadtall'}),
-               ("STATS", {'layout': 'monadtall'}),
-               ("GAMES", {'layout': 'monadtall'}),
-               ("FONDO1", {'layout': 'monadtall'}),
-               ("FONDO2", {'layout': 'monadtall'}),
-               ("FONDO3", {'layout': 'monadtall'}),
-               ("GTX", {'layout': 'floating'})]
+# group_names = [("MAIN", {'layout': 'monadtall'}),
+#                ("INFO", {'layout': 'monadtall'}),
+#                ("VIDEO", {'layout': 'monadtall'}),
+#                ("STATS", {'layout': 'monadtall'}),
+#                ("GAMES", {'layout': 'monadtall'}),
+#                ("FONDO1", {'layout': 'monadtall'}),
+#                ("FONDO2", {'layout': 'monadtall'}),
+#                ("FONDO3", {'layout': 'monadtall'}),
+#                ("GTX", {'layout': 'floating'})]
 
-groups = [Group(name, **kwargs) for name, kwargs in group_names]
+# groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
-for i, (name, kwargs) in enumerate(group_names, 1):
-    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
-    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
+# for i, (name, kwargs) in enumerate(group_names, 1):
+#     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
+#     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
     
 
 ##### DEFAULT THEME SETTINGS FOR LAYOUTS #####
@@ -183,253 +290,25 @@ layouts = [
      layout.Floating(**layout_theme)
 ]
 
-##### COLORS #####
-colors = [["#282a36", "#282a36"], # panel background
-          ["#434758", "#434758"], # background for current screen tab
-          ["#ffffff", "#ffffff"], # font color for group names
-          ["#ff5555", "#ff5555"], # background color for layout widget
-          ["#A77AC4", "#A77AC4"], # dark green gradiant for other screen tabs
-          ["#7197E7", "#7197E7"]] # background color for pacman widget
-
-##### PROMPT #####
-prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
-    
-##### DEFAULT WIDGET SETTINGS #####
-widget_defaults = dict(
-    font="Ubuntu Mono",
-    fontsize = 12,
-    padding = 2,
-    background=colors[2]
-)
-extension_defaults = widget_defaults.copy()
-
-##### WIDGETS #####
-
-def init_widgets_list():
-    widgets_list = [
-               widget.Sep(
-                        linewidth = 0,
-                        padding = 6,
-                        foreground = colors[2],
-                        background = colors[0]
-                        ),
-               widget.GroupBox(font="Ubuntu Bold",
-                        fontsize = 9,
-                        margin_y = 0,
-                        margin_x = 0,
-                        padding_y = 5,
-                        padding_x = 5,
-                        borderwidth = 1,
-                        active = colors[2],
-                        inactive = colors[2],
-                        rounded = False,
-                        highlight_method = "block",
-                        this_current_screen_border = colors[4],
-                        this_screen_border = colors [1],
-                        other_current_screen_border = colors[0],
-                        other_screen_border = colors[0],
-                        foreground = colors[2],
-                        background = colors[0]
-                        ),
-               widget.Prompt(
-                        prompt=prompt,
-                        font="Ubuntu Mono",
-                        padding=10,
-                        foreground = colors[3],
-                        background = colors[1]
-                        ),
-               widget.Sep(
-                        linewidth = 0,
-                        padding = 10,
-                        foreground = colors[2],
-                        background = colors[0]
-                        ),
-               widget.WindowName(font="Ubuntu",
-                        fontsize = 11,
-                        foreground = colors[4],
-                        background = colors[0],
-                        padding = 5
-                        ),
-               widget.TextBox(
-                        text='',
-                        background = colors[0],
-                        foreground = colors[4],
-                        padding=0,
-                        fontsize=37
-                        ),
-               widget.TextBox(
-                        font="Ubuntu Bold",
-                        text=" ⟳",
-                        padding = 5,
-                        foreground=colors[2],
-                        background=colors[4],
-                        fontsize=14
-                        ),
-               widget.Pacman(
-                        execute = "alacritty",
-                        update_interval = 1800,
-                        foreground = colors[2],
-                        background = colors[4]
-                        ),
-               widget.TextBox(
-                        text="Updates",
-                        padding = 5,
-                        foreground=colors[2],
-                        background=colors[4]
-                        ),
-               widget.TextBox(
-                        text='',
-                        background = colors[4],
-                        foreground = colors[5],
-                        padding= 0,
-                        fontsize=37
-                        ),
-               widget.TextBox(
-                        text=" 🖬",
-                        foreground=colors[2],
-                        background=colors[5],
-                        padding = 0,
-                        fontsize=14
-                        ),
-               widget.Memory(
-                        foreground = colors[2],
-                        background = colors[5],
-                        padding = 5
-                        ),
-               widget.TextBox(
-                        text='',
-                        background = colors[5],
-                        foreground = colors[4],
-                        padding=0,
-                        fontsize=37
-                        ),
-               widget.TextBox(
-                        text=" ↯",
-                        foreground=colors[2],
-                        background=colors[4],
-                        padding = 0,
-                        fontsize=14
-                        ),
-               widget.Net(
-                        interface = MY_ETHERNET,
-                        foreground = colors[2],
-                        background = colors[4],
-                        padding = 5
-                        ),
-               widget.TextBox(
-                        text='',
-                        background = colors[4],
-                        foreground = colors[5],
-                        padding=0,
-                        fontsize=37
-                        ),
-               widget.TextBox(
-                        font="Ubuntu Bold",
-                        text=" ♫",
-                        padding = 5,
-                        foreground=colors[2],
-                        background=colors[5],
-                        fontsize=14
-                        ),
-               widget.Cmus(
-                        max_chars = 40,
-                        update_interval = 0.5,
-                        background=colors[5],
-                        play_color = colors[2],
-                        noplay_color = colors[2]
-                        ),      
-               widget.TextBox(
-                        text='',
-                        background = colors[5],
-                        foreground = colors[4],
-                        padding=0,
-                        fontsize=37
-                        ),
-               widget.TextBox(
-                        text=" 🔊",
-                        foreground=colors[2],
-                        background=colors[4],
-                        padding = 0,
-                        fontsize=14
-                        ),
-               widget.Volume(
-                        foreground = colors[2],
-                        background = colors[4],
-                        padding = 5
-                        ),
-               widget.TextBox(
-                        text='',
-                        background = colors[4],
-                        foreground = colors[5],
-                        padding=0,
-                        fontsize=37
-                        ),
-               widget.TextBox(
-                        font="Ubuntu Bold",
-                        text=" ☵",
-                        padding = 5,
-                        foreground=colors[2],
-                        background=colors[5],
-                        fontsize=14
-                        ),
-               widget.CurrentLayout(
-                        foreground = colors[2],
-                        background = colors[5],
-                        padding = 5
-                        ),
-               widget.TextBox(
-                        text='',
-                        background = colors[5],
-                        foreground = colors[4],
-                        padding=0,
-                        fontsize=37
-                        ),
-               widget.TextBox(
-                        font="Ubuntu Bold",
-                        text=" 🕒",
-                        foreground=colors[2],
-                        background=colors[4],
-                        padding = 5,
-                        fontsize=14
-                        ),
-               widget.Clock(
-                        foreground = colors[2],
-                        background = colors[4],
-                        format="%A, %B %d - %H:%M"
-                        ),
-               widget.Sep(
-                        linewidth = 0,
-                        padding = 5,
-                        foreground = colors[0],
-                        background = colors[4]
-                        ),
-               widget.Systray(
-                        background=colors[0],
-                        padding = 5
-                        ),
-              ]
-    return widgets_list
-
 ##### SCREENS ##### (TRIPLE MONITOR SETUP)
 
-def init_widgets_screen1():
-    widgets_screen1 = init_widgets_list()
-    return widgets_screen1                       # Slicing removes unwanted widgets on Monitors 1,3
+#     return widgets_screen1                       # Sl.nameicing removes unwanted widgets on Monitors 1,3
 
-def init_widgets_screen2():
-    widgets_screen2 = init_widgets_list()
-    return widgets_screen2                       # Monitor 2 will display all widgets in widgets_list
+# def init_widgets_main_screen():
+#     widgets_screen2 = init_widgets_list(MY_ETHERNET)
+#     return widgets_screen2                       # Monitor 2 will display all widgets in widgets_list
 
-def init_screens():
-    return [Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=0.95, size=20)),
-            Screen(top=bar.Bar(widgets=init_widgets_screen2(), opacity=0.95, size=20)),
-            Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=0.95, size=20))]
+#----------------------------- REMOVED TO MAKE IT DYNAMIC
+# def init_screens():
+#     return [Screen(top=bar.Bar(widgets=init_widgets_aux_screen(), opacity=0.95, size=20)),
+#             Screen(top=bar.Bar(widgets=init_widgets_main_screen(), opacity=0.95, size=20)),
+#             Screen(top=bar.Bar(widgets=init_widgets_aux_screen(), opacity=0.95, size=20))]
 
-if __name__ in ["config", "__main__"]:
-    screens = init_screens()
-    widgets_list = init_widgets_list()
-    widgets_screen1 = init_widgets_screen1()
-    widgets_screen2 = init_widgets_screen2()
+# if __name__ in ["config"]:
+#     # screens = init_screens()
+#     widgets_list = init_widgets_list()
+#     widgets_aux_screen = init_widgets_aux_screen()
+#     widgets_main_screen = init_widgets_main_screen()
 
 ##### DRAG FLOATING WINDOWS #####
 mouse = [
@@ -469,7 +348,8 @@ focus_on_window_activation = "smart"
 
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.call(QTILE_CONFIG_DIR + 'autostart.sh')
+    if not DEBUG:
+        subprocess.call(QTILE_CONFIG_DIR + 'autostart.sh')
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
@@ -482,99 +362,6 @@ def autostart():
 wmname = "LG3D"
 
 
-
-
-#========================================================================
-# ----------- SCRIPT DE CONTROL DE CONFIGURACION
-# =======================================================================
-import sys
-import subprocess
-import importlib
-
-from libqtile.confreader import Config, ConfigError
-from libqtile.command import lazy
-from libqtile.xkeysyms import keysyms
-# from libqtile.core.xcore import XCore
-from libqtile.backend.x11 import xcore
-
-# python package 'regex' is required
-# will fail gracefully if it is not importable, see validate_config
-def find_similar_keys(key):
-    import regex
-
-    regexp = regex.compile(
-        r"({}{{e<{}}})".format(key, len(key)), regex.IGNORECASE
-    )
-    similar_keys = []
-    for qtile_key in keysyms.keys():
-        if regexp.match(qtile_key):
-            similar_keys.append(qtile_key)
-    if not similar_keys:
-        return "No key similar to '{}' could be found in libqtile.xkeysyms.keysyms :/".format(
-            key
-        )
-    if len(similar_keys) == 1:
-        return "Maybe you meant '{}'?".format(similar_keys[0])
-    return "Maybe you meant '{}', or '{}'?".format(
-        "', '".join(similar_keys[:-1]), similar_keys[-1]
-    )
-
-
-def validate_config():
-    output = [
-        "The configuration file '",
-        __file__,
-        "' generated the following error:\n\n",
-    ]
-
-
-    try:
-        # mandatory: we must reload the module (the config file was modified)
-        importlib.reload(sys.modules[__name__])
-        Config.from_file(XCore(), __file__)
-
-    except ConfigError as error:
-        output.append(str(error))
-
-        # handle the case when a key is erroneous
-        # more cases could be handled maybe
-        if str(error).startswith("No such key"):
-            output.append("\n\n")
-            key = str(error).replace("No such key: ", "")
-            try:
-                similar_keys = find_similar_keys(key)
-            except ImportError:
-                output.append("Install 'regex' if you want to see valid similar keys")
-            else:
-                output.append(similar_keys)
-        raise ConfigError("".join(output))
-
-    except Exception as error:
-        # here we handle SyntaxError and the likes
-        print("ERROR DE SINTAXIS")
-        output.append("{}: {}".format(sys.exc_info()[0].__name__, str(error)))
-        raise ConfigError("".join(output))
-
-@lazy.function
-def validate_and_restart(qtile):
-    try:
-        validate_config()
-    except ConfigError as error:
-        # adapt to fit your needs: here I pop a system notification with the error
-        subprocess.call(["notify-send", "-t", "10000", str(error)])
-    else:
-        qtile.cmd_restart()
-
-#---------------------------------------------------------
-#   recuerda cambiar la tecla en los keybindings arriba
-#--------------------------------------------------------
-# keys = [
-# ...
-    # Key(["mod4", "control"], "r", validate_and_restart),
-    # ...
-# ]
-# keys.append(Key([mod, "mod1"], "r", validate_and_restart)) # lo quito porque hago la validación abajo)
-# print(__name__)
 
 if __name__ == "__main__":
     try:
