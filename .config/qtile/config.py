@@ -42,7 +42,7 @@ from typing import List  # noqa: F401
 from qtile_caronte_monitor_num import *
 from qtile_caronte_widgets import *
 from qtile_validate_and_reload import *
-
+from caronte_config import *
 
 #======================================================================================
 # ---- CHANGE THIS CONFIG
@@ -51,9 +51,8 @@ DEBUG = os.environ.get("DEBUG")
 HOME = os.path.expanduser('~')
 QTILE_CONFIG_DIR = HOME + '/.config/qtile/'
 ROFI_SCRIPTS_DIR = HOME + '/.config/rofi/'
-MY_TERM = "alacritty"
-MY_ETHERNET = "enp3s0"
-MAIN_MONITOR_NUM = 0     # to configure this you can run "python ~/.config/qtile/config.py" it will show the numbes
+#MY_TERM = "alacritty"
+#MY_ETHERNET = "enp3s0"
 
 #------------------------------------------------------------------------------------------------------
 # If you want all groups in all monitors:
@@ -75,28 +74,29 @@ MAIN_MONITOR_NUM = 0     # to configure this you can run "python ~/.config/qtile
 #
 #--------------------------------------------------------------------------------------------------------
 # *** monitor_num -> group_name
-MONITOR_GROUPS_NUM = {}
-MONITOR_GROUPS_NUM[0] = "MAIN"
-MONITOR_GROUPS_NUM[1] = "AUX_LEFT"
-MONITOR_GROUPS_NUM[2] = "AUX_RIGHT"
+
+# MONITOR_GROUPS_NUM[1] = "AUX_LEFT"
+# MONITOR_GROUPS_NUM[2] = "AUX_RIGHT"
+
+MAIN_MONITOR_NUM = 0     # to configure this you can run "python ~/.config/qtile/config.py" it will show the numbes
 
 MONITOR_GROUPS = {}
-MONITOR_GROUPS["MAIN"] = [
-                          ("MAIN", {'layout': 'monadtall'}),
-                          ("CODE", {'layout': 'monadtall'}),
-                          ("GAMES", {'layout': 'monadtall'}),
-                          ]
-MONITOR_GROUPS["AUX_RIGHT"] = [
-                                  ("WWW", {'layout': 'monadtall'}),
-                                  ("WWW2", {'layout': 'monadtall'}),
-                                  ("WWW3", {'layout': 'monadtall'}),
-                              ]
-MONITOR_GROUPS["AUX_LEFT"] = [
-                                  ("VIDEO", {'layout': 'monadtall'}),
-                                  ("AUX2", {'layout': 'monadtall'}),
-                                  ("AUX3", {'layout': 'monadtall'}),
+MONITOR_GROUPS[0] = [
+                        ("MAIN", {'layout': 'monadtall'}),
+                        ("CODe", {'layout': 'monadtall'}),
+                        ("GAMES", {'layout': 'monadtall'})
+                    ]
+MONITOR_GROUPS[1] = [
+                        ("WWW", {'layout': 'monadtall'}),
+                        ("WWW2", {'layout': 'monadtall'}),
+                        ("WWW3", {'layout': 'monadtall'})
+                    ]
+MONITOR_GROUPS[2] = [
+                        ("VIDEO", {'layout': 'monadtall'}),
+                        ("AUX2", {'layout': 'monadtall'}),
+                        ("AUX3", {'layout': 'monadtall'})
 
-                             ]
+                    ]
 
 #----------- LOGGIN
 LOG=True
@@ -139,63 +139,9 @@ if DEBUG:
     mod = "lock"  # Cambiamos el MOD a Caps-Lock
 
 
-#-----------------------------------------------------------------------
-# --- ASSIGN BARS TO MONITORS
-#---------------------------------------------------------------------
-
-if 'MAIN_MONITOR_NUM' not in globals():
-    print("NO MAIN MONITOR SELECTED - edit ~/.conifg/qtile/config.py  to select main monitor. Defaulting to 0")
-    MAIN_MONITOR_NUM = 0
-
-
-print("MONITORS TOTAL: ", num_monitors)
-# screens = []
-if num_monitors > 1:
-    # screens =[]
-    for count in range(num_monitors):
-        current_group = MONITOR_GROUPS_NUM[count]
-        widgets = []
-
-        if (count == MAIN_MONITOR_NUM):
-            #---- this is the main monitor
-            widgets_no_group = init_widgets_list(MY_ETHERNET)
-        else:
-            widgets_no_group = init_widgets_list(MY_ETHERNET)[0:5]
-
-        #widgets_with_group = []
-        #widgets_with_group.append([widget.GroupBox(visible_groups = MONITOR_GROUPS[current_group])])
-        widgets_with_group = [widget.GroupBox(visible_groups = [name for name in MONITOR_GROUPS[current_group]])]+widgets_no_group
-        
-
-        # print(widgets_with_group)
-        if count > 0:
-            #print("ADD OTHER SCREEN")
-            #groups = groups + [Group(name, **kwargs) for name, kwargs in MONITOR_GROUPS[current_group]]
-            for name, kwargs in MONITOR_GROUPS[current_group]:
-                print(name)
-                groups = groups + [Group(name, **kwargs)]
-            screens.append(
-                           Screen(top=bar.Bar(widgets=widgets_with_group, opacity=0.95, size=20)),
-            )
-        else:
-            #print("ADD FIRST SCREEN")
-            groups =[]
-            for name, kwargs in MONITOR_GROUPS[current_group]:
-                print(name)
-                groups = groups + [Group(name, **kwargs)]
-            #groups = [Group(name, **kwargs) for name, kwargs in MONITOR_GROUPS[current_group]]
-            screens = [Screen(top=bar.Bar(widgets=widgets_with_group, opacity=0.95, size=20)),]
-else:
-    groups = [Group(name, **kwargs) for name, kwargs in MONITOR_GROUPS["MAIN"]]
-    screens = [
-                Screen(top=bar.Bar(widgets=init_widgets_list(MY_ETHERNET), opacity=0.95, size=20)),
-              ]
-
-
-
-# assign_bar_to_monitors()
-# print(screens)
-
+#======================================================================================
+# ---- KEY SHORTCUTS
+#======================================================================================
 keys = [
     # Switch between windows in current stack pane
     Key([mod], "k", lazy.layout.down()),
@@ -231,24 +177,79 @@ keys = [
 
     Key([mod], "space", lazy.spawn(ROFI_SCRIPTS_DIR + 'rofi_menu.sh')),
 ]
+#-----------------------------------------------------------------------
+# --- ASSIGN BARS TO MONITORS
+#---------------------------------------------------------------------
+
+if 'MAIN_MONITOR_NUM' not in globals():
+    print("NO MAIN MONITOR SELECTED - edit ~/.conifg/qtile/config.py  to select main monitor. Defaulting to 0")
+    MAIN_MONITOR_NUM = 0
 
 
-##### GROUPS #####
-# group_names = [("MAIN", {'layout': 'monadtall'}),
-#                ("INFO", {'layout': 'monadtall'}),
-#                ("VIDEO", {'layout': 'monadtall'}),
-#                ("STATS", {'layout': 'monadtall'}),
-#                ("GAMES", {'layout': 'monadtall'}),
-#                ("FONDO1", {'layout': 'monadtall'}),
-#                ("FONDO2", {'layout': 'monadtall'}),
-#                ("FONDO3", {'layout': 'monadtall'}),
-#                ("GTX", {'layout': 'floating'})]
+print("MONITORS TOTAL: ", num_monitors)
 
-# groups = [Group(name, **kwargs) for name, kwargs in group_names]
+#--------------------------------------------------------------------------------------------------
+# assign GROUPS to monitors based on config
+# -------------------------------------------------------------------------------------------------
+FULL_GROUP_NAME_LIST = []
+GROUP_NAME_LIST = {}
+groups=[]
+screens=[]
+#num_monitors=0
+if num_monitors > 1:
+    for count in range(num_monitors):
+        if (count == MAIN_MONITOR_NUM):
+            widgets_no_group = init_widgets_list()
+        else:
+            widgets_no_group = init_widgets_list()[0:5]
 
-# for i, (name, kwargs) in enumerate(group_names, 1):
-#     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
-#     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
+        widgets_with_group = [widget.GroupBox(visible_groups = [
+                                                                    name for name in MONITOR_GROUPS[count]])
+                                                                ] + widgets_no_group
+        temp = []
+        for name, kwargs in MONITOR_GROUPS[count]:
+            groups.append(Group(name, **kwargs))
+            FULL_GROUP_NAME_LIST.append(name)
+            temp.append(name)
+
+        GROUP_NAME_LIST[count] = temp
+
+        screens.append(Screen(top=bar.Bar(widgets=widgets_with_group, opacity=0.95, size=20)),)
+        #else:
+        #    screens = [Screen(top=bar.Bar(widgets=widgets_with_group, opacity=0.95, size=20)),]
+else:
+    temp=[]
+    for name, kwargs in MONITOR_GROUPS[0]:
+        groups.append(Group(name, **kwargs))
+        FULL_GROUP_NAME_LIST.append(name)
+        temp.append(name)
+        print("MONITOR_GROUP: ", name)
+
+    GROUP_NAME_LIST[0] = temp
+    print("NAMES: ",GROUP_NAME_LIST[0])
+    widgets_no_group = init_widgets_list()
+    widgets_with_group = [widget.GroupBox(visible_groups = GROUP_NAME_LIST[0])] + widgets_no_group
+    screens.append(Screen(top=bar.Bar(widgets=widgets_no_group, opacity=0.95, size=20)),)
+
+# groups = [
+#             Group("a"),
+#             Group("b")
+# ]
+
+if DEBUG: print("------ MONITOR CONFIG DONE ----------")
+#--------------------------------------------------------------------------------------------------
+# make group shortcuts find screens as per monitor configuration
+# -------------------------------------------------------------------------------------------------
+
+cont = 0
+for monitor_index in GROUP_NAME_LIST:
+    for n in GROUP_NAME_LIST[monitor_index]:
+        cont += 1
+        keys.append(Key([mod],str(cont),lazy.to_screen(monitor_index), lazy.group[n].toscreen()))
+
+
+
+
     
 
 ##### DEFAULT THEME SETTINGS FOR LAYOUTS #####
@@ -290,6 +291,7 @@ layouts = [
      layout.Floating(**layout_theme)
 ]
 
+if DEBUG: print("----- LAYOUTS CONFIG DONE ------")
 ##### SCREENS ##### (TRIPLE MONITOR SETUP)
 
 #     return widgets_screen1                       # Sl.nameicing removes unwanted widgets on Monitors 1,3
@@ -326,6 +328,9 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 
+
+if DEBUG: print("------ MOUSE CONFIG DONE -----")
+
 ##### FLOATING WINDOWS #####
 floating_layout = layout.Floating(float_rules=[
     {'wmclass': 'confirm'},
@@ -346,9 +351,15 @@ floating_layout = layout.Floating(float_rules=[
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 
+
+if DEBUG: print("------- FLOATING WINDOWS CONFIG DONE -----")
+
 @hook.subscribe.startup_once
 def autostart():
-    if not DEBUG:
+    if DEBUG:
+        print("--------- LANZANDO EN MODO DEBUG ---------------")
+    else:
+        print(" -- LANZANDO SIN DEBUG --")
         subprocess.call(QTILE_CONFIG_DIR + 'autostart.sh')
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
@@ -360,8 +371,6 @@ def autostart():
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
-
-
 
 if __name__ == "__main__":
     try:

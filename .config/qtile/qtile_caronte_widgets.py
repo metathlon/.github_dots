@@ -1,6 +1,9 @@
 import os
 import socket
 from libqtile import widget
+from caronte_config import *
+
+
 
 
 ##### COLORS #####
@@ -25,32 +28,32 @@ extension_defaults = widget_defaults.copy()
 
 ##### WIDGETS #####
 
-def init_widgets_list(MY_ETHERNET):
+def init_widgets_list():
     widgets_list = [
-               # widget.Sep(
-               #          linewidth = 0,
-               #          padding = 6,
-               #          foreground = colors[2],
-               #          background = colors[0]
-               #          ),
-               # widget.GroupBox(font="Ubuntu Bold",
-               #          fontsize = 9,
-               #          margin_y = 0,
-               #          margin_x = 0,
-               #          padding_y = 5,
-               #          padding_x = 5,
-               #          borderwidth = 1,
-               #          active = colors[2],
-               #          inactive = colors[2],
-               #          rounded = False,
-               #          highlight_method = "block",
-               #          this_current_screen_border = colors[4],
-               #          this_screen_border = colors [1],
-               #          other_current_screen_border = colors[0],
-               #          other_screen_border = colors[0],
-               #          foreground = colors[2],
-               #          background = colors[0]
-               #          ),
+               widget.Sep(
+                        linewidth = 0,
+                        padding = 6,
+                        foreground = colors[2],
+                        background = colors[0]
+                        ),
+               widget.GroupBox(font="Ubuntu Bold",
+                        fontsize = 9,
+                        margin_y = 0,
+                        margin_x = 0,
+                        padding_y = 5,
+                        padding_x = 5,
+                        borderwidth = 1,
+                        active = colors[2],
+                        inactive = colors[2],
+                        rounded = False,
+                        highlight_method = "block",
+                        this_current_screen_border = colors[4],
+                        this_screen_border = colors [1],
+                        other_current_screen_border = colors[0],
+                        other_screen_border = colors[0],
+                        foreground = colors[2],
+                        background = colors[0]
+                        ),
                widget.Prompt(
                         prompt=prompt,
                         font="Ubuntu Mono",
@@ -86,7 +89,7 @@ def init_widgets_list(MY_ETHERNET):
                         fontsize=14
                         ),
                widget.Pacman(
-                        execute = "alacritty",
+                        execute = MY_TERM,
                         update_interval = 1800,
                         foreground = colors[2],
                         background = colors[4]
