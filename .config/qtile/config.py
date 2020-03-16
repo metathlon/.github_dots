@@ -203,9 +203,7 @@ if num_monitors > 1:
         else:
             widgets_no_group = init_widgets_list()[0:5]
 
-        widgets_with_group = [widget.GroupBox(visible_groups = [
-                                                                    name for name in MONITOR_GROUPS[count]])
-                                                                ] + widgets_no_group
+        widgets_with_group = [widget.GroupBox(visible_groups = [name for name in MONITOR_GROUPS[count]])] + widgets_no_group
         temp = []
         for name, kwargs in MONITOR_GROUPS[count]:
             groups.append(Group(name, **kwargs))
