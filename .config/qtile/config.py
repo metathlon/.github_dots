@@ -244,11 +244,8 @@ for monitor_index in GROUP_NAME_LIST:
     for n in GROUP_NAME_LIST[monitor_index]:
         cont += 1
         keys.append(Key([mod],str(cont),lazy.to_screen(monitor_index), lazy.group[n].toscreen()))
+        keys.append(Key([mod, "shift"],str(cont),lazy.window.togroup(n)))
 
-
-
-
-    
 
 ##### DEFAULT THEME SETTINGS FOR LAYOUTS #####
 layout_theme = {"border_width": 2,
