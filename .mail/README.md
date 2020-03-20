@@ -39,7 +39,7 @@ mu init ~/.mail/correo/
 mu index
 ```
 
-Si has llegado hasta aquí sin problemas ** RECUERDA ** tienes que borrar el
+Si has llegado hasta aquí sin problemas **RECUERDA** tienes que borrar el
 archivo que generaste con la clave sin cifrar:
 
 ```bash
@@ -48,5 +48,5 @@ archivo que generaste con la clave sin cifrar:
 
 Que no se te olvide!
 
-En este puntoya puedes usar directamente la configuración que hay en .doom.d/config.el
+En este punto ya puedes usar directamente la configuración que hay en .doom.d/config.el
 
