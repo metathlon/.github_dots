@@ -1,0 +1,68 @@
+#=========================================================================================
+# EJEMPLO de .mbsync
+#
+# Author Fernando Andres-Pretel
+#=========================================================================================
+# Ejemplos de uso
+#  - Sincronización de todas las cuentas: mbsync -a
+#  - Sincronizacion completa de EJEMPLO_CORREO_GMAIL: mbsync EJEMPLO_CORREO_GMAIL
+#
+# OJO:
+#
+#  Si como yo tienes varias cuenas de correo tendrás uno de estos para cada cuenta
+#  Digamos que este se llama .mbsync_EJEMPLO
+#  Podrías tener otro que se llame .mbsync_OTRO
+#
+# - La sincronización total de EJEMPLO sería:        mbsync -c ~/.mail/.mbsync_EJEMPLO -a
+# - La sincronización total de OTRO sería:           mbsync -c ~/.mail/.mbsync_OTRO -a
+
+
+
+#-------------------------------------------------------------
+# Configuración IMAP LOCAL
+#-------------------------------------------------------------
+# Nombre que le darás a esta configuracion
+IMAPAccount EJEMPLO_CORREO_GMAIL
+
+# -- Información del servidor IMAP
+Host imap.gmail.com
+Port 993
+SSLType IMAPS
+SSLVersion TLSv1.2
+Timeout 120
+
+# -- Informacion de acceso al servidor IMAP
+User CORREO.EJEMPLO@gmail.com
+# Para la identificación mediante gpg2 tienes que generar el archivo de la clave cifrada, el README.md de esta sección tiene instrucciones sobre cómo hacerlo
+PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mail/CORREO_EJEMPLO_GMAIL/CORREO_EJEMPLO_AUTH.gpg"
+
+# -- Forma de autentificacion
+AuthMechs Login
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+# -- Almacenamiento IMAP remoto
+IMAPStore EJEMPLO_IMAP_REMOTE
+Account EJEMPLO_CORREO_GMAIL
+
+# -- Almacenamiento IMAP local
+MaildirStore EJEMPLO_IMAP_LOCAL
+
+# OJO: a la / final en Path y a su ausencia en Inbox
+Path ~/.mail/CORREO_EJEMPLO_GMAIL/
+Inbox ~/.mail/CORREO_EJEMPLO_GMAIL/INBOX
+
+
+Channel EJEMPLO_IMPA_ACCOUNT
+Master : EJEMPLO_IMAP_REMOTE:
+Slave :EJEMPLO_IMAP_LOCAL:
+#Include everything
+Patterns "INBOX"
+# Sync changes (creations/deletions) with the server
+#------------------- Para que pueda borrar correos EN el servidor usar Both, si no usar Slave
+# Create Both
+# Expunge Both
+# Sync All
+#------------------- Yo no quiero quitarlos del servidor, así que lo limito a Slave
+Create Slave
+Expunge Slave
+Sync All
