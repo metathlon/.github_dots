@@ -18,7 +18,7 @@
  
  ```bash
  cat TuClaveDeCorreo >> .mail/correo_auth_texto
- gpg2 --output ~/.mail/correo_auth.gpg --symmetric ~/.mail/correo_auth
+ gpg2 --output ~/.mail/correo_auth.gpg --symmetric ~/.mail/correo_auth_texto
  ```
  
  Ahora que tienes el archivo cifrado debería de funcionar la identificación y
@@ -39,6 +39,14 @@ mu init ~/.mail/correo/
 mu index
 ```
 
-Si has llegado hasta aquí sin problemas ya puedes usar directamente la
-configuración que hay en .doom.d/config.el
+Si has llegado hasta aquí sin problemas ** RECUERDA ** tienes que borrar el
+archivo que generaste con la clave sin cifrar:
+
+```bash
+ rm ~/.mail/correo_auth_texto
+```
+
+Que no se te olvide!
+
+En este puntoya puedes usar directamente la configuración que hay en .doom.d/config.el
 

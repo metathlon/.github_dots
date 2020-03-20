@@ -4,7 +4,7 @@
 
 # Termite
 super + Return
-	termite
+	alacritty
 
 # Lanzador de programas
 super + @space
@@ -89,7 +89,8 @@ super + {_,shift + }{Left,Down,Up,Right}
 
 # Activar siguiente/anterior nodo en el escritorio
 alt + {_,shift + }Tab
-	bspc node -f {next,prev}.local
+	~/.config/rofi/rofi_bspwm_window_changer.sh
+	# bspc node -f {next,prev}.local
 
 # focus the next/previous desktop in the current monitor
 # super + bracket{left,right}
@@ -172,3 +173,7 @@ super + shift + {Left,Down,Up,Right}
 # Mover ventana a sitio PRESELECCIONADO
 super + ctrl + enter
 	bspc node -n 'last.!automatic.local'
+
+# Rotar ventanas
+super + r
+	bspc desktop -R 90

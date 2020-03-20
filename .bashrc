@@ -148,7 +148,7 @@ PATH+=":/home/caronte/.local/bin"
 #========================================================================
 # bare git repo alias for dotfiles
 alias config="/usr/bin/git --git-dir=$HOME/.github_dots/ --work-tree=$HOME"
-
+alias doom="$HOME/.emacs.d/bin/doom"
 
 #========================================================================
 #---------------- POWERLINE-SHELL ---------------------------------------

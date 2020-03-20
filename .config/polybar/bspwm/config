@@ -64,6 +64,7 @@ blue-gray = #546e7a
 ;==========================================================
 
 [bar/top]
+wm-restack = bspwm
 monitor=${env:MONITOR}
 width = 98%
 height = 32
@@ -92,6 +93,7 @@ modules-right = pkg volume network date powermenu
  
 
 [bar/top_aux]
+wm-restack = bspwm
 monitor=${env:MONITOR}
 width = 98%
 height = 32
@@ -119,9 +121,7 @@ modules-left = bspwm
 
 [module/bspwm]
 type = internal/bspwm
-
 pin-workspaces = true
-
 label-focused = %name%
 label-focused-background = ${color.shade2}
 label-focused-underline= ${color.fg}
