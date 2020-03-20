@@ -28,7 +28,7 @@ super + F1
 	~/.config/sxhkd/sxhkd_show_help.sh
 
 # Bloqueo de pantalla
-super + l
+super + alt + l
 	i3lock-fancy-dualmonitor
 
 #
