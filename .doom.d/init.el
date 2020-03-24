@@ -16,6 +16,11 @@
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
 (require 'mu4e)
+
+;; ------------------------------------------------------------------- TRANSPARENCIA
+(set-frame-parameter (selected-frame) 'alpha '(95 . 50))
+(add-to-list 'default-frame-alist '(alpha . (95 . 50)))
+
 (doom! :input
        ;;chinese
        ;;japanese
@@ -57,7 +62,7 @@
        ;;(format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
-       multiple-cursors  ; editing in many places at once
+       ;;multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
@@ -179,3 +184,4 @@
        ;;literate
        (default +bindings +smartparens))
        (setq frame-resize-pixelwise t)
+

@@ -17,7 +17,7 @@
  fichero gpg:
  
  ```bash
- cat TuClaveDeCorreo >> .mail/correo_auth_texto
+ echo "TuClaveDeCorreo" >> .mail/correo_auth_texto
  gpg2 --output ~/.mail/correo_auth.gpg --symmetric ~/.mail/correo_auth_texto
  ```
  
@@ -35,9 +35,16 @@ Finalmente indexa los correos, en mi caso como tengo varios los tengo cada uno
 en una carpeta, primero slo inicializaría todos y por último los indexaría.
 
 ```bash
-mu init ~/.mail/correo/
+mu init -m ~/.mail
 mu index
 ```
+
+*IMPORTANTE*
+Si tienes más de una cuenta no ejecutes ```mu init -m ~/.mail/correo``` para
+cada cuenta, porque solo puedes "incializar" un correo. Lo que debes es
+configurar todas, hcaer la sincronización de todas y finalmente hacer el init
+sobre .mail/ y no sobre cada carpeta individual
+
 
 Si has llegado hasta aquí sin problemas **RECUERDA** tienes que borrar el
 archivo que generaste con la clave sin cifrar:
