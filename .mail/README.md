@@ -57,3 +57,15 @@ Que no se te olvide!
 
 En este punto ya puedes usar directamente la configuración que hay en .doom.d/config.el
 
+# emacs doom
+
+Si usas emacs doom (que es una maravilla) puede que el menú principal de mu4e
+(M-x, mu4e) no te funcione, para arreglarlo tienes que añadir a tu config.el
+
+```
+(remove-hook 'mu4e-main-mode-hook 'evil-collection-mu4e-update-main-view)
+```
+
+Al parecer el hook viene de serie pero el paquete que lo usa no (creo que es
+evil-mu4e). La otra opción es buscar el paquete que usa ese hook e instalarlo,
+preferiblemente al estilo doom (usando pacakges.el)
