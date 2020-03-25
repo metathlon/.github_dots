@@ -49,4 +49,7 @@
 ;; This is required for some packages whose default branch isn't 'master' (which
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
-(package! evil-multiedit)
+
+(package! evil-multiedit)	;; Multicursor
+(package! oauth2)		;; Google Auth para el calendario
+(package! org-caldav) ;; El propio caldav

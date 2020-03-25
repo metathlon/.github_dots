@@ -104,3 +104,4 @@
 
 ;; Cargamos nuestra configuración particular
 (load! "mu4e.config.el")
+(load! "org-caldav.config.el")
