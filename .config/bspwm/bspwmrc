@@ -82,8 +82,7 @@ elif [[ $(hostname) == 'udaicfernando']]; then
     xdo below -t $(xdo id -n root) $(xdo id -a polybar-top_DVI-I-0)
 fi
 
-
-
+bspc rule -a Emacs state=tiled
 bspc rule -a Steam floating=on
 #bspc rule -a '*:yad' state=floating follow=on focus=on
 #bspc rule -a Gimp desktop='^8' state=floating follow=on

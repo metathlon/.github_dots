@@ -99,8 +99,8 @@
 ;; En este directorio se puede encotrar un ejemplo de la configuracion:
 ;; ejemplo.mu4e.config.el
 ;; -------------------------------------------------------------------------
-(load! "mu4e.config.el")
-
-
 ;; PARA ARREGLAR EL MENU PRINCIPAL
 (remove-hook 'mu4e-main-mode-hook 'evil-collection-mu4e-update-main-view)
+
+;; Cargamos nuestra configuración particular
+(load! "mu4e.config.el")
