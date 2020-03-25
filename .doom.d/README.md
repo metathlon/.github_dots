@@ -9,6 +9,7 @@ Además no tengo ni idea de lo que estoy haciendo, francamente
 # Gestión de calendario
 
 ## Instalación
+
 Lo primero es instalar el paqute org-caldav, agregando:
 
 ``` (setq
@@ -17,6 +18,8 @@ Lo primero es instalar el paqute org-caldav, agregando:
 ```
 
 Se necesitan ambos para que esto funcione
+
+El mejor libro de instrucciones es el readme del autor así que: https://github.com/dengste/org-caldav
 
 ## Configuración en la parte de Google
 Ahora hace falta configurar org-caldav y si usas google calendar necestias
