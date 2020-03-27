@@ -88,7 +88,7 @@ cursor-scroll = ns-resize
 
 ;== Module Location ========================================================
 
-modules-left = bspwm
+modules-left = arch bspwm
 modules-right = pkg volume network date powermenu
  
 

@@ -93,6 +93,22 @@
 (evil-ex-define-cmd "ie[dit]" 'evil-multiedit-ex-match)
 
 ;; ==========================================================================
+;; --------- configuracion de shortcuts personales --------------------------
+;; ==========================================================================
+;; lo primero es borrar las combiaciones C-1, C-2...
+(dotimes (n 10)
+  (global-unset-key (kbd (format "C-%d" n)))
+  (global-unset-key (kbd (format "M-%d" n)))
+)
+
+;; ahora que tenemos "hueco" vamos a hacer nuestro propio mapa de atajos
+(define-prefix-command 'car-map)
+(global-set-key (kbd "C-1") 'car-map)
+
+;; estos atajos los voy a usar en otras partes, como el correo, la agenda, sitios así
+
+
+;; ==========================================================================
 ;; --------- configuracion de correo ----------------------------------------
 ;; ==========================================================================
 ;; La configuracion del coreo se ha pasado a mu4e.config para "anonimizar"
@@ -102,6 +118,23 @@
 ;; PARA ARREGLAR EL MENU PRINCIPAL
 (remove-hook 'mu4e-main-mode-hook 'evil-collection-mu4e-update-main-view)
 
+
 ;; Cargamos nuestra configuración particular
 (load! "mu4e.config.el")
-(load! "org-caldav.config.el")
+(define-key car-map (kbd "m") 'mu4e)
+;; Creo que esto solucionará el que se active el org-mu4e-compose-org-mode
+(remove-hook 'mu4e-compose-mode-hook 'org-mu4e-compose-org-mode)
+
+;; ==========================================================================
+;; --------- configuracion de org mode-----------------------------------
+;; ==========================================================================
+(load! "org.el")
+(define-key car-map (kbd "a") 'org-agenda)
+
+;; ==========================================================================
+;; --------- configuracion del calendario -----------------------------------
+;; ==========================================================================
+;; (load! "org-caldav.config.el")
+(load! "org-gcal.config.el")
+
+(setq frame-resize-pixelwise t)

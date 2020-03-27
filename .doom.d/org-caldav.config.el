@@ -38,7 +38,7 @@
       (when (eq major-mode 'org-mode)
   (org-caldav-sync-with-delay 300))))
 ;; Add the close emacs hook
-(add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
+;; (add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
 
 
 

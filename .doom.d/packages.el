@@ -51,5 +51,13 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 (package! evil-multiedit)	;; Multicursor
-(package! oauth2)		;; Google Auth para el calendario
-(package! org-caldav) ;; El propio caldav
+;; (package! oauth2)		;; Google Auth para el calendario
+;; (package! org-caldav) ;; El propio caldav
+(package! org-gcal)
+
+;; --- Intento de solucionar el HTLM en correos #1
+(package! emacs-htmlize)
+(package! org-msg)
+
+;; --- Intento de solucionar el HTML en correos #2
+(package! org-mime)
