@@ -1,5 +1,5 @@
-# dots para bspwm
-En este repositorio está mi configuración para BSPWM
+# dots de Caronte
+En este repositorio está mi configuración para mi sistema, tanto en casa como en la oficina
 
 ## Como crear un repositorio para gestionar los archivos de configuracion
 
