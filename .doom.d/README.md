@@ -8,6 +8,16 @@ Además no tengo ni idea de lo que estoy haciendo, francamente
 
 # Gestión de calendario
 
+Sigo retocando cosas, ahora en vez de caldav estoy probando con gcal
+
+El problema es que la api de google calendar en cuanto sincronizo un par de veces devuelve errores 403, es decir que he superado mi cuota diaria
+
+A ver cómo lo arreglo..., quizás caldav era mejor opcion, porque usa ical en vez del api.
+
+RESUMEN: Trabajo en proceso, no estoy contento con lo que hay, no lo recomiendo de momento
+
+
+
 ## Instalación
 
 Lo primero es instalar el paqute org-caldav, agregando:
