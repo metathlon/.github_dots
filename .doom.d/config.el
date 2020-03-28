@@ -104,7 +104,8 @@
 ;; ahora que tenemos "hueco" vamos a hacer nuestro propio mapa de atajos
 (define-prefix-command 'car-map)
 (global-set-key (kbd "C-1") 'car-map)
-
+(define-prefix-command 'car-org-map)
+(global-set-key (kbd "C-2") 'car-org-map)
 ;; estos atajos los voy a usar en otras partes, como el correo, la agenda, sitios así
 
 
@@ -134,7 +135,7 @@
 ;; ==========================================================================
 ;; --------- configuracion del calendario -----------------------------------
 ;; ==========================================================================
-;; (load! "org-caldav.config.el")
-(load! "org-gcal.config.el")
-
+(load! "org-caldav.config.el")
+;; (load! "org-gcal.config.el")
+(define-key car-map (kbd "c") 'cfw:open-org-calendar)
 (setq frame-resize-pixelwise t)

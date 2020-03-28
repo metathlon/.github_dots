@@ -40,6 +40,7 @@
 ;; Add the close emacs hook
 ;; (add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
 
+(setq calendar-week-start-day 1) ;; 0: Sunday, 1:Monday
 
 
 ;; ----------------------------------------------------------------------------------

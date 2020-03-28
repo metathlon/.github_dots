@@ -8,14 +8,12 @@ Además no tengo ni idea de lo que estoy haciendo, francamente
 
 # Gestión de calendario
 
-Sigo retocando cosas, ahora en vez de caldav estoy probando con gcal
-
-El problema es que la api de google calendar en cuanto sincronizo un par de veces devuelve errores 403, es decir que he superado mi cuota diaria
-
-A ver cómo lo arreglo..., quizás caldav era mejor opcion, porque usa ical en vez del api.
-
-RESUMEN: Trabajo en proceso, no estoy contento con lo que hay, no lo recomiendo de momento
-
+*Sigo probando cosas*, de momento con caldav parece que va bien, he probado con
+gcal pero me daba errores 403. Creo que tiene que ver con superar el limite de
+solicitudes diarias... no se muy bien que pasaba. Este setup funciona bien,
+cuando agrego una tarea por el capturador de citas aparece en el calendario y al
+revés, si la pongo en el calendario (en la web de calendar) aparece en mi
+agenda. Así que de momento... funciona.
 
 
 ## Instalación

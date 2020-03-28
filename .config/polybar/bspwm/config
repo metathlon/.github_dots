@@ -21,7 +21,8 @@ trans = #00000000
 white = #FFFFFF
 black = #000000
 
-bg = #1F1F1F
+;bg = #2D303B ; color normal sin transparencia aaCOLOR aa <-- cantidad de opacidad en HEX
+bg = #A02D303B
 fg = #FFFFFF
 fg-alt = #A9ABB0
 
