@@ -56,7 +56,7 @@
 ;;(package! org-gcal)
 
 ;; --- Intento de solucionar el HTLM en correos #1
-(package! emacs-htmlize)
+(package! htmlize)
 (package! org-msg)
 
 ;; --- Intento de solucionar el HTML en correos #2

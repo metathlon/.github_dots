@@ -75,15 +75,18 @@
 ;;              Perfiles de captura
 ;;=========================================================================
 (setq org-capture-templates
-	'(("c" "Cita" entry (file ( lambda () (concat caronte/org-agenda-directory "GCAL_ORG_MODE_events.org")))
-	    "* %?\n%^T\n")
-	  ("l" "Link" entry (file+headline ( lambda() (concat caronte/org-agenda-directory "LINKS.org")) "LINKS")
-	    "* %? %^L %^g \n%T" :prepend t)
+  '(
+    ("c" "Cita" entry (file ( lambda () (concat caronte/org-agenda-directory "GCAL_udaic_events.org")))
+	    "* TODO: %?\n%^T\n") ;; -- creo que es buena idea añadir el TODO, de forma que aparezca en la agenda, siempre puedo quitarlo
+	  ("p" "Cita Personal" entry (file ( lambda () (concat caronte/org-agenda-directory "GCAL_ORG_MODE_events.org")))
+	    "* TODO: %?\n%^T\n") ;; -- creo que es buena idea añadir el TODO, de forma que aparezca en la agenda, siempre puedo quitarlo
 	  ("t" "To Do Item" entry (file+headline ( lambda () (concat caronte/org-agenda-directory "TAREAS.org")) "COSAS QUE HACER")
 	   "* TODO %^{Description}\n%U\n%?" :prepend t)
 	  ("i" "org-protocol-capture" entry (file ( lambda() (concat caronte/org-agenda-directory "INBOX.org")))
 	   "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
     ("e" "email" entry (file+headline ( lambda() (concat caronte/org-agenda-directory "EMAILS.org")) "EMAILS")
      "* TODO [#A] Reply: %a " :immediate-finish t)
+    ("l" "Link" entry (file+headline ( lambda() (concat caronte/org-agenda-directory "LINKS.org")) "LINKS")
+	    "* %? %^L %^g \n%T" :prepend t)
 	  )
 )

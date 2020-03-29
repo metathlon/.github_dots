@@ -92,8 +92,13 @@
 ;; Ex command that allows you to invoke evil-multiedit with a regular expression, e.g.
 (evil-ex-define-cmd "ie[dit]" 'evil-multiedit-ex-match)
 
+;============================================================================================
+;          MULTICURSOR
+;============================================================================================
+(define-key evil-normal-state-map (kbd "<M-f3>") 'evil-mc-make-all-cursors)
+
 ;; ==========================================================================
-;; --------- configuracion de shortcuts personales --------------------------
+;; --------- Configuracion  de shortcuts personales --------------------------
 ;; ==========================================================================
 ;; lo primero es borrar las combiaciones C-1, C-2...
 (dotimes (n 10)
