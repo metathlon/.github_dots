@@ -50,10 +50,23 @@
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
 ;;(package! org)
+;;
+;;
+;;
+;; --- Edicion en multiples lineas al mismo tiempo
 (package! evil-multiedit)	;; Multicursor
+
+;; -- Calendarios
 (package! oauth2)		;; Google Auth para el calendario
 (package! org-caldav) ;; El propio caldav
-;;(package! org-gcal)
+(package! calfw-org)  ;; integracion con org-mode
+(package! calfw-ical)
+;; (package! calfw-gcal
+;;   :recipe (:host github :repo "myuhe/calfw-gcal.el"))
+(package! org-gcal)
+
+;; --- Alertas de correo
+(package! mu4e-alert)
 
 ;; --- Intento de solucionar el HTLM en correos #1
 (package! htmlize)
@@ -61,3 +74,11 @@
 
 ;; --- Intento de solucionar el HTML en correos #2
 (package! org-mime)
+
+
+;; --- Gestion de recetas de cocina con org-chef
+(package! org-chef)
+
+
+;; --- Seleccionar colores
+(package! palette)

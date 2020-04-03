@@ -39,6 +39,13 @@ mu init -m ~/.mail
 mu index
 ```
 
+Por si tienes que borrar la base de datos en algún momento:
+
+``` bash
+rm -R ~/.cache/mu/
+```
+
+
 *IMPORTANTE*
 Si tienes más de una cuenta no ejecutes ```mu init -m ~/.mail/correo``` para
 cada cuenta, porque solo puedes "incializar" un correo. Lo que debes es

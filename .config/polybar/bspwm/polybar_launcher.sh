@@ -3,9 +3,9 @@
 killall  -q polybar
 
 
-LOG_MAIN_BAR="/tmp/polybar_openbox_main.log"
-LOG_AUX_1_BAR="/tmp/polybar_openbox_aux_1.log"
-LOG_AUX_2_BAR="/tmp/polybar_openbox_aux_2.log"
+LOG_MAIN_BAR="/tmp/polybar_bspwm_main.log"
+LOG_AUX_1_BAR="/tmp/polybar_bspwm_aux_1.log"
+LOG_AUX_2_BAR="/tmp/polybar_bspwm_aux_2.log"
 
 echo $(hostname)
 

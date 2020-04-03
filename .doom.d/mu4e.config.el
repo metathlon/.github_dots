@@ -5,21 +5,16 @@
 ;=====================================================================================
 
 (require 'smtpmail)
-;; (require 'star)
 
 (after! mu4e
-
-
   (defvar mu4e-main-mode-map
     (let ((map (make-sparse-keymap)))
-
       ;; (define-key map "b" 'mu4e-headers-search-bookmark)
       ;; (define-key map "B" 'mu4e-headers-search-bookmark-edit)
 
       ;; (define-key map "s" 'mu4e-headers-search)
       (define-key map "q" 'mu4e-quit)
       (define-key map "j" 'mu4e~headers-jump-to-maildir)
-
     )
   )
 
@@ -52,20 +47,16 @@
   ;;         (mu4e-trash-folder      . "/cuenta_mail/DELETED")
   ;;       ) ;; VARS
   ;;     ) ;; CONTEXT
-
   ;;   ) ;; fin lista de contexts
   ;; ) ;;-----------------------------------------------------------------FIN DE CONTEXTS
-
   (load! "mu4e.personal.config.el")
-
 ) ;; ------------------------------------------------------------------------------------FIN  after! mu4e
 
 
 
-
-
-
-;; --------------------------------------------- BASIC mail config
+;; ------------------------------------------------------------------------------
+;; --------------- BASIC mail config
+;; ------------------------------------------------------------------------------
 (setq message-kill-buffer-on-exit t
       mu4e-attachment-dir              "~/Descargas/MU4E_ATTACHMENTS/"
       mail-user-agent 'mu4e-user-agent
@@ -74,6 +65,7 @@
       mu4e-use-fancy-chars t
       mu4e-view-show-addresses t
       mu4e-view-show-images t
+      mu4e-sent-messages-behavior 'sent
       ;; mu4e-compose-format-flowed t
       ;; mu4e-compose-in-new-frame t
 )
@@ -92,7 +84,7 @@
 ;; Despues se asigna a 'car-map
 ;; Ahora ya puedes usarla como "prefijo"
 ;; ---------------------------------------------------------------------
-(define-key car-map (kbd "c") 'mu4e-compose-new)
+;; (define-key car-map (kbd "c") 'mu4e-compose-new)
 (define-key car-map (kbd "s") 'mu4e-headers-search)
 
 (define-key mu4e-compose-mode-map (kbd "C-1 c") 'message-goto-cc)
@@ -141,9 +133,7 @@
 ;  ------------------------------------
 ;  Esta es la configuración anterior y funcionaba pero regular
 ;------------------------------------------------------------------
-
 (setq mu4e-html2text-command 'mu4e-shr2text)
-
 
 
 ;; mu4e toggle html images
@@ -221,3 +211,26 @@ code by Titus von der Malsburg."
 ;;           (defun do-compose-stuff ()
 ;;             "My settings for message composition."
 ;;             (org-mu4e-compose-org-mode)))
+
+
+;;===========================================================================
+;;---------------------------------------------------------------------------
+;;      EMAIL ALERTS
+;;---------------------------------------------------------------------------
+;;===========================================================================
+;; Este es un ejemplo de como manejar las alertas
+;; Yo voy a poner mi configuración en el archivo privado pero simplemente
+;; hay que adaptar las carpetas y todo irá bien
+(setq mu4e-alert-interesting-mail-query
+    (concat
+     "flag:unread maildir:/Exchange/INBOX "
+     "OR "
+     "flag:unread maildir:/Gmail/INBOX"
+     ))
+(mu4e-alert-enable-mode-line-display)
+(defun caronte-refresh-mu4e-alert-mode-line ()
+  (interactive)
+  (mu4e~proc-kill)
+  (mu4e-alert-enable-mode-line-display)
+  )
+(run-with-timer 0 60 'caronte-refresh-mu4e-alert-mode-line)

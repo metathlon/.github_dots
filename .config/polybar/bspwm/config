@@ -90,7 +90,7 @@ cursor-scroll = ns-resize
 ;== Module Location ========================================================
 
 modules-left = arch bspwm
-modules-right = pkg volume network date powermenu
+modules-right = filesystem pkg volume network date powermenu
  
 
 [bar/top_aux]
@@ -116,9 +116,21 @@ cursor-scroll = ns-resize
 
 ;== Module Location ========================================================
 
-modules-left = bspwm 
+modules-left = bspwm
 
 ;== Modules ========================================================
+[module/filesystem]
+type = internal/fs
+interval = 25
+mount-0 = /
+
+label-mounted = %mountpoint%: %percentage_used%%
+format-mounted-background = ${color.shade8}
+; format-mounted-foreground = ${color.shade1}
+label-mounted-padding = 2
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${color.fg-alt}
+label-unmounted-padding = 2
 
 [module/bspwm]
 type = internal/bspwm
@@ -141,7 +153,7 @@ label-empty-padding = 2
 
 [module/arch]
 type = custom/text
-content = 
+content = 
 ;alt icons = 
 content-padding = 2
 content-background = ${color.shade1}

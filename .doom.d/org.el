@@ -6,8 +6,8 @@
 ;;                          ARCHIVOS en la agenda
 ;;=========================================================================
 ;; Esta deberia ser siempre la primera asignación, para el esto usar add-to-list
-;; (setq org-agenda-files (list (concat caronte/org-agenda-directory "LINKS.org")
-;; 		             (concat caronte/org-agenda-directory "TAREAS.org"))
+;; (setq org-agenda-files (list (concat caronte/org-agenda-FILE-"LINKS.org")
+;; 		             (concat caronte/org-agenda-FILE-"TAREAS.org"))
 ;; )
 (after! org
   (require 'find-lisp)
@@ -15,16 +15,37 @@
   ;; en este archivo guardo la configuración personal
   ;;-----------------------------------------------------------
   ;; --- Por ejemplo
-  ;; (setq caronte/org-agenda-directory "~/blablalba/ORG/")
+  ;; (setq caronte/org-agenda-FILE-"~/blablalba/ORG/")
   (load! "org.personal.el")
 
   ;; -- Metemos en agenda TODOS los archivos que hay en el directorio que he configurado en org.persojnal.el
   ;; La idea es que ahí tendré los TODO de proyectos, asesoramientos, personales... y como todo son cosas que hay que hacer... pues tanto da
   (setq org-agenda-files
-        (find-lisp-find-files caronte/org-agenda-directory "\.org$"))
+        (find-lisp-find-files caronte/org-agenda-directory"\.org$"))
+)
+
+;; --- Configuración de TODOS
+(setq org-todo-keywords
+      '(
+        (sequence "TODO(t)" "STARTED(s)" "|" "DONE(d)" "CANCELED(c)")
+        )
+)
+
+(setq org-todo-keyword-faces
+      '(
+        ("TODO" . (:foreground "yellow" :weight bold))
+        ("STARTED" . ("green" :weight bold))
+        ("CANCELED" . (:foreground "yellow" :background "red" :weight bold))
+        ("DONE" . (:foreground "grey" :weight bold))
+        )
 )
 
 
+;; --- function to access agenda and todo
+(defun org-agenda-show-agenda-and-todo (&optional arg)
+  (interactive "P")
+  (org-agenda arg "n"))
+(define-key car-map (kbd "a") 'org-agenda-show-agenda-and-todo)
 
 ;;=========================================================================
 ;;                           TECLAS
@@ -46,15 +67,35 @@
 ;; --------------------------------------------------------------------------------------
 (defun caronte/open-file-TAREAS ()
   (interactive)
-  (find-file (concat caronte/org-agenda-directory "TAREAS.org"))
+  (find-file caronte/org-agenda-FILE-tareas)
 )
 (defun caronte/open-file-LINKS ()
   (interactive)
-  (find-file (concat caronte/org-agenda-directory "LINKS.org"))
+  (find-file caronte/org-agenda-FILE-links)
+)
+(defun caronte/open-file-EMAILS()
+  (interactive)
+  (find-file caronte/org-agenda-FILE-emails)
+)
+(defun caronte/open-file-RECETAS()
+  (interactive)
+  (find-file caronte/org-agenda-FILE-recetas)
+)
+(defun caronte/open-file-CALENDARIO-PERSONAL()
+  (interactive)
+  (find-file caronte/org-agenda-FILE-calendario-personal)
+)
+(defun caronte/open-file-CALENDARIO-TRABAJO()
+  (interactive)
+  (find-file caronte/org-agenda-FILE-calendario-trabajo)
 )
 
 (define-key car-org-map (kbd "t") 'caronte/open-file-TAREAS)
 (define-key car-org-map (kbd "l") 'caronte/open-file-LINKS)
+(define-key car-org-map (kbd "e") 'caronte/open-file-EMAILS)
+(define-key car-org-map (kbd "r") 'caronte/open-file-RECETAS)
+(define-key car-org-map (kbd "c") 'caronte/open-file-CALENDARIO-PERSONAL)
+(define-key car-org-map (kbd "C") 'caronte/open-file-CALENDARIO-TRABAJO)
 
 ;;=========================================================================
 ;;               Avisos cuando vas a cerrar un frame de captura
@@ -76,17 +117,17 @@
 ;;=========================================================================
 (setq org-capture-templates
   '(
-    ("c" "Cita" entry (file ( lambda () (concat caronte/org-agenda-directory "GCAL_udaic_events.org")))
-	    "* TODO: %?\n%^T\n") ;; -- creo que es buena idea añadir el TODO, de forma que aparezca en la agenda, siempre puedo quitarlo
-	  ("p" "Cita Personal" entry (file ( lambda () (concat caronte/org-agenda-directory "GCAL_ORG_MODE_events.org")))
-	    "* TODO: %?\n%^T\n") ;; -- creo que es buena idea añadir el TODO, de forma que aparezca en la agenda, siempre puedo quitarlo
-	  ("t" "To Do Item" entry (file+headline ( lambda () (concat caronte/org-agenda-directory "TAREAS.org")) "COSAS QUE HACER")
+	  ("t" "To Do Item" entry (file+headline caronte/org-agenda-FILE-tareas "COSAS QUE HACER")
 	   "* TODO %^{Description}\n%U\n%?" :prepend t)
-	  ("i" "org-protocol-capture" entry (file ( lambda() (concat caronte/org-agenda-directory "INBOX.org")))
+    ("r" "Receta Manual" entry (file caronte/org-agenda-FILE-recetas)
+      "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
+    ("R" "Receta Automatica" entry (file caronte/org-agenda-FILE-recetas)
+	   "%(org-chef-get-recipe-from-url)" :empty-lines 1)
+    ("i" "org-protocol-capture" entry (file caronte/org-agenda-FILE-inbox)
 	   "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
-    ("e" "email" entry (file+headline ( lambda() (concat caronte/org-agenda-directory "EMAILS.org")) "EMAILS")
-     "* TODO [#A] Reply: %a " :immediate-finish t)
-    ("l" "Link" entry (file+headline ( lambda() (concat caronte/org-agenda-directory "LINKS.org")) "LINKS")
+    ("e" "email" entry (file+headline caronte/org-agenda-FILE-emails "EMAILS")
+     "* TODO %^{Descripcion_BREVE} [#A] Reply: %a\n%U" :prepend t)
+    ("l" "Link" entry (file+headline caronte/org-agenda-FILE-links "LINKS")
 	    "* %? %^L %^g \n%T" :prepend t)
 	  )
 )

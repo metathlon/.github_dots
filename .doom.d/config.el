@@ -28,7 +28,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+;; (setq org-directory "~/org/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -51,7 +51,7 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
-
+;; (require 'calfw)
 
 ;;==================================== EVIL MULTIEDIT ======
 (require 'evil-multiedit)
@@ -113,6 +113,10 @@
 (global-set-key (kbd "C-2") 'car-org-map)
 ;; estos atajos los voy a usar en otras partes, como el correo, la agenda, sitios así
 
+;; ==========================================================================
+;; --------- configuracion de org mode-----------------------------------
+;; ==========================================================================
+(load! "org.el")
 
 ;; ==========================================================================
 ;; --------- configuracion de correo ----------------------------------------
@@ -131,16 +135,12 @@
 ;; Creo que esto solucionará el que se active el org-mu4e-compose-org-mode
 (remove-hook 'mu4e-compose-mode-hook 'org-mu4e-compose-org-mode)
 
-;; ==========================================================================
-;; --------- configuracion de org mode-----------------------------------
-;; ==========================================================================
-(load! "org.el")
-(define-key car-map (kbd "a") 'org-agenda)
 
 ;; ==========================================================================
 ;; --------- configuracion del calendario -----------------------------------
 ;; ==========================================================================
 (load! "org-caldav.config.el")
-;; (load! "org-gcal.config.el")
-(define-key car-map (kbd "c") 'cfw:open-org-calendar)
+(load! "org-gcal.config.el")
+
+(define-key car-map (kbd "c") 'caronte/open-calendar)
 (setq frame-resize-pixelwise t)
