@@ -27,14 +27,13 @@ super + alt + Escape
 super + F1
 	~/.config/sxhkd/sxhkd_show_help.sh
 
-# Ayuda BSPWM
-super + shift + F1
-	~/.config/rofi/rofi_mu4e_help.sh
+# Ayuda Mu4e
+super + F2
+	~/.config/rofi/rofi_mu4e_help.shMu4e# Bloqueo de pantalla
 
-
-# Bloqueo de pantalla
-super + alt + l
-	i3lock-fancy-dualmonitor
+# Ayuda ESS
+super + F3
+	~/.config/rofi/rofi_ess_help.shMu4e# Bloqueo de pantalla
 
 #
 # bspwm hotkeys

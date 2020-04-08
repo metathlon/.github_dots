@@ -380,41 +380,46 @@ ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
 
 [module/powermenu]
-type = custom/menu
+type = custom/text
+click-left = oblogout
+format-foreground = ${colors.secondary}
+
+; type = custom/menu
 
 expand-right = true
 
 format-spacing = 1
 
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
+content = 
+; label-open = 
+; label-open-foreground = ${colors.secondary}
+;  label-close =  cancel
+; label-close-foreground = ${colors.secondary}
+; label-separator = |
+; label-separator-foreground = ${colors.foreground-alt}
 
-menu-0-0 = logout
-menu-0-0-exec = menu-open-1
-menu-0-1 = reboot
-menu-0-1-exec = menu-open-2
-menu-0-2 = power off
-menu-0-2-exec = menu-open-3
+; menu-0-0 = logout
+; menu-0-0-exec = menu-open-1
+; menu-0-1 = reboot
+; menu-0-1-exec = menu-open-2
+; menu-0-2 = power off
+; menu-0-2-exec = menu-open-3
 
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = logout
-menu-1-1-exec = openbox --exit
+; menu-1-0 = cancel
+; menu-1-0-exec = menu-open-0
+; menu-1-1 = logout
+; menu-1-1-exec = openbox --exit
 
 
-menu-2-0 = cancel
-menu-2-0-exec = menu-open-0
-menu-2-1 = reboot
-menu-2-1-exec = sudo reboot
+; menu-2-0 = cancel
+; menu-2-0-exec = menu-open-0
+; menu-2-1 = reboot
+; menu-2-1-exec = sudo reboot
 
-menu-3-0 = power off
-menu-3-0-exec = sudo poweroff
-menu-3-1 = cancel
-menu-3-1-exec = menu-open-0
+; menu-3-0 = power off
+; menu-3-0-exec = sudo poweroff
+; menu-3-1 = cancel
+; menu-3-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true

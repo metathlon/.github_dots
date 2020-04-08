@@ -144,3 +144,8 @@
 
 (define-key car-map (kbd "c") 'caronte/open-calendar)
 (setq frame-resize-pixelwise t)
+
+;; ==========================================================================
+;; --------- configuracion de neotree -----------------------------------
+;; ==========================================================================
+(define-key car-map (kbd "n") 'neotree)
