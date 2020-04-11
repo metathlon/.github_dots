@@ -71,6 +71,17 @@ import XMonad.Layout.IndependentScreens
 
     -- Teclas
 import qualified Data.Map        as M
+
+------------------------------------------------------------------------
+---   BASE VAR DEF
+------------------------------------------------------------------------
+myFont          :: [Char]
+myModMask       :: KeyMask
+myTerminal      :: [Char]
+myTextEditor    :: [Char]
+myBorderWidth   :: Dimension
+windowCount     :: X (Maybe String)
+main            :: IO ()
 ------------------------------------------------------------------------
 ---CONFIG
 ------------------------------------------------------------------------
@@ -115,15 +126,23 @@ main = do
 ------------------------------------------------------------------------
 ---AUTOSTART
 ------------------------------------------------------------------------
+myStartupHook :: X()
+
 myStartupHook = do
           --spawnOnce "emacs --daemon &" 
           spawnOnce "nitrogen --restore &" 
-          spawnOnce "compton --config ~/.config/compton/compton.conf &" 
+          spawnOnce "compton &"
           setWMName "LG3D"
           spawnOnce "exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &"
           --spawnOnce "exec /usr/bin/trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 15 --transparent true --alpha 0 --tint 0x292d3e --height 19 &"
           --spawnOnce "/home/dt/.xmonad/xmonad.start" -- Sets our wallpaper
-
+             -- Focus the second screen.
+          screenWorkspace 1 >>= flip whenJust (windows . W.view)
+          -- Force the second screen to "misc", e.g. if the first screen already has
+          -- the workspace associated the screens will swap workspaces.
+          windows $ W.greedyView "5:www"
+          -- Focus the first screen again.
+          screenWorkspace 0 >>= flip whenJust (windows . W.view)
 ------------------------------------------------------------------------
 ---GRID SELECT
 ------------------------------------------------------------------------
@@ -156,8 +175,8 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
 myKeys =
     -- Xmonad
         [ ("M-C-r", spawn "xmonad --recompile")      -- Recompiles xmonad
-        , ("M-S-r", spawn "xmonad --restart")        -- Restarts xmonad
-        , ("M-S-q", io exitSuccess)                  -- Quits xmonad
+        , ("M-M1-r", spawn "xmonad --restart")        -- Restarts xmonad
+        , ("M-M1-q", io exitSuccess)                  -- Quits xmonad
     
     -- Windows
         , ("M-S-c", kill1)                           -- Kill the currently focused client
@@ -169,22 +188,22 @@ myKeys =
 
     -- Grid Select
         , (("M-S-t"), spawnSelected'
-          [ ("Audacity", "audacity")
-          , ("Deadbeef", "deadbeef")
-          , ("Emacs", "emacs")
+          -- [ ("Audacity", "audacity")
+          -- , ("Deadbeef", "deadbeef")
+          [ ("Emacs", "emacs")
           , ("Brave", "brave")
-          , ("Geany", "geany")
-          , ("Geary", "geary")
-          , ("Gimp", "gimp")
-          , ("Kdenlive", "kdenlive")
+          -- , ("Geany", "geany")
+          -- , ("Geary", "geary")
+          -- , ("Gimp", "gimp")
+          -- , ("Kdenlive", "kdenlive")
           , ("LibreOffice Impress", "loimpress")
           , ("LibreOffice Writer", "lowriter")
           , ("OBS", "obs")
-          , ("PCManFM", "pcmanfm")
-          , ("Simple Terminal", "st")
+          , ("Pamac", "pamac-manager")
+          , ("Terminal", "alacritty")
           , ("Steam", "steam")
-          , ("Surf Browser",    "surf suckless.org")
-          , ("Xonotic", "xonotic-glx")
+          -- , ("Surf Browser",    "surf suckless.org")
+          -- , ("Xonotic", "xonotic-glx")
           ])
 
         , ("M-S-g", goToSelected $ mygridConfig myColorizer)
@@ -222,11 +241,11 @@ myKeys =
         , ("M-<Tab>", sendMessage NextLayout)                              -- Switch to next layout
         , ("M-S-<Space>", sendMessage ToggleStruts)                          -- Toggles struts
         , ("M-S-n", sendMessage $ Toggle NOBORDERS)                          -- Toggles noborder
-        , ("M-S-=", sendMessage (Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
+        , ("M-S-m", sendMessage (Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
         , ("M-S-f", sendMessage (T.Toggle "float"))
         , ("M-S-x", sendMessage $ Toggle REFLECTX)
         , ("M-S-y", sendMessage $ Toggle REFLECTY)
-        , ("M-S-m", sendMessage $ Toggle MIRROR)
+        -- , ("M-S-m", sendMessage $ Toggle MIRROR)
         , ("M-<KP_Multiply>", sendMessage (IncMasterN 1))   -- Increase number of clients in the master pane
         , ("M-<KP_Divide>", sendMessage (IncMasterN (-1)))  -- Decrease number of clients in the master pane
         , ("M-S-<KP_Multiply>", increaseLimit)              -- Increase number of windows that can be shown
@@ -242,8 +261,8 @@ myKeys =
     -- Workspaces
         , ("M-.", nextScreen)                           -- Switch focus to next monitor
         , ("M-,", prevScreen)                           -- Switch focus to prev monitor
-        , ("M-S-<KP_Add>", shiftTo Next nonNSP >> moveTo Next nonNSP)       -- Shifts focused window to next workspace
-        , ("M-S-<KP_Subtract>", shiftTo Prev nonNSP >> moveTo Prev nonNSP)  -- Shifts focused window to previous workspace
+        -- , ("M-S-<KP_Add>", shiftTo Next nonNSP >> moveTo Next nonNSP)       -- Shifts focused window to next workspace
+        -- , ("M-S-<KP_Subtract>", shiftTo Prev nonNSP >> moveTo Prev nonNSP)  -- Shifts focused window to previous workspace
 
     -- Scratchpads
         , ("M-C-<Return>", namedScratchpadAction myScratchPads "terminal")
@@ -278,25 +297,8 @@ myKeys =
         -- , ("M-M1-y", spawn (myTerminal ++ " -e youtube-viewer"))
 
 
-   --- Workspaces and screens
-        -- [((m .|. modMask, k), windows $ onCurrentScreen f i)
-        -- | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        -- , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-        -- ++
 
-        -- --
-        -- -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
-        -- -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-        -- --
-        -- [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        -- | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-        -- , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
-        -- ++
-
-
-
-
-    -- Multimedia Keys
+    --- Multimedia Keys
         , ("<XF86AudioPlay>", spawn "cmus toggle")
         , ("<XF86AudioPrev>", spawn "cmus prev")
         , ("<XF86AudioNext>", spawn "cmus next")
@@ -309,9 +311,30 @@ myKeys =
         , ("<XF86Calculator>", runOrRaise "gcalctool" (resource =? "gcalctool"))
         , ("<XF86Eject>", spawn "toggleeject")
         , ("<Print>", spawn "scrotd 0")
-        ] where nonNSP          = WSIs (return (\ws -> W.tag ws /= "nsp"))
-                nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "nsp"))
-                
+        ] -- where nonNSP          = WSIs (return (\ws -> W.tag ws /= "nsp"))
+          --      nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "nsp"))
+
+    --- Workspaces and screens
+        ++
+        [ (otherModMasks ++ "M-" ++ [key], action tag)
+                | (tag, key)  <- zip myWorkspaces "123456789"
+                , (otherModMasks, action) <- [ ("", windows . W.view) -- was W.greedyView
+                                        , ("S-", windows . W.shift)]
+        ]
+        ++
+        --
+        -- mod-{w,e,r}, Switch to physical/Xinerama screens 0, 1 or 2
+        -- mod-shift-{w,e,r}, Move client to screen 0, 1 or 2
+        --
+        [ (mask ++ "M-" ++ [key], screenWorkspace scr >>= flip whenJust (windows . action))
+                | (key, scr)  <- zip "wer" [2,0,1] -- was [0..] *** change to match your screen order ***
+                , (action, mask) <- [ (W.view, "") , (W.shift, "S-")]
+        ]
+
+
+
+
+
 ------------------------------------------------------------------------
 ---WORKSPACES
 ------------------------------------------------------------------------
@@ -323,7 +346,7 @@ xmobarEscape = concatMap doubleLts
         
 myWorkspaces :: [String]   
 myWorkspaces = clickable . (map xmobarEscape) 
-               $ ["dev", "www", "sys", "doc", "vbox", "chat", "mus", "vid", "gfx"]
+               $ ["1:main", "2:dev", "3:sys", "4:doc", "5:www", "6:info", "7:info2", "8:vid", "9:nada"]
   where                                                                      
         clickable l = [ "<action=xdotool key super+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
                       (i,ws) <- zip [1..9] l,                                        
