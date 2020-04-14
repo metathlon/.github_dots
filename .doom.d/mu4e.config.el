@@ -115,7 +115,7 @@
 (require 'org-msg)
 (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil"
       org-msg-startup "hidestars indent inlineimages"
-      org-msg-greeting-fmt "\nSaluds %s,\n\n"
+      org-msg-greeting-fmt "\nHola %s,\n\n"
       org-msg-greeting-name-limit 3
       org-msg-text-plain-alternative t
       org-msg-signature "
