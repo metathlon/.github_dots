@@ -10,12 +10,16 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $alt Mod1
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 # font pango:monospace 8
 # font Mononoki Nerd Font regular 12
-font Roboto regular 12
+font UbuntuMono Nerd Font regular 20
 
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
@@ -25,17 +29,31 @@ font Roboto regular 12
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
+#----------------------------------------------------------------------------------------------
+#              AUTOSTART
+#----------------------------------------------------------------------------------------------
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
 # keyring
-exec "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &"
+exec --no-startup-id "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &"
 
+#compositing
+exec --no-startup-id picom &
+
+#walpaper
+exec --nostartup-id nitrogen --restore &
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
+
+
+
+
+#----------------------------------------------------------------------------------------------
+#             KEYBINDINGS
+#----------------------------------------------------------------------------------------------
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -44,18 +62,27 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
+# reload the configuration file
+bindsym $mod+Shift+q reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Control+q restart
+
+# exit i3 (logs you out of your X session)
+bindsym $mod+Mod1+q exec "i3-nagbar -t warning -m 'Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# oblogout
+bindsym $mod+Mod1+Escape exec "oblogout"
 
 # start a terminal
-# bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+w kill
 
 # start dmenu (a program launcher)
-bindsym $mod+Shift+Return exec dmenu_run
+bindsym $mod+Shift+Return exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'"
+
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -148,16 +175,6 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-
-# oblogout
-bindsym $mod+Shift+Escape exec "oblogout"
-
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -188,12 +205,29 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        # status_command i3status --config ~/.config/i3/i3status.conf
+        colors {
+                background #2f343f
+                statusline #2f343f
+                separator #4b5262
+
+                # colour of border, background, and text
+                focused_workspace       #2f343f #bf616a #d8dee8
+                active_workspace        #2f343f #2f343f #d8dee8
+                inactive_workspace      #2f343f #2f343f #d8dee8
+                urgent_workspacei       #2f343f #ebcb8b #2f343f
+        }
+        status_command i3status --config ~/.config/i3/i3status.conf
         output primary
-        font Roboto regular 12
-        status_command i3blocks -c ~/.config/i3/i3blocks.conf
         position top
+        verbose yes
 }
+# bar {
+#         status_command i3status --config ~/.config/i3/i3status.conf
+#         output primary
+#         font UbuntuMono Nerd Font regular 12
+#         # status_command i3blocks -c ~/.config/i3/i3blocks.conf
+#         position top
+# }
 
 bar {
         output DVI-I-0

@@ -118,13 +118,14 @@
       org-msg-greeting-fmt "\nHola %s,\n\n"
       org-msg-greeting-name-limit 3
       org-msg-text-plain-alternative t
-      org-msg-signature "
+      org-msg-signature caronte/org-msg-signature
+      ;; org-msg-signature "
 
-      Un saludo,
+      ;; Un saludo,
 
-      #+begin_signature
-       /No me imprimas si no es estrictamente imprescindible/
-      #+end_signature"
+      ;; #+begin_signature
+      ;;  /No me imprimas si no es estrictamente imprescindible/
+      ;; #+end_signature"
 )
 (org-msg-mode)
 
