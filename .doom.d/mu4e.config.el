@@ -118,15 +118,57 @@
       org-msg-greeting-fmt "\nHola %s,\n\n"
       org-msg-greeting-name-limit 3
       org-msg-text-plain-alternative t
-      org-msg-signature caronte/org-msg-signature
-      ;; org-msg-signature "
+      ;; org-msg-signature caronte/org-msg-signature
 
-      ;; Un saludo,
-
-      ;; #+begin_signature
-      ;;  /No me imprimas si no es estrictamente imprescindible/
-      ;; #+end_signature"
 )
+;;================================================
+;;              FIRMAS
+;;===============================================
+;; Lo de las firmas tiene su complicación cuando tienes varias cuentas
+;; Especialmente si quieres una firma HTML
+;;
+;; En mi caso en la parte corporativa NECESITABA poner la firma html
+;; así que aquí dejo dos ejemplos de cómo quedaría esto en mu4e.personal.config.el
+;;---------------------------
+;; NO HTML
+;;---------------------------------
+;; (setq caronte/org-msg-signature "
+;;     Un saludo,
+;;     #+begin_signature
+;;        /No me imprimas si no es estrictamente imprescindible/
+;;     #+end_signature")
+;;
+;;--------------------------------------
+;; FIRMA HTML
+;;-------------------------------------
+;; (setq caronte/org-msg-signature "
+;;          #+BEGIN_EXPORT html
+;;             <html>
+;;              <table width='100%' border='0' cellspacing='10' cellpadding='0' style='color: rgb(0, 0, 0);border-top-width: 3px; border-top-style: solid; border-top-color: rgb(162, 195, 227);'>
+;;               <tbody>
+;;                 <tr>
+;;                   <td><br></td>
+;;                   <td></td>
+;;                </tr>
+;;                <tr>
+;;                   <td width='200' align='right' valign='top'> <img src='URL.png' alt='TEXTO_ALTERNATIVO' hspace='5'> </td>
+;;                   <td align='left' valign='top' style='padding: 10px;'>
+;;                      <p><font face='Arial, Helvetica, sans-serif' color='#05233d' style='font-size: 18px;'>NOMBRE</font><br>
+;;                         <font face='Arial, Helvetica, sans-serif' color='#90a7b5'><em style='font-size: 12px;'>TITULO</em></font><br>
+;;                         <a href='mailto:CORREO' style='color: rgb(0, 153, 204); text-decoration: none;'>CORREO</a>&nbsp;<br>
+;;                      </p>
+;;                      <p><font face='Arial, Helvetica, sans-serif' color='#05233d' style='font-size: 14px;'>SITIO_DE_TRABAJO</font>
+;;                         <br><font face='Arial, Helvetica, sans-serif' color='#05233d' style='font-size: 14px;'><a target='_blank' class='blue' href='http://URL_EMPRESA' style='color: rgb(0, 153, 204); text-decoration: none;'>http://URL_PROFESIONAL</a></font>
+;;                         <br><font face='Arial, Helvetica, sans-serif' color='#416886' size='-1'>Tlf:&nbsp;<strong><font color='#1b4260'>TELEFONO</font></strong><font face='Arial, Helvetica, sans-serif' color='#1b4260' size='-1'></font></font>
+;;                      </p>
+;;                   </td>
+;;                </tr>
+;;               </tbody>
+;;              </table>
+;;             </html>
+;;        #+END_EXPORT
+;; " )
+
 (org-msg-mode)
 
 ;------------------------------------------------------------------
@@ -138,7 +180,9 @@
 
 
 ;; mu4e toggle html images
-(defvar killdash9/mu4e~view-html-images nil
+;; (defvar killdash9/mu4e~view-html-images nil
+;;   "Whether to show images in html messages")
+(defvar killdash9/mu4e~view-html-images t
   "Whether to show images in html messages")
 
 (defun killdash9/mu4e-view-toggle-html-images ()
@@ -167,52 +211,6 @@ code by Titus von der Malsburg."
   (imagemagick-register-types))
 
 
-;; (setq mu4e-html2text-command "html2text -utf8 -width 72") ;; nil "Shel command that converts HTML
-;; ;; ref: http://emacs.stackexchange.com/questions/3051/how-can-i-use-eww-as-a-renderer-for-mu4e
-;; (defun my-render-html-message ()
-;;   (let ((dom (libxml-parse-html-region (point-min) (point-max))))
-;;     (erase-buffer)
-;;     (shr-insert-document dom)
-;;     (goto-char (point-min))))
-;; (setq mu4e-html2text-command 'my-render-html-message)
-
-;; ;; yt
-;; (setq mu4e-view-prefer-html t) ;; try to render
-;; (add-to-list 'mu4e-view-actions
-;;              '("ViewInBrowser" . mu4e-action-view-in-browser) t) ;; read in browser
-;; (require 'org-mu4e)
-;;                                         ;; == M-x org-mu4e-compose-org-mode==
-;; (setq org-mu4e-convert-to-html t) ;; org -> html
-                                        ;; = M-m C-c.=
-
-
-
-
-
-
-;; ;; https://matt.hackinghistory.ca/2016/11/18/sending-html-mail-with-mu4e/
-;; ;; this is stolen from John but it didn't work for me until I
-;; ;; made those changes to mu4e-compose.el
-;; (defun htmlize-and-send ()
-;;   "When in an org-mu4e-compose-org-mode message, htmlize and send it."
-;;   (interactive)
-;;   (when (member 'org~mu4e-mime-switch-headers-or-body post-command-hook)
-;;     (org-mime-htmlize)
-;;     (org-mu4e-compose-org-mode)
-;;     (mu4e-compose-mode)
-;;     (message-send-and-exit)))
-
-;; ;; This overloads the amazing C-c C-c commands in org-mode with one more function
-;; ;; namely the htmlize-and-send, above.
-;; (add-hook 'org-ctrl-c-ctrl-c-hook 'htmlize-and-send t)
-
-;; ;; Originally, I set the `mu4e-compose-mode-hook' here, but
-;; ;; this new hook works much, much better for me.
-;; (add-hook 'mu4e-compose-post-hook
-;;           (defun do-compose-stuff ()
-;;             "My settings for message composition."
-;;             (org-mu4e-compose-org-mode)))
-
 
 ;;===========================================================================
 ;;---------------------------------------------------------------------------
@@ -222,16 +220,17 @@ code by Titus von der Malsburg."
 ;; Este es un ejemplo de como manejar las alertas
 ;; Yo voy a poner mi configuración en el archivo privado pero simplemente
 ;; hay que adaptar las carpetas y todo irá bien
-(setq mu4e-alert-interesting-mail-query
-    (concat
-     "flag:unread maildir:/Exchange/INBOX "
-     "OR "
-     "flag:unread maildir:/Gmail/INBOX"
-     ))
-(mu4e-alert-enable-mode-line-display)
-(defun caronte-refresh-mu4e-alert-mode-line ()
-  (interactive)
-  (mu4e~proc-kill)
-  (mu4e-alert-enable-mode-line-display)
-  )
-(run-with-timer 0 60 'caronte-refresh-mu4e-alert-mode-line)
+;;---------------------------------------------------------------------------
+;; (setq mu4e-alert-interesting-mail-query
+;;     (concat
+;;      "flag:unread maildir:/Exchange/INBOX "
+;;      "OR "
+;;      "flag:unread maildir:/Gmail/INBOX"
+;;      ))
+;; (mu4e-alert-enable-mode-line-display)
+;; (defun caronte-refresh-mu4e-alert-mode-line ()
+;;   (interactive)
+;;   (mu4e~proc-kill)
+;;   (mu4e-alert-enable-mode-line-display)
+;;   )
+;; (run-with-timer 0 60 'caronte-refresh-mu4e-alert-mode-line)
