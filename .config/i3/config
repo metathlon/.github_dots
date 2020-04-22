@@ -84,6 +84,16 @@ client.focused          #f5b355 #f59335 #ffffff #f5b355 #f59335
 
 # client.background       #ffffff
 
+
+#----------------------------------------------------------------------------------------------
+#           BORDERS
+#----------------------------------------------------------------------------------------------
+# --- options being normal|none|pixel
+default_border pixel 3
+
+
+
+
 #----------------------------------------------------------------------------------------------
 #             KEYBINDINGS
 #----------------------------------------------------------------------------------------------
@@ -121,7 +131,8 @@ bindsym $mod+Shift+w kill
 
 # start dmenu (a program launcher)
 bindsym $mod+Shift+Return exec "~/.config/rofi/rofi_menu.sh"
-bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'"
+# bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=12' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'"
+bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=14' -nb '#292d3e' -nf '#bbc5ff' -sb '#FFAA58' -sf '#292d3e' -p 'dmenu:'"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
