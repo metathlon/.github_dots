@@ -133,16 +133,17 @@ bindsym $mod+Shift+w kill
 bindsym $mod+Shift+Return exec "~/.config/rofi/rofi_menu.sh"
 # bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=12' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'"
 bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=14' -nb '#292d3e' -nf '#bbc5ff' -sb '#FFAA58' -sf '#292d3e' -p 'dmenu:'"
+
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+ntilde focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -151,10 +152,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+ntilde move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -162,25 +163,33 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+
 # split in horizontal orientation
-bindsym $mod+h split h
+# bindsym $mod+h split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+# bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
+# toggle tiling / floating
+bindsym $mod+Shift+f floating toggle
+
+# make the layout stacking
 bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
+
+# make the layout tabbed
+# bindsym $mod+w layout tabbed
+
+# toggle between h split and v split
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+# bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -314,6 +323,7 @@ bar {
         position top
         status_command i3blocks
         tray_output primary
+        # tray_padding 100
         # tray_output none
         id bar-aux
         status_command i3blocks -c ~/.config/i3/i3blocks.aux.conf
