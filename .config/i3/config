@@ -91,7 +91,9 @@ client.focused          #f5b355 #f59335 #ffffff #f5b355 #f59335
 # --- options being normal|none|pixel
 default_border pixel 3
 
-
+gaps inner 5
+gaps outer 10
+smart_gaps inverse_outer
 
 
 #----------------------------------------------------------------------------------------------
