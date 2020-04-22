@@ -81,4 +81,9 @@
 
 
 ;; --- Seleccionar colores
-(package! palette)
+;; (package! palette)
+
+
+;; --- Syntax highlight para fish
+(package! fish-mode)
+(package! fish-completion)

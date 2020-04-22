@@ -8,6 +8,28 @@
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
+###########################################################
+###########################################################
+# MONITOR SETUP
+###########################################################
+###########################################################
+
+#---- CASA
+set $mainmonitor HDMI-0
+set $leftmonitor DVI-D-0
+set $rightmonitor DVI-I-0
+
+workspace 1 output $mainmonitor
+workspace 5 output $rightmonitor
+workspace 8 output $leftmonitor
+
+
+
+###########################################################
+###########################################################
+# BASIC KEYS SETUP
+###########################################################
+###########################################################
 
 set $mod Mod4
 set $alt Mod1
@@ -19,7 +41,8 @@ floating_modifier $mod
 # is used in the bar {} block below.
 # font pango:monospace 8
 # font Mononoki Nerd Font regular 12
-font UbuntuMono Nerd Font regular 20
+# font pango:UbuntuMono Nerd Font regular 12
+font pango: Noto Sans 12
 
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
@@ -36,31 +59,47 @@ font UbuntuMono Nerd Font regular 20
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # keyring
-exec --no-startup-id "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &"
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
 
 #compositing
 exec --no-startup-id picom &
 
 #walpaper
-exec --nostartup-id nitrogen --restore &
+exec --no-startup-id nitrogen --restore &
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+#----------------------------------------------------------------------------------------------
+#            COLORs
+#----------------------------------------------------------------------------------------------
+# class                 border  backgr. text    indicator child_border
+#
+client.focused          #f5b355 #f59335 #ffffff #f5b355 #f59335
+# client.focused_inactive #333333 #5f676a #ffffff #484e50 #5f676a
+# client.unfocused #333333 #222222 #888888 #292d2e #222222 client.urgent #2f343a
+# #900000 #ffffff #900000 #900000 client.placeholder #000000 #0c0c0c #ffffff
+# #000000 #0c0c0c
 
-
+# client.background       #ffffff
 
 #----------------------------------------------------------------------------------------------
 #             KEYBINDINGS
 #----------------------------------------------------------------------------------------------
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# set $refresh_i3status killall -SIGUSR1 i3status
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# change volume or toggle mute
+bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
+
 
 # reload the configuration file
 bindsym $mod+Shift+q reload
@@ -72,7 +111,7 @@ bindsym $mod+Control+q restart
 bindsym $mod+Mod1+q exec "i3-nagbar -t warning -m 'Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # oblogout
-bindsym $mod+Mod1+Escape exec "oblogout"
+bindsym $mod+Shift+Escape exec "oblogout"
 
 # start a terminal
 bindsym $mod+Return exec alacritty
@@ -81,8 +120,8 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+w kill
 
 # start dmenu (a program launcher)
-bindsym $mod+Shift+Return exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'"
-
+bindsym $mod+Shift+Return exec "~/.config/rofi/rofi_menu.sh"
+bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -202,6 +241,14 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+#--------------------------------------------------------
+#SIGNALS para iblocks
+#--------------------------------------------------------
+bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+
+
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
@@ -211,15 +258,20 @@ bar {
                 separator #4b5262
 
                 # colour of border, background, and text
-                focused_workspace       #2f343f #bf616a #d8dee8
+                focused_workspace       #2f343f #f59335 #d8dee8
                 active_workspace        #2f343f #2f343f #d8dee8
                 inactive_workspace      #2f343f #2f343f #d8dee8
-                urgent_workspacei       #2f343f #ebcb8b #2f343f
+                urgent_workspace       #2f343f #bf616b #2f343f
         }
-        status_command i3status --config ~/.config/i3/i3status.conf
-        output primary
+        # status_command i3status --config ~/.config/i3/i3status.conf
+        status_command i3blocks -c ~/.config/i3/i3blocks.main.conf
+        font pango: Noto Sans Medium 12, Iosevka Nerd Font 12
+        # font pango: UbuntuMono Nerd Font regular 12, Iosevka Nerd Font 12
+        output $mainmonitor
         position top
         verbose yes
+        id bar-main
+        tray_output primary
 }
 # bar {
 #         status_command i3status --config ~/.config/i3/i3status.conf
@@ -230,8 +282,28 @@ bar {
 # }
 
 bar {
-        output DVI-I-0
-        output DVI-D-0
+
+        colors {
+                background #2f343f
+                statusline #2f343f
+                separator #4b5262
+
+                # colour of border, background, and text
+                focused_workspace       #2f343f #f59335 #d8dee8
+                active_workspace        #2f343f #2f343f #d8dee8
+                inactive_workspace      #2f343f #2f343f #d8dee8
+                urgent_workspace       #2f343f #bf616b #2f343f
+        }
+
+
+        # output DVI-I-0
+        # output DVI-D-0
+        output $leftmonitor
+        output $rightmonitor
         position top
         status_command i3blocks
+        tray_output primary
+        # tray_output none
+        id bar-aux
+        status_command i3blocks -c ~/.config/i3/i3blocks.aux.conf
 }
