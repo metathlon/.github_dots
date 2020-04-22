@@ -2,6 +2,8 @@
 
 # DATEFTM="${DATEFTM:-+%a. %d. %b. %Y}"
 # SHORTFMT="${SHORTFMT:-+%d.%m.%Y}"
+bg_color=${bg_color:-"#999999"}
+fg_color=${color:-"#FFFFFF"}
 
 DATEFMT=${DATEFMT:-"+%a %d.%m.%Y %H:%M:%S"}
 SHORTFMT=${SHORTFMT:-"+%H:%M:%S"}
@@ -43,5 +45,6 @@ cal --color=always $month $year \
     esac
 # echo "$LABEL$blockdate"
 # echo "$LABEL$shortblockdate"
-echo " $LABEL$(date "$DATEFMT") "
-echo " $LABEL$(date "$SHORTFMT") "
+echo "<span background=$bg_color foreground=$fg_color> $LABEL $(date "$DATEFMT") </span>"
+echo "<span background=$bg_color foreground=$fg_color> $LABEL $(date "$SHORTFMT") </span>"
+# echo " $LABEL$(date "$SHORTFMT") "
