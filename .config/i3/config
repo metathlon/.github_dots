@@ -107,32 +107,35 @@ smart_gaps inverse_outer
 # bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 # bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-# change volume or toggle mute
+# -- Subir volumen
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
+# -- Bajar volumen
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
+# -- Mutear volumen
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
 
 
-# reload the configuration file
+# -- Reload config
 bindsym $mod+Shift+q reload
 
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+# -- Restart i3
 bindsym $mod+Control+q restart
 
-# exit i3 (logs you out of your X session)
+# -- Exit i3
 bindsym $mod+Mod1+q exec "i3-nagbar -t warning -m 'Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
 
-# oblogout
+# -- Oblogout
 bindsym $mod+Shift+Escape exec "oblogout"
 
-# start a terminal
+# -- Terminal
 bindsym $mod+Return exec alacritty
 
-# kill focused window
+# -- Cerrar ventana activada
 bindsym $mod+Shift+w kill
 
-# start dmenu (a program launcher)
+# -- Mostrar Rofi
 bindsym $mod+Shift+Return exec "~/.config/rofi/rofi_menu.sh"
+
 # bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=12' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'"
 bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=14' -nb '#292d3e' -nf '#bbc5ff' -sb '#FFAA58' -sf '#292d3e' -p 'dmenu:'"
 
@@ -141,10 +144,13 @@ bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=14' -nb '#292d3e' 
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-# change focus
+# -- Activar ventana izquierda
 bindsym $mod+h focus left
+# -- Activar ventana abajo
 bindsym $mod+j focus down
+# -- Activar ventana arriba
 bindsym $mod+k focus up
+# -- Activar ventana derecha
 bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
@@ -153,10 +159,13 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# move focused window
+# -- Mover ventana a la izquierda
 bindsym $mod+Shift+h move left
+# -- Mover ventana hacia abajo
 bindsym $mod+Shift+j move down
+# -- Mover ventana hacia arriba
 bindsym $mod+Shift+k move up
+# -- Mover ventana a la derecha
 bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
@@ -172,19 +181,19 @@ bindsym $mod+Shift+Right move right
 # split in vertical orientation
 # bindsym $mod+v split v
 
-# enter fullscreen mode for the focused container
+# -- Ventana a pantalla completa (toggle)
 bindsym $mod+f fullscreen toggle
 
-# toggle tiling / floating
+# -- Ventana a flotante (toggle)
 bindsym $mod+Shift+f floating toggle
 
-# make the layout stacking
+# -- Cambiar layout a stacking
 bindsym $mod+s layout stacking
 
 # make the layout tabbed
 # bindsym $mod+w layout tabbed
 
-# toggle between h split and v split
+# -- Cambiar layout entre division vertical/horizontal
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
