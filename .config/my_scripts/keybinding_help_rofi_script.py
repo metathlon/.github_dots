@@ -24,32 +24,68 @@ if len(sys.argv) < 2:
 WM=sys.argv[1]
 
 
-
-def get_config_from_wm(args):
+def get_default_config_from_wm():
+    """
+    Function to return the full path to config file
+    """
     WM_CONFIGS = {
         "i3": HOME + "/.config/i3/config",
     }
 
-    if len(args) > 3:
-        return args[2]
 
     return WM_CONFIGS.get(WM, False)
 
-CONFIG_FILE = get_config_from_wm(sys.argv)
+
+
+
+if len(sys.argv) > 3:
+    CONFIG_FILE = sys.argv[2]
+else:
+    CONFIG_FILE = get_default_config_from_wm()
+
 
 if not(CONFIG_FILE) :
     exit("No file available")
 
+
+
 with open(CONFIG_FILE,"r") as conf_file:
     info = []
     ln_prev = ""
-    help_lines = ""
+    max_key_length = 0
     for ln in conf_file:
         if ln.startswith("bindsym "):
             if ln_prev.startswith("# --"):
-                info.append((ln.split()[1],ln_prev))
-                help_lines = help_lines + ln.split()[1] + "   " + ln_prev
+                # split divide por espacios, así que "# -- Texto ayuda" se puede dividir como:
+                # split() -> ['#','--','Texto','ayuda']
+                # split(maxsplit=2) -> ['#','--','Texto ayuda']
+                teclas = ln.split()[1].replace("$","")
+                ayuda = ln_prev.split(maxsplit=2)[2]
+                info.append((teclas,ayuda))
+                if len(teclas) > max_key_length:
+                    max_key_length = len(teclas)
         ln_prev = ln
 
-ROFI = "rofi -dmenu -i -no-shadow-icons -width 1000"
-os.system("echo -e '"+ help_lines + "' | " + ROFI)
+rofi_help_lines = ""
+yad_help_lines = ""
+max_length = 0
+for teclas, ayuda in info:
+    new_line = teclas.ljust(max_key_length) + "  " + ayuda + ""
+    if (len(new_line) > max_length):
+        max_length = len(new_line)
+    rofi_help_lines = rofi_help_lines + new_line
+    yad_help_lines  = yad_help_lines + '"' + teclas + '" "' + ayuda + '" '
+
+# We have maximun length of line, lets add 5 just to make some space
+max_length = max_length + 5
+print("MAX LENGTH: " + str(max_length))
+# COMMAND based on rofi
+COMMAND = 'echo -e "' + rofi_help_lines + '" | rofi -dmenu -i -no-shadow-icons -width -' + str(max_length)
+
+# COMMAND based on yad
+# COMMAND = 'yad --width 300 --title "Ayuda teclas" --list --separator="|" --column "Tecla" --column "Accion" ' + yad_help_lines
+
+os.system(COMMAND)
+
+
+
