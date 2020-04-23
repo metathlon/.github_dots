@@ -14,12 +14,18 @@ import sys
 import os
 from os.path import expanduser
 
+
+ERROR_MSG = {
+    "insuf.args": "Insufficient Arguments provided. Num provided: ",
+    "no.config": "Default config not found. Please provide path to config.",
+}
 HOME = expanduser("~")
 
 
 
 if len(sys.argv) < 2:
-    exit("Insufficient arguments: "+str(len(sys.argv)))
+    os.system("rofi -e '"+ ERROR_MSG.get("insuf.args") + str(len(sys.argv) -1 ) + "'")
+    exit()
 
 WM=sys.argv[1]
 
@@ -43,11 +49,9 @@ if len(sys.argv) > 3:
 else:
     CONFIG_FILE = get_default_config_from_wm()
 
-
 if not(CONFIG_FILE) :
-    exit("No file available")
-
-
+    os.system("rofi -e '" + ERROR_MSG.get("no.config") + "'")
+    exit()
 
 with open(CONFIG_FILE,"r") as conf_file:
     info = []
@@ -79,7 +83,6 @@ for teclas, ayuda in info:
 
 # We have maximun length of line, lets add 5 just to make some space
 max_length = max_length + 5
-print("MAX LENGTH: " + str(max_length))
 # COMMAND based on rofi
 COMMAND = 'echo -e "' + rofi_help_lines + '" | rofi -dmenu -i -no-shadow-icons -width -' + str(max_length)
 
