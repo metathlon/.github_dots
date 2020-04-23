@@ -87,3 +87,10 @@
 ;; --- Syntax highlight para fish
 (package! fish-mode)
 (package! fish-completion)
+
+;; --- Python support
+(package! python-mode)
+(package! flycheck)
+(package! pyenv)
+(package! py-autopep8)
+(package! blacken)

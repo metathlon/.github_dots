@@ -99,45 +99,28 @@ smart_gaps inverse_outer
 #----------------------------------------------------------------------------------------------
 #             KEYBINDINGS
 #----------------------------------------------------------------------------------------------
- bindsym $mod+F1 exec "python ~/.config/my_scripts/keybinding_help_dialog_creator.py i3"
- # bindsym $mod+F1 exec "oblogout"
 
-# Use pactl to adjust volume in PulseAudio.
-# set $refresh_i3status killall -SIGUSR1 i3status
-# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# -------------------------
+# --- ----- TECLAS I3 -----
+# -------------------------
 
-# -- Subir volumen
-bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
-# -- Bajar volumen
-bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
-# -- Mutear volumen
-bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
-
+# AYUDA BASICA DE TECLAS
+bindsym $mod+F1 exec "python ~/.config/my_scripts/keybinding_help_dialog_creator.py i3"
 
 # -- Reload config
 bindsym $mod+Shift+q reload
-
 # -- Restart i3
 bindsym $mod+Control+q restart
-
 # -- Exit i3
 bindsym $mod+Mod1+q exec "i3-nagbar -t warning -m 'Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
-
 # -- Oblogout
 bindsym $mod+Shift+Escape exec "oblogout"
-
 # -- Terminal
 bindsym $mod+Return exec alacritty
-
 # -- Cerrar ventana activada
 bindsym $mod+Shift+w kill
-
 # -- Mostrar Rofi
 bindsym $mod+Shift+Return exec "~/.config/rofi/rofi_menu.sh"
-
 # bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=12' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'"
 bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=14' -nb '#292d3e' -nf '#bbc5ff' -sb '#FFAA58' -sf '#292d3e' -p 'dmenu:'"
 
@@ -145,6 +128,11 @@ bindsym $mod+p exec "dmenu_run -fn 'UbuntuMono Nerd Font:size=14' -nb '#292d3e' 
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+
+# -----------------------------
+# --- ----- FOCO VENTANAS -----
+# -----------------------------
 
 # -- Activar ventana izquierda
 bindsym $mod+h focus left
@@ -160,6 +148,10 @@ bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
+
+# ------------------------------
+# --- ----- MOVER VENTANAS -----
+# ------------------------------
 
 # -- Mover ventana a la izquierda
 bindsym $mod+Shift+h move left
@@ -177,38 +169,37 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 
-# split in horizontal orientation
-# bindsym $mod+h split h
-
-# split in vertical orientation
-# bindsym $mod+v split v
+# -----------------------
+# --- ----- LAYOUTS -----
+# -----------------------
 
 # -- Ventana a pantalla completa (toggle)
 bindsym $mod+f fullscreen toggle
-
 # -- Ventana a flotante (toggle)
 bindsym $mod+Shift+f floating toggle
-
 # -- Cambiar layout a stacking
 bindsym $mod+s layout stacking
+# -- Cambiar layout entre division vertical/horizontal
+bindsym $mod+e layout toggle split
+# -- Cambiar foco a contenedor padre
+bindsym $mod+a focus parent
+# -- Cambiar foco a contenedor hijo
+bindsym $mod+d focus child
 
 # make the layout tabbed
 # bindsym $mod+w layout tabbed
-
-# -- Cambiar layout entre division vertical/horizontal
-bindsym $mod+e layout toggle split
-
+# split in horizontal orientation
+# bindsym $mod+h split h
+# split in vertical orientation
+# bindsym $mod+v split v
 # toggle tiling / floating
 # bindsym $mod+Shift+space floating toggle
-
 # change focus between tiling / floating windows
 # bindsym $mod+space focus mode_toggle
 
-# -- Cambiar foco a contenedor padre
-bindsym $mod+a focus parent
-
-# -- Cambiar foco a contenedor hijo
-bindsym $mod+d focus child
+# ---------------------------
+# --- ----- ESCRITORIOS -----
+# ---------------------------
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -249,6 +240,9 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+# -------------------------------
+# --- ----- TAMAÑO VENTANAS -----
+# -------------------------------
 
 # -- Cambiar a modo RESIZE
 bindsym $mod+r mode "resize"
@@ -289,10 +283,27 @@ mode "resize" {
 bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 
+# -----------------------------------
+# --- ----- CONTROL DEL VOLUMEN -----
+# -----------------------------------
+
+# -- Subir volumen
+bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
+# -- Bajar volumen
+bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
+# -- Mutear volumen
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
+# Use pactl to adjust volume in PulseAudio.
+# set $refresh_i3status killall -SIGUSR1 i3status
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
+#===========================================================
+#                       MAIN BAR
+#===========================================================
 bar {
         colors {
                 background #2f343f
@@ -315,16 +326,11 @@ bar {
         id bar-main
         tray_output primary
 }
-# bar {
-#         status_command i3status --config ~/.config/i3/i3status.conf
-#         output primary
-#         font UbuntuMono Nerd Font regular 12
-#         # status_command i3blocks -c ~/.config/i3/i3blocks.conf
-#         position top
-# }
 
+#===========================================================
+#                       AUX BAR
+#===========================================================
 bar {
-
         colors {
                 background #2f343f
                 statusline #2f343f
@@ -337,9 +343,6 @@ bar {
                 urgent_workspace       #2f343f #bf616b #2f343f
         }
 
-
-        # output DVI-I-0
-        # output DVI-D-0
         output $leftmonitor
         output $rightmonitor
         position top
