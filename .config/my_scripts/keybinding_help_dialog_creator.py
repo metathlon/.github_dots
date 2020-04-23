@@ -54,6 +54,7 @@ with open(CONFIG_FILE,"r") as conf_file:
     ln_prev = ""
     max_key_length = 0
     for ln in conf_file:
+        ln = ln.lstrip()
         if ln.startswith("bindsym "):
             if ln_prev.startswith("# --"):
                 # split divide por espacios, así que "# -- Texto ayuda" se puede dividir como:
