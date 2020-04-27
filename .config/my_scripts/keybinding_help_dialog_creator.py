@@ -67,15 +67,20 @@ with open(CONFIG_FILE, "r") as conf_file:
                 if len(teclas) > max_key_length:
                     max_key_length = len(teclas)
 
-        elif ln.statswith("# --- "):
-            info.append((ln.split(maxsplit=2)[2]), "")
+        elif ln.startswith("# --- "):
+            ayuda = ln.split(maxsplit=2)[2]
+            info.append((ayuda,"#"))
         ln_prev = ln
 
 rofi_help_lines = ""
 yad_help_lines = ""
 max_length = 0
 for teclas, ayuda in info:
-    new_line = teclas.ljust(max_key_length) + "  " + ayuda + ""
+
+    if (ayuda == "#"):
+        new_line = "----- " + "  " + teclas.ljust(max_key_length)
+    else:
+        new_line = teclas.ljust(max_key_length) + "  " + ayuda + ""
     if (len(new_line) > max_length):
         max_length = len(new_line)
     rofi_help_lines = rofi_help_lines + new_line

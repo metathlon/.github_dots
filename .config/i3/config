@@ -69,7 +69,11 @@ exec --no-startup-id nitrogen --restore &
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet &
+
+# Icono de system-tray para syncthing
+exec --no-startup-id syncthingtray &
+
 
 #----------------------------------------------------------------------------------------------
 #            COLORs
@@ -88,7 +92,7 @@ client.focused          #f5b355 #f59335 #ffffff #f5b355 #f59335
 #----------------------------------------------------------------------------------------------
 #           BORDERS
 #----------------------------------------------------------------------------------------------
-# --- options being normal|none|pixel
+# options being normal|none|pixel
 default_border pixel 3
 
 gaps inner 5
@@ -188,10 +192,10 @@ bindsym $mod+d focus child
 
 # make the layout tabbed
 # bindsym $mod+w layout tabbed
-# split in horizontal orientation
-# bindsym $mod+h split h
-# split in vertical orientation
-# bindsym $mod+v split v
+# -- La siguiente ventana genrará una división horizontal
+bindsym $mod+Control+h split h
+# -- La siguiente ventana generará una división vertical
+bindsym $mod+Control+v split v
 # toggle tiling / floating
 # bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows

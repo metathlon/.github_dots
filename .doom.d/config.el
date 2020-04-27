@@ -34,6 +34,7 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+(setq shell-file-name "bash")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -140,7 +141,7 @@
 ;; --------- configuracion del calendario -----------------------------------
 ;; ==========================================================================
 (load! "org-caldav.config.el")
-(load! "org-gcal.config.el")
+;; (load! "org-gcal.config.el")
 
 (define-key car-map (kbd "c") 'caronte/open-calendar)
 (setq frame-resize-pixelwise t)
@@ -149,3 +150,8 @@
 ;; --------- configuracion de neotree -----------------------------------
 ;; ==========================================================================
 (define-key car-map (kbd "n") 'neotree)
+
+;; ==========================================================================
+;; --------- TEMPLATE PARA ORG-MODE -----------------------------------
+;; ==========================================================================
+(set-file-template! "/evaluacion\\.org$" :trigger "__evaluacion.org" :mode 'org-mode)

@@ -89,14 +89,23 @@
   (interactive)
   (find-file caronte/org-agenda-FILE-calendario-trabajo)
 )
+(defun caronte/open-file-ESTADISTICA()
+  (interactive)
+  (find-file caronte/org-agenda-FILE-estadistica)
+)
+(defun caronte/open-file-ESTUDIOS()
+  (interactive)
+  (find-file caronte/org-agenda-FILE-estudios)
+)
 
 (define-key car-org-map (kbd "t") 'caronte/open-file-TAREAS)
-(define-key car-org-map (kbd "l") 'caronte/open-file-LINKS)
-(define-key car-org-map (kbd "e") 'caronte/open-file-EMAILS)
+;; (define-key car-org-map (kbd "l") 'caronte/open-file-LINKS)
+;; (define-key car-org-map (kbd "e") 'caronte/open-file-EMAILS)
 (define-key car-org-map (kbd "r") 'caronte/open-file-RECETAS)
-(define-key car-org-map (kbd "c") 'caronte/open-file-CALENDARIO-PERSONAL)
-(define-key car-org-map (kbd "C") 'caronte/open-file-CALENDARIO-TRABAJO)
-
+;; (define-key car-org-map (kbd "c") 'caronte/open-file-CALENDARIO-PERSONAL)
+;; (define-key car-org-map (kbd "C") 'caronte/open-file-CALENDARIO-TRABAJO)
+(define-key car-org-map (kbd "e") 'caronte/open-file-ESTADISTICA)
+(define-key car-org-map (kbd "d") 'caronte/open-file-ESTUDIOS)
 ;;=========================================================================
 ;;               Avisos cuando vas a cerrar un frame de captura
 ;;=========================================================================
@@ -121,13 +130,36 @@
 	   "* TODO %^{Description}\n%U\n%?" :prepend t)
     ("r" "Receta Manual" entry (file caronte/org-agenda-FILE-recetas)
       "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
-    ("R" "Receta Automatica" entry (file caronte/org-agenda-FILE-recetas)
-	   "%(org-chef-get-recipe-from-url)" :empty-lines 1)
-    ("i" "org-protocol-capture" entry (file caronte/org-agenda-FILE-inbox)
-	   "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
-    ("e" "email" entry (file+headline caronte/org-agenda-FILE-emails "EMAILS")
-     "* TODO %^{Descripcion_BREVE} [#A] Reply: %a\n%U" :prepend t)
-    ("l" "Link" entry (file+headline caronte/org-agenda-FILE-links "LINKS")
-	    "* %? %^L %^g \n%T" :prepend t)
+    ;; ("R" "Receta Automatica" entry (file caronte/org-agenda-FILE-recetas)
+	  ;;  "%(org-chef-get-recipe-from-url)" :empty-lines 1)
+    ;; ("i" "org-protocol-capture" entry (file caronte/org-agenda-FILE-inbox)
+	  ;;  "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
+    ;; ("e" "email" entry (file+headline caronte/org-agenda-FILE-emails "EMAILS")
+    ;;  "* TODO %^{Descripcion_BREVE} [#A] Reply: %a\n%U" :prepend t)
+    ;; ("l" "Link" entry (file+headline caronte/org-agenda-FILE-links "LINKS")
+	  ;;   "* %? %^L %^g \n%T" :prepend t)
+
 	  )
 )
+
+
+
+;;=========================================================================
+;;             Checkbox para tabla
+;;=========================================================================
+(defun check-cell ()
+  (interactive)
+  (let ((cell (org-table-get-field)))
+    (if (string-match "[[:graph:]]" cell)
+        (org-table-blank-field)
+      (insert "X")
+      (org-table-align))
+    (org-table-next-field)))
+
+;;=========================================================================
+;;            EJECUCION DE CODIGO R en ORG-MODE
+;;=========================================================================
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((R . t)
+   (latex . t)))
