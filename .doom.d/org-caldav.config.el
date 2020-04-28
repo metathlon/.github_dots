@@ -27,6 +27,7 @@
 ;; y se sincronizan con abrir el propio calendario
 ;;
 ;; Así que me estoy aprovechando del sistema de timer de caldav para sincronizar gcal en realidad
+
 (defvar org-caldav-sync-timer nil
     "Timer that `org-caldav-push-timer' used to reschedule itself, or nil.")
 (defun org-caldav-sync-with-delay (secs)
@@ -34,7 +35,7 @@
     (cancel-timer org-caldav-sync-timer))
   (setq org-caldav-sync-timer
   (run-with-idle-timer
-    (* 1 secs) nil 'org-gcal-sync)))
+    (* 300 secs) nil 'org-caldav-sync)))
 
 (setq org-icalendar-alarm-time 1)
 ;; This makes sure to-do items as a category can show up on the calendar
@@ -47,11 +48,16 @@
 (add-hook 'after-save-hook
     (lambda ()
       (when (eq major-mode 'org-mode)
-  (org-caldav-sync-with-delay 300))))
+  (org-caldav-sync-with-delay 3))))
 ;; Add the close emacs hook
 ;; (add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
 
 (setq calendar-week-start-day 1) ;; 0: Sunday, 1:Monday
+;; (setq org-caldav-backup-file)
+(setq org-caldav-sync-changes-to-org "all")
+
+(setq cfw:org-overwrite-default-keybinding t)
+
 
 ;;====================== EN ESTE MOMENTO ESTE BLOQUE NO HACE FALTA Y NO LO TENGO ACTIVO EN NINGUNA PARTE =================
 ;; ----------------------------------------------------------------------------------
@@ -77,6 +83,22 @@
 
 
 (load! "org-caldav.personal.config.el")
+
+(defvar cfw:org-custom-map
+  (cfw:define-keymap
+   '(
+     ("g"   . cfw:refresh-calendar-buffer)
+     ("j"   . cfw:org-goto-date)
+     ("k"   . org-capture)
+     ("q"   . bury-buffer)
+     ("d"   . cfw:change-view-day)
+     ("v d" . cfw:change-view-day)
+     ("v w" . cfw:change-view-week)
+     ("v m" . cfw:change-view-month)
+     ("x"   . cfw:org-clean-exit)
+     ("SPC" . cfw:org-open-agenda-day)
+     ))
+  "Key map for the calendar buffer.")
 
 ;;========================================================================================================0
 ;;

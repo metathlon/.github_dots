@@ -65,6 +65,10 @@
 ;;   :recipe (:host github :repo "myuhe/calfw-gcal.el"))
 (package! org-gcal)
 
+
+;; --- Colores para la agenda
+(package! org-super-agenda)
+
 ;; --- Alertas de correo
 (package! mu4e-alert)
 
@@ -91,6 +95,6 @@
 ;; --- Python support
 (package! python-mode)
 (package! flycheck)
-(package! pyenv)
+(package! pyenv-mode)
 (package! py-autopep8)
 (package! blacken)

@@ -106,6 +106,18 @@
 ;; (define-key car-org-map (kbd "C") 'caronte/open-file-CALENDARIO-TRABAJO)
 (define-key car-org-map (kbd "e") 'caronte/open-file-ESTADISTICA)
 (define-key car-org-map (kbd "d") 'caronte/open-file-ESTUDIOS)
+
+;;=========================================================================
+;;              ORG-LOG
+;;=========================================================================
+;; Guarda cuando se ha terminado una tarea
+(setq org-log-done 'time)
+;; Guarda cuando se ha cambiado la fecha de una tarea
+(setq org-log-reschedule 'time)
+;; Guarda cuando se ha cambiado la ubicación de una tarea (de un archivo a otro)
+(setq org-log-refile 'time)
+;; Guarda cuando se ha cambiado la fecha limite de una tarea
+(setq org-log-redeadline 'time)
 ;;=========================================================================
 ;;               Avisos cuando vas a cerrar un frame de captura
 ;;=========================================================================
@@ -134,8 +146,9 @@
 	  ;;  "%(org-chef-get-recipe-from-url)" :empty-lines 1)
     ;; ("i" "org-protocol-capture" entry (file caronte/org-agenda-FILE-inbox)
 	  ;;  "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
-    ;; ("e" "email" entry (file+headline caronte/org-agenda-FILE-emails "EMAILS")
-    ;;  "* TODO %^{Descripcion_BREVE} [#A] Reply: %a\n%U" :prepend t)
+    ("e" "email" entry (file caronte/org-agenda-FILE-emails)
+      "* TODO %^{Descripcion_Breve} [#C] EMAIL: %a\nFROM: %:from:\nSUBJECT: %:subject\n%U\n" :clock-in t :clock-resume t)
+     ;; "* TODO %^{Descripcion_BREVE} [#A] Reply: %a\n%U" :prepend t)
     ;; ("l" "Link" entry (file+headline caronte/org-agenda-FILE-links "LINKS")
 	  ;;   "* %? %^L %^g \n%T" :prepend t)
 
@@ -163,3 +176,13 @@
  'org-babel-load-languages
  '((R . t)
    (latex . t)))
+
+
+;;=========================================================================
+;;           BORRADO DE TEMPORALES LaTeX
+;;
+;; Cuando haces una exportación desde ORG-MODE a PDF usamos latex y genera mil archivos intermedios que dejan el directorio hecho un asco.
+;; Esto pretende solucionar precisamente eso.
+;;=========================================================================i
+(setq org-latex-logfiles-extensions '("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"))
+(setq org-latex-remove-logfiles t)

@@ -6,6 +6,15 @@
 ;;==============================================================================================
 
 
+;; -- Loading personal config
+(load! "org-gcal.personal.el")
+
+
+
+;; --------------------------------- A PARTIR DE ESTE PUNTO ES CONFIGURACION PERSONAL ----------------------
+;; Recomiendo que la muevas a un fichero específico como he hecho yo
+;; ---------------------------------------------------------------------------------------------------------
+
 ;;========================================================================================================
 ;; Las secciones comentadas a continuación son las que yo tengo dentro de org-gcal.personal.config.el
 ;; Dejo aquí las secciones y ejemplos de cómo deben ser rellenadas.
@@ -70,6 +79,3 @@
 ;; (add-hook 'org-capture-after-finalize-hook (lambda()(org-gcal-sync)))
 
 
-
-;; -- Loading personal config
-(load! "org-gcal.personal.el")

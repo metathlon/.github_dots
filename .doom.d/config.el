@@ -36,6 +36,10 @@
 
 (setq shell-file-name "bash")
 
+(setq confirm-kill-emacs nil)
+
+(setq plstore-cache-passphrase-for-symmetric-encryption t)
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -141,7 +145,7 @@
 ;; --------- configuracion del calendario -----------------------------------
 ;; ==========================================================================
 (load! "org-caldav.config.el")
-;; (load! "org-gcal.config.el")
+;; (load! "org-gcal.config.el") ;; si hay problemas con google-api es esto fijo
 
 (define-key car-map (kbd "c") 'caronte/open-calendar)
 (setq frame-resize-pixelwise t)
@@ -154,4 +158,17 @@
 ;; ==========================================================================
 ;; --------- TEMPLATE PARA ORG-MODE -----------------------------------
 ;; ==========================================================================
-(set-file-template! "/evaluacion\\.org$" :trigger "__evaluacion.org" :mode 'org-mode)
+;; TODO: esto no funciona del todo bien, habrá que revisar los trigger estos, creo que no lo estoy usando bien
+;; (defun caronte/r-src-snippet )
+(require 'org-tempo)
+(add-to-list 'org-structure-template-alist '("r" . "src R :results output"))
+
+;; ==========================================================================
+;; --------- ORTOGRAFIA PARA DIFERENTES MODOS -------------------------------
+;; ==========================================================================
+(add-hook 'org-mode-hook (lambda() (flyspell-mode)))
+(add-hook 'mu4e-compose-mode-hook (lambda() (flyspell-mode)))
+;; (add-hook 'org-mode-hook 'turn-on-flyspell)
+;; (add-hook 'org-mode-hook 'turn-on-auto-fill)
+;; (add-hook 'mu4e-compose-mode-hook 'turn-on-flyspell)
+;; (add-hook 'mu4e-compose-mode-hook 'turn-on-auto-fill)
