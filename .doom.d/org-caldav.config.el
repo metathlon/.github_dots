@@ -58,6 +58,7 @@
 
 (setq cfw:org-overwrite-default-keybinding t)
 
+(setq org-icalendar-include-sexps t)
 
 ;;====================== EN ESTE MOMENTO ESTE BLOQUE NO HACE FALTA Y NO LO TENGO ACTIVO EN NINGUNA PARTE =================
 ;; ----------------------------------------------------------------------------------
