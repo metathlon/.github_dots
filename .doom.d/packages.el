@@ -61,9 +61,9 @@
 (package! org-caldav) ;; El propio caldav
 (package! calfw-org)  ;; integracion con org-mode
 (package! calfw-ical)
-;; (package! calfw-gcal
+(package! calfw-gcal)
 ;;   :recipe (:host github :repo "myuhe/calfw-gcal.el"))
-(package! org-gcal)
+;; (package! org-gcal)
 
 
 ;; --- Colores para la agenda
@@ -82,6 +82,7 @@
 
 ;; --- Gestion de recetas de cocina con org-chef
 (package! org-chef)
+
 
 
 ;; --- Seleccionar colores

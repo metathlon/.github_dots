@@ -2,33 +2,35 @@
 
 
 (setq org-agenda-custom-commands
-      '(("z" "Super zaen view"
+      '(("z" "Zuper Agenda!"
          ((agenda "" ((org-agenda-span 'day)
                       (org-super-agenda-groups
-                       '((:name "Today"
+                       '((:name "Hoy"
                                 :time-grid t
                                 :date today
                                 ;; :todo "TODAY"
-                                ;; :scheduled today
+                                :scheduled today
                                 :order 1)))))
           (alltodo "" ((org-agenda-overriding-header "")
                        (org-super-agenda-groups
-                        '((:name "Next to do"
-                                 :todo "NEXT"
+                        '(
+                          (:name "Next to do"
+                                 ;; :todo "NEXT"
+                                 :scheduled future
                                  :order 1)
-                          (:name "Important"
-                                 ;; :tag "Important"
-                                 :priority "A"
-                                 :order 6)
                           (:name "Due Today"
                                  :deadline today
                                  :order 2)
-                          (:name "Due Soon"
-                                 :deadline future
-                                 :order 8)
+                          (:name "Importante"
+                                 ;; :tag "Important"
+                                 :priority "A"
+                                 :order 6)
                           (:name "Overdue"
                                  :deadline past
                                  :order 7)
+                          (:name "Due Soon"
+                                 :deadline future
+                                 :order 8)
                           (:name "Assignments"
                                  :tag "Assignment"
                                  :order 10)
@@ -53,9 +55,15 @@
                           (:name "trivial"
                                  :priority<= "C"
                                  :tag ("Trivial" "Unimportant")
-                                 :todo ("SOMEDAY" )
+                                 ;; :todo ("SOMEDAY" )
                                  :order 90)
-                          (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
+                          (:name "Estadistica y metodología"
+                                 :tag ("ESTADISTICA" "METODOLOGIA")
+                                 :order 80
+                                 )
+                          (:discard (:tag ("Chore" "Routine" "Daily")))
+
+                          ))))))))
 
 
 ;; (setq org-super-agenda-groups

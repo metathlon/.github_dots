@@ -16,14 +16,23 @@
   ;;-----------------------------------------------------------
   ;; --- Por ejemplo
   ;; (setq caronte/org-agenda-FILE-"~/blablalba/ORG/")
-  (load! "org.personal.el")
+  (load! "org.personal.config.el")
 
   ;; -- Metemos en agenda TODOS los archivos que hay en el directorio que he configurado en org.persojnal.el
   ;; La idea es que ahí tendré los TODO de proyectos, asesoramientos, personales... y como todo son cosas que hay que hacer... pues tanto da
   (setq org-agenda-files
         (find-lisp-find-files caronte/org-agenda-directory"\.org$"))
+  (setq org-directory caronte/org-directory)
+  (setq org-archive-location
+       (concat org-directory "/ARCHIVADOS/%s_ARCHIVADO::datatree/")
+    )
 )
 
+
+
+(require 'org-capture)
+(require 'org-agenda)
+;; (require 'org-caldav)
 ;; --- Configuración de TODOS
 (setq org-todo-keywords
       '(
@@ -41,9 +50,9 @@
 )
 
 ;; --- Configuración de PRIORIDADES
-(setq org-highest-priority ?A)
-(setq org-default-priority ?B)
-(setq org-lowest-priority ?C)
+;; (setq org-highest-priority ?A)
+;; (setq org-default-priority ?B)
+;; (setq org-lowest-priority ?C)
 
 ;; --- si quieres que la semana empice en lunes
 ;; (setq org-agenda-start-on-weekday 1)
@@ -64,7 +73,7 @@
 ;;     "----------------"))
 
 ;; --- Configuración de super-agenda
-(load! "org-super-agenda.conf.el")
+(load! "org-super-agenda.config.el")
 (add-hook! 'org-agenda-mode-hook org-super-agenda-mode)
 ;;================================================================================
 ;;              VISTA DE AGENDA PERSONALIZADA
@@ -126,8 +135,6 @@
 ;;=========================================================================
 ;;                           TECLAS
 ;;=========================================================================
-(require 'org-capture)
-(require 'org-agenda)
 
 (global-set-key "\C-cc" 'org-capture)
 ;; (global-set-key "\C-ca" 'org-agenda)
@@ -183,6 +190,8 @@
 (define-key car-org-map (kbd "e") 'caronte/open-file-ESTADISTICA)
 (define-key car-org-map (kbd "d") 'caronte/open-file-ESTUDIOS)
 
+
+
 ;;=========================================================================
 ;;              ORG-LOG
 ;;=========================================================================
@@ -215,7 +224,7 @@
 (setq org-capture-templates
   '(
 	  ("t" "To Do Item" entry (file caronte/org-agenda-FILE-tareas)
-	   "* TODO %^{Description}\n%U\n%?" :prepend t)
+	   "* TODO %^{Description} %^{Tipo: | :trabajo: | :personal: }\n%U\n%?" :prepend t)
     ("r" "Receta Manual" entry (file caronte/org-agenda-FILE-recetas)
       "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
     ;; ("R" "Receta Automatica" entry (file caronte/org-agenda-FILE-recetas)
@@ -231,7 +240,10 @@
 	  )
 )
 
-
+;;=========================================================================
+;;            ORG-CONTACTS
+;;=========================================================================
+(load! "org-contacts.config.el")
 
 ;;=========================================================================
 ;;             Checkbox para tabla

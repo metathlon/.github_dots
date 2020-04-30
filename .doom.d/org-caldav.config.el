@@ -35,7 +35,7 @@
     (cancel-timer org-caldav-sync-timer))
   (setq org-caldav-sync-timer
   (run-with-idle-timer
-    (* 300 secs) nil 'org-caldav-sync)))
+    (* 1 secs) nil 'org-caldav-sync)))
 
 (setq org-icalendar-alarm-time 1)
 ;; This makes sure to-do items as a category can show up on the calendar
@@ -51,6 +51,15 @@
   (org-caldav-sync-with-delay 3))))
 ;; Add the close emacs hook
 ;; (add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
+;; (add-hook 'org-agenda-mode-hook 'org-caldav-sync)
+
+(defun caronte/org-caldav-sync nil
+    "Sincronizar CalDAV"
+    'org-caldav-sync)
+
+
+
+(define-key car-map (kbd "s") 'org-caldav-sync)
 
 (setq calendar-week-start-day 1) ;; 0: Sunday, 1:Monday
 ;; (setq org-caldav-backup-file)
@@ -84,7 +93,7 @@
 
 
 (load! "org-caldav.personal.config.el")
-
+(setq cfw:org-overwrite-default-keybinding t)
 (defvar cfw:org-custom-map
   (cfw:define-keymap
    '(
@@ -97,7 +106,7 @@
      ("v w" . cfw:change-view-week)
      ("v m" . cfw:change-view-month)
      ("x"   . cfw:org-clean-exit)
-     ("SPC" . cfw:org-open-agenda-day)
+     ("RET" . cfw:org-open-agenda-day)
      ))
   "Key map for the calendar buffer.")
 
