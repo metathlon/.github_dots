@@ -1,3 +1,79 @@
+
+
+* Índice
+#+BEGIN_QUOTE
+- [[#Sobre esta configuración][Sobre esta configuración]]
+  - [[#Funcion load-user-file][Funcion load-user-file]]
+- [[#Basic Doom settings][Basic Doom settings]]
+  - [[#Fuente][Fuente]]
+  - [[#Theme][Theme]]
+  - [[#Dashboard con imágen][Dashboard con imágen]]
+  - [[#Lexical binding][Lexical binding]]
+- [[#Emacs basics][Emacs basics]]
+  - [[#Gestión de claves][Gestión de claves]]
+  - [[#Shell][Shell]]
+  - [[#Idioma español][Idioma español]]
+- [[#use-package][use-package]]
+- [[#Multi-edit][Multi-edit]]
+- [[#Multi-cursor][Multi-cursor]]
+- [[#Org-mode][Org-mode]]
+  - [[#Core][Core]]
+    - [[#Carga básica][Carga básica]]
+    - [[#Secuencia TO-DO][Secuencia TO-DO]]
+    - [[#Secuencia prioridades][Secuencia prioridades]]
+    - [[#Exports][Exports]]
+  - [[#Org-capture][Org-capture]]
+    - [[#Cerrado de frames tras la captura][Cerrado de frames tras la captura]]
+    - [[#Templates genéricos][Templates genéricos]]
+  - [[#Org-contacts][Org-contacts]]
+    - [[#Variables][Variables]]
+    - [[#Template de captura][Template de captura]]
+  - [[#Org-Tempo][Org-Tempo]]
+  - [[#Org-Babel][Org-Babel]]
+  - [[#Org-Log][Org-Log]]
+  - [[#Tablas][Tablas]]
+    - [[#Checkbox en tabla][Checkbox en tabla]]
+  - [[#Agenda][Agenda]]
+    - [[#Basic config][Basic config]]
+    - [[#Primer día de la semana][Primer día de la semana]]
+    - [[#Mostrar solo un día][Mostrar solo un día]]
+  - [[#Super-Agenda][Super-Agenda]]
+    - [[#Hook][Hook]]
+    - [[#Vista personalizada][Vista personalizada]]
+  - [[#Calendario][Calendario]]
+    - [[#TODO Cosas que faltan][TODO Cosas que faltan]]
+    - [[#Org-Caldav][Org-Caldav]]
+- [[#Mu4e][Mu4e]]
+  - [[#Base][Base]]
+  - [[#Contextos][Contextos]]
+  - [[#Capturar correo con org-mode][Capturar correo con org-mode]]
+  - [[#Mandar correos con HTML y/o archivos][Mandar correos con HTML y/o archivos]]
+    - [[#Org-msg][Org-msg]]
+    - [[#Renderizar correos con HTML][Renderizar correos con HTML]]
+  - [[#Imágenes en los mensajes][Imágenes en los mensajes]]
+  - [[#Alertas][Alertas]]
+  - [[#Ejemplo de configuración personal][Ejemplo de configuración personal]]
+- [[#Contactos][Contactos]]
+- [[#Flyspell][Flyspell]]
+- [[#Editor][Editor]]
+  - [[#Número de linea][Número de linea]]
+  - [[#Área seleccionada][Área seleccionada]]
+  - [[#Disable scroll bar][Disable scroll bar]]
+  - [[#Confirm kill process][Confirm kill process]]
+  - [[#Actualización de cambios externos en archivos][Actualización de cambios externos en archivos]]
+  - [[#Marcado de paréntesis][Marcado de paréntesis]]
+  - [[#Incluir _ (guión bajo) como parte de la palabra][Incluir _ (guión bajo) como parte de la palabra]]
+  - [[#Histórico][Histórico]]
+- [[#Keybindings][Keybindings]]
+  - [[#Globales][Globales]]
+    - [[#Org-Capture][Org-Capture]]
+  - [[#Grupos de acceso rápido personales][Grupos de acceso rápido personales]]
+    - [[#Setup][Setup]]
+    - [[#C-1 -> car-map][C-1 -> car-map]]
+    - [[#C-2 -> car-org-map][C-2 -> car-org-map]]
+#+END_QUOTE
+
+
 * Sobre esta configuración
 Esta configuración está hecha con trozos vistos/robados/modificados de otras
 partes (demasiadas para ser nombradas).
@@ -1239,3 +1315,8 @@ que es mucho más descriptivo
 ;; ------------------------- CONTACTOS----------
 (define-key car-org-map (kbd "c") 'caronte/open-file-CONTACTOS)
 #+END_SRC
+
+
+
+
+
