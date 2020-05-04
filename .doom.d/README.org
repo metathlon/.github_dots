@@ -1,3 +1,8 @@
+#+TITLE: Emacs Doom config
+#+OPTIONS: toc:3
+
+
+
 * Sobre esta configuración
 Esta configuración está hecha con trozos vistos/robados/modificados de otras
 partes (demasiadas para ser nombradas).
