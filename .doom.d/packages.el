@@ -79,10 +79,15 @@
 ;; --- Intento de solucionar el HTML en correos #2
 (package! org-mime)
 
+;; (package! org-plus-contrib :recipe (:host github :repo "emacs-straight/org"))
 
 ;; --- Gestion de recetas de cocina con org-chef
 (package! org-chef)
 
+;; --- Crear presentaciones con org-mode mediante Reveal.js
+;; https://github.com/yjwen/org-reveal
+;; Un ejemplo --> https://revealjs.com/#/1
+(package! ox-reveal)
 
 
 ;; --- Seleccionar colores
