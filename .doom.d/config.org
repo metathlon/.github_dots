@@ -47,7 +47,7 @@
   - [[#Base][Base]]
   - [[#Contextos][Contextos]]
   - [[#Capturar-correo-con-org-mode][Capturar correo con org-mode]]
-  - [[#Mandar-correos-con-HTML-y/o-archivos][Mandar correos con HTML y/o archivos]]
+  - [[#Mandar-correos-con-HTML-o-archivos][Mandar correos con HTML y/o archivos]]
     - [[#Org-msg][Org-msg]]
     - [[#Renderizar-correos-con-HTML][Renderizar correos con HTML]]
   - [[#Imágenes-en-los-mensajes][Imágenes en los mensajes]]
@@ -62,15 +62,15 @@
   - [[#Confirm-kill-process][Confirm kill process]]
   - [[#Actualización-de-cambios-externos-en-archivos][Actualización de cambios externos en archivos]]
   - [[#Marcado-de-paréntesis][Marcado de paréntesis]]
-  - [[#Incluir-_-(guión-bajo)-como-parte-de-la palabra][Incluir _ (guión bajo) como parte de la palabra]]
+  - [[#Incluir-guión-bajo-como-parte-de-la palabra][Incluir _ (guión bajo) como parte de la palabra]]
   - [[#Histórico][Histórico]]
 - [[#Keybindings][Keybindings]]
   - [[#Globales][Globales]]
     - [[#Org-Capture][Org-Capture]]
   - [[#Grupos-de-acceso-rápido-personales][Grupos de acceso rápido personales]]
     - [[#Setup][Setup]]
-    - [[#C-1-->-car-map][C-1 -> car-map]]
-    - [[#C-2-->-car-org-map][C-2 -> car-org-map]]
+    - [[#C-1-car-map][C-1 -> car-map]]
+    - [[#C-2-car-org-map][C-2 -> car-org-map]]
 #+END_QUOTE
 
 
@@ -935,7 +935,7 @@ configuración personal), por esto tengo que indicar qué contexto será el
 (define-key mu4e-headers-mode-map (kbd "c") 'caronte/org-capture-email)
 #+END_SRC
 
-** Mandar correos con HTML y/o archivos
+** Mandar correos con HTML o archivos
 *** Org-msg
 Es un problema lo del HTML y lo de los archivos, antes de hacer esto tenía que
 montar un follón, ahora solo he instalado [[github:https://github.com/jeremy-compostella/org-msg][org-msg]] y usas los comandos normales de
@@ -1134,7 +1134,7 @@ paréntesis sea instantánea si es posible.
   :config (show-paren-mode +1))
 #+END_SRC
 
-** Incluir _ (guión bajo) como parte de la palabra
+** Incluir guión bajo como parte de la palabra
 Al contrario de vim, emacs trata cada parte de una palabra con guiones bajos (_)
 como una palabra (al darle a w por ejemplo). Esto tiene sus cosas buenas y
 malas, no estoy seguro de si quiero quitarlo pero por si acaso voy a dejar aquí
@@ -1216,7 +1216,7 @@ car-org-map, un grupo para abrir directamente algunos archivos ORG de acceso hab
 ;; estos atajos los voy a usar en otras partes, como el correo, la agenda, sitios así
 #+END_SRC
 
-*** C-1 -> car-map
+*** C-1 car-map
 
 **** Teclas
 #+BEGIN_SRC emacs-lisp
@@ -1241,7 +1241,7 @@ car-org-map, un grupo para abrir directamente algunos archivos ORG de acceso hab
 #+RESULTS:
 : message-send-and-exit
 
-*** C-2 -> car-org-map
+*** C-2 car-org-map
 **** Funciones
 Si hacemos el bind directamente al archivo cuando presionamos C-2 lo que aparece
 es:
