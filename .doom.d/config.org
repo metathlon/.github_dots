@@ -37,6 +37,7 @@
     - [[#Basic-config][Basic config]]
     - [[#Primer-día-de-la-semana][Primer día de la semana]]
     - [[#Mostrar-solo-un-día][Mostrar solo un día]]
+    - [[Funciones de control de elementos a mostrar][Funciones de control de elementos a mostrar]]
   - [[#Super-Agenda][Super-Agenda]]
     - [[#Hook][Hook]]
     - [[#Vista-personalizada][Vista personalizada]]
@@ -72,6 +73,7 @@
     - [[#C-1-car-map][C-1 -> car-map]]
     - [[#C-2-car-org-map][C-2 -> car-org-map]]
 #+END_QUOTE
+
 
 
 * Sobre esta configuración
@@ -111,7 +113,12 @@ solo tengo que poner =(load-user-file "archivo.el")= y listo
 
 ** Theme
 #+BEGIN_SRC emacs-lisp
-(setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-dracula)
+;; (setq doom-theme 'doom-nord)
+;; (setq doom-theme 'doom-tomorrow-night)
+;; (setq doom-theme 'doom-monokai-pro)
+(setq doom-theme 'doom-palenight)
 #+END_SRC
 
 ** Dashboard con imágen
@@ -517,6 +524,37 @@ muestre ESE día en vez de *hoy*.
     (setq org-agenda-span 1)
 )
 #+END_SRC
+*** Funciones de control de elementos a mostrar
+Estas funciones no son necesarias gracias a la super-agenda, pero las dejo aquí por si decidiera
+usarlas en el futuro.
+**** Función de gestión de prioridades
+Con esta función podemos separar las tareas según prioridad
+#+BEGIN_SRC emacs-lisp
+(defun air-org-skip-subtree-if-priority (priority)
+  "Saltarse un subtree de la agenda si tiene una prioridad de PRIORIDAD
+
+  PRIORIDAD puede ser uno de los siguientews valores ?A, ?B, or ?C."
+    (let ((subtree-end (save-excursion (org-end-of-subtree t)))
+          (pri-value (* 1000 (- org-lowest-priority priority)))
+          (pri-current (org-get-priority (thing-at-point 'line t))))
+      (if (= pri-value pri-current)
+          subtree-end
+        nil)))
+
+#+END_SRC
+
+**** Función para la gestión de hábitos
+De momento no estoy usando los /hábitos/ de org-mode. Pero por si los uso, he
+encontrado una función que permite discriminarlos
+#+BEGIN_SRC emacs-lisp
+(defun air-org-skip-subtree-if-habit ()
+  "Skip an agenda entry if it has a STYLE property equal to \"habit\"."
+  (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+    (if (string= (org-entry-get nil "STYLE") "habit")
+        subtree-end
+      nil)))
+#+END_SRC
+
 ** Super-Agenda
 La configuración normal de la agenda es *una paliza*. Creo que todo lo que hace
 la super-agenda puede hacerse con la agenda normal pero sería mucho más esfuerzo
@@ -553,35 +591,6 @@ Otras tareas de menos prioridad:
 
  Uno de los problemas a los que nos enfrentamos es a separar las prioridades
 
-**** Función de gestión de prioridades
-Con esta función podemos separar las tareas según prioridad
-
-#+BEGIN_SRC emacs-lisp
-(defun air-org-skip-subtree-if-priority (priority)
-  "Saltarse un subtree de la agenda si tiene una prioridad de PRIORIDAD
-
-  PRIORIDAD puede ser uno de los siguientews valores ?A, ?B, or ?C."
-    (let ((subtree-end (save-excursion (org-end-of-subtree t)))
-          (pri-value (* 1000 (- org-lowest-priority priority)))
-          (pri-current (org-get-priority (thing-at-point 'line t))))
-      (if (= pri-value pri-current)
-          subtree-end
-        nil)))
-
-#+END_SRC
-
-**** Función para la gestión de hábitos
-De momento no estoy usando los /hábitos/ de org-mode. Pero por si los uso, he
-encontrado una función que permite discriminarlos
-#+BEGIN_SRC emacs-lisp
-(defun air-org-skip-subtree-if-habit ()
-  "Skip an agenda entry if it has a STYLE property equal to \"habit\"."
-  (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-    (if (string= (org-entry-get nil "STYLE") "habit")
-        subtree-end
-      nil)))
-#+END_SRC
-
 **** Vista personalizada
 #+BEGIN_SRC emacs-lisp
 (after! org
@@ -615,28 +624,29 @@ encontrado una función que permite discriminarlos
                           (:name "Fecha limite proxima"
                                  :deadline future
                                  :order 8)
-                          (:name "Assignments"
-                                 :tag "Assignment"
+                          (:name "Trabajo"
+                                 :tag "trabajo"
                                  :order 10)
-                          (:name "Issues"
-                                 :tag "Issue"
+                          (:name "Emails"
+                                 :file-path "EMAILS.org"
                                  :order 12)
-                          (:name "Projects"
-                                 :tag "Project"
-                                 :order 14)
-                          (:name "Emacs"
-                                 :tag "Emacs"
-                                 :order 13)
-                          (:name "Research"
-                                 :tag "Research"
-                                 :order 15)
+                          ;; (:name "Prueba"
+                          ;;        ;; :tag "Project"
+                          ;;        :auto-ts
+                          ;;        :order 14)
+                          ;; (:name "Emacs"
+                          ;;        :tag "Emacs"
+                          ;;        :order 13)
+                          ;; (:name "Research"
+                          ;;        :tag "Research"
+                          ;;        :order 15)
                           (:name "Lista de libros a leer"
-                                 :tag "Read"
+                                 :tag "libro"
                                  :order 30)
                           (:name "En espera"
                                  :todo "WAITING"
                                  :order 20)
-                          (:name "trivial"
+                          (:name "Trivial"
                                  :priority<= "C"
                                  :tag ("Trivial" "Unimportant")
                                  ;; :todo ("SOMEDAY" )
@@ -1305,18 +1315,13 @@ que es mucho más descriptivo
 #+BEGIN_SRC emacs-lisp
 (define-key car-org-map (kbd "1") 'caronte/open-file-CONFIG)
 (define-key car-org-map (kbd "t") 'caronte/open-file-TAREAS)
-;; (define-key car-org-map (kbd "l") 'caronte/open-file-LINKS)
-;; (define-key car-org-map (kbd "e") 'caronte/open-file-EMAILS)
+(define-key car-org-map (kbd "l") 'caronte/open-file-LINKS)
+(define-key car-org-map (kbd "e") 'caronte/open-file-EMAILS)
 (define-key car-org-map (kbd "r") 'caronte/open-file-RECETAS)
 ;; (define-key car-org-map (kbd "c") 'caronte/open-file-CALENDARIO-PERSONAL)
 ;; (define-key car-org-map (kbd "C") 'caronte/open-file-CALENDARIO-TRABAJO)
-(define-key car-org-map (kbd "e") 'caronte/open-file-ESTADISTICA)
+(define-key car-org-map (kbd "E") 'caronte/open-file-ESTADISTICA)
 (define-key car-org-map (kbd "d") 'caronte/open-file-ESTUDIOS)
 ;; ------------------------- CONTACTOS----------
 (define-key car-org-map (kbd "c") 'caronte/open-file-CONTACTOS)
 #+END_SRC
-
-
-
-
-

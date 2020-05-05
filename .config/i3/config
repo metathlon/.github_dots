@@ -110,6 +110,8 @@ smart_gaps inverse_outer
 
 # AYUDA BASICA DE TECLAS
 bindsym $mod+F1 exec "python ~/.config/my_scripts/keybinding_help_dialog_creator.py i3"
+# -- Ayuda Orgmode
+bindsym $mod+F2 exec "sh ~/.config/my_scripts/rofi_orgmode_help.sh"
 
 # -- Reload config
 bindsym $mod+Shift+q reload
