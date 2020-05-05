@@ -2,8 +2,8 @@
 
 * Índice
 #+BEGIN_QUOTE
-- [[#Sobre esta configuración][Sobre esta configuración]]
-  - [[#Funcion load-user-file][Funcion load-user-file]]
+- [[#Sobre-esta-configuración][Sobre esta configuración]]
+  - [[#Función-load-user-file][Función load-user-file]]
 - [[#Basic Doom settings][Basic Doom settings]]
   - [[#Fuente][Fuente]]
   - [[#Theme][Theme]]
@@ -91,7 +91,7 @@ load-babel para cargarlos.
 
 La función:
 
-** Funcion load-user-file
+** Función load-user-file
 #+BEGIN_SRC emacs-lisp
 (defun load-user-file (file)
   (interactive "f")
