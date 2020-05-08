@@ -18,6 +18,7 @@
 - [[#Multi-cursor][Multi-cursor]]
 - [[#Org-mode][Org-mode]]
   - [[#Core][Core]]
+    - [[#Archivos-ORG][Archivos ORG]]
     - [[#Carga-básica][Carga básica]]
     - [[#Secuencia-TO-DO][Secuencia TO-DO]]
     - [[#Secuencia-prioridades][Secuencia prioridades]]
@@ -249,6 +250,26 @@ diga lo contrario.
 #+END_SRC
 * Org-mode
 ** Core
+*** Archivos ORG
+#+BEGIN_SRC emacs-lisp
+(load! "org.personal.config.el") ;; Carga de variables con rutas personales
+(setq caronte/org-agenda-directory (concat caronte/org-directory "ACTIVOS/"))
+(setq caronte/org-agenda-FILE-tareas (concat caronte/org-agenda-directory "TAREAS.org"))
+(setq caronte/org-agenda-FILE-links (concat caronte/org-agenda-directory "LINKS.org"))
+(setq caronte/org-agenda-FILE-emails (concat caronte/org-agenda-directory "EMAILS.org"))
+(setq caronte/org-agenda-FILE-recetas (concat caronte/org-agenda-directory "RECETAS.org"))
+(setq caronte/org-agenda-FILE-calendario-personal (concat caronte/org-agenda-directory "GCAL_ORG_MODE_events_inbox.org"))
+(setq caronte/org-agenda-FILE-calendario-trabajo (concat caronte/org-agenda-directory "GCAL_trabajo_events_inbox.org"))
+(setq caronte/org-agenda-FILE-calendario-personal-gmail (concat caronte/org-agenda-directory "GCAL_personal_gmail_events_inbox.org"))
+(setq caronte/org-agenda-FILE-calendario-festivos-gmail (concat caronte/org-agenda-directory "GCAL_festivos_inbox.org"))
+(setq caronte/org-agenda-FILE-contactos (concat caronte/org-agenda-directory "CONTACTOS.org"))
+
+;; -- OTROS DOCUMENTOS
+(setq caronte/org-documentos-directory (concat caronte/org-directory "DOCUMENTOS/"))
+(setq caronte/org-documentos-FILE-estadistica (concat caronte/org-documentos-directory "ESTADISTICA.org"))
+(setq caronte/org-documentos-FILE-estudios (concat caronte/org-documentos-directory "DISEÑO_ESTUDIOS.org"))
+#+END_SRC
+
 *** Carga básica
 En esta carga básica incluimos los archivos que tendrá la agenda. Para indicar
 qué archivos tendrá debemos dar la ruta y ahí es donde nos encontramos un
@@ -269,7 +290,7 @@ diferencie claramente de otras cosas (funciones o variables) que pueda haber en
 el namespace /caronte/
 
 #+BEGIN_SRC emacs-lisp
-(load! "org.personal.config.el") ;; Carga de variables con rutas personales
+
 
 (after! org
   (require 'find-lisp)
@@ -646,6 +667,9 @@ Otras tareas de menos prioridad:
                           (:name "En espera"
                                  :todo "WAITING"
                                  :order 20)
+                          (:name "Cosas que hacer"
+                                 :priority< "A"
+                                 :order 35)
                           (:name "Trivial"
                                  :priority<= "C"
                                  :tag ("Trivial" "Unimportant")
@@ -1297,11 +1321,11 @@ que es mucho más descriptivo
 )
 (defun caronte/open-file-ESTADISTICA()
   (interactive)
-  (find-file caronte/org-agenda-FILE-estadistica)
+  (find-file caronte/org-documentos-FILE-estadistica)
 )
 (defun caronte/open-file-ESTUDIOS()
   (interactive)
-  (find-file caronte/org-agenda-FILE-estudios)
+  (find-file caronte/org-documentos-FILE-estudios)
 )
 ;; ------------- CONTACTOS ---
 (defun caronte/open-file-CONTACTOS()
