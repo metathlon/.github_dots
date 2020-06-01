@@ -162,6 +162,8 @@ Se que es un sistema de scope de variables... yo que se
   ;; Always use spaces for indentation
   (setq-default indent-tabs-mode nil
                 tab-width caronte/indent-width))
+ (set-frame-parameter (selected-frame) 'alpha '(85 . 70))
+ (add-to-list 'default-frame-alist '(alpha . (85 . 70)))
 #+END_SRC
 ** Gestión de claves
 Hay cosas que requieren claves, como el calendario, correo... esta configuración
@@ -395,7 +397,7 @@ queremos que esos frames se cierren cuando se finalice el proceso o se interrump
         ("e" "email" entry (file caronte/org-agenda-FILE-emails)
         "* TODO %^{Descripcion_Breve} [#C] EMAIL: %a\nFROM: %:from:\nSUBJECT: %:subject\n%U\n" :clock-in t :clock-resume t)
         ;; "* TODO %^{Descripcion_BREVE} [#A] Reply: %a\n%U" :prepend t)
-        ;; ("l" "Link" entry (file+headline caronte/org-agenda-FILE-links "LINKS")
+        ;; ("l" "Link" entry (file caronte/org-agenda-FILE-links)
         ;;   "* %? %^L %^g \n%T" :prepend t)
 
         )
@@ -431,6 +433,53 @@ Definición de variables básicas
                ")
      )
 )
+#+END_SRC
+** Thunderbird
+Para enlazar Thunderbird y ORG-MODE hace falta un hack.
+
+Se instala thunderlink, pero no está actualizado para la última versión de
+thunderbird, así que tenemos que añadir lo siguiente a
+~/.thunderbird/xxxxxxxx/prefs.js
+
+user_pref("extensions.thunderlink.custom-tl-string-1-title", "Org mode message-ID");
+user_pref("extensions.thunderlink.custom-tl-string-1", "[[message://<messageid>][<subject>]]");
+user_pref("extensions.thunderlink.custom-tl-string-1-selection-delimiter", " / ");
+user_pref("extensions.thunderlink.custom-tl-string-1-clipboard-checkbox", true);
+user_pref("extensions.thunderlink.custom-tl-string-1-tagcheckbox", false);
+user_pref("extensions.thunderlink.custom-tl-string-1-tag", 1);
+user_pref("extensions.thunderlink.custom-tl-string-1-appendtofile-checkbox", false);
+user_pref("extensions.thunderlink.custom-tl-string-1-appendtofile-path", "");
+
+NOTESE que donde pone "<subject>" en realidad es un link que es transformado por
+orgmode directamente... su forma "expandida sería" [ [ message://<messageid> ] [ <subject>
+ ] ] asi lo puedes ver bien, es eso pero sin los espacios.
+
+
+#+BEGIN_SRC emacs-lisp
+;; with org-mac-link message:// links are handed over to the macOS system,
+;; which has built-in handling. On Windows and Linux, we can use thunderlink!
+(when (not (string-equal system-type "darwin"))
+  ;; modify this for your system
+  (setq thunderbird-program "thunderbird")
+
+  (defun org-message-thunderlink-open (slash-message-id)
+    "Handler for org-link-set-parameters that converts a standard message:// link into
+   a thunderlink and then invokes thunderbird."
+    ;; remove any / at the start of slash-message-id to create real message-id
+    (let ((message-id
+           (replace-regexp-in-string (rx bos (* "/"))
+                                     ""
+                                     slash-message-id)))
+      (start-process
+       (concat "thunderlink: " message-id)
+       nil
+       thunderbird-program
+       "-thunderlink"
+       (concat "thunderlink://messageid=" message-id)
+       )))
+  ;; on message://aoeu link, this will call handler with //aoeu
+  (org-link-set-parameters "message" :follow #'org-message-thunderlink-open))
+
 #+END_SRC
 ** Org-Tempo
 Cuando quieres usar snippets personalizados para código y usarlos como
@@ -713,6 +762,7 @@ Hay que configurar el backup y gestionarlo, pero aún no tengo claro cómo
     (setq org-caldav-sync-changes-to-org "all")
     (setq cfw:org-overwrite-default-keybinding t)
     (setq org-icalendar-include-sexps t)
+    ;; (setq org-gcal-token-file)
 #+END_SRC
 **** Configuración personal
 Esta es la que no subo a github

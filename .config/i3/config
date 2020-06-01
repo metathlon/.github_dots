@@ -114,6 +114,9 @@ bindsym $mod+F1 exec "python ~/.config/my_scripts/keybinding_help_dialog_creator
 bindsym $mod+F2 exec "~/.config/rofi/rofi_orgmode_help.sh"
 # -- Ayuda Ess-R
 bindsym $mod+F3 exec "~/.config/rofi/rofi_ess_help.sh"
+# -- Ayuda Ess-R
+bindsym $mod+F4 exec "~/.config/rofi/rofi_ranger_help.sh"
+
 
 
 # -- Reload config
