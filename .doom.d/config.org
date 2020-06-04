@@ -762,6 +762,7 @@ Hay que configurar el backup y gestionarlo, pero aún no tengo claro cómo
     (setq org-caldav-sync-changes-to-org "all")
     (setq cfw:org-overwrite-default-keybinding t)
     (setq org-icalendar-include-sexps t)
+    (setq org-caldav-delete-calendar-entries "ask")
     ;; (setq org-gcal-token-file)
 #+END_SRC
 **** Configuración personal
