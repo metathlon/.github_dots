@@ -390,8 +390,8 @@ queremos que esos frames se cierren cuando se finalice el proceso o se interrump
         "* TODO %^{Description} %^{Tipo: | :trabajo: | :personal: }\n%U\n%?" :prepend t)
         ("r" "Receta Manual" entry (file caronte/org-agenda-FILE-recetas)
         "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n")
-        ;; ("R" "Receta Automatica" entry (file caronte/org-agenda-FILE-recetas)
-        ;;  "%(org-chef-get-recipe-from-url)" :empty-lines 1)
+        ("R" "Receta Automatica" entry (file caronte/org-agenda-FILE-recetas)
+          "%(org-chef-get-recipe-from-url)" :empty-lines 1)
         ;; ("i" "org-protocol-capture" entry (file caronte/org-agenda-FILE-inbox)
         ;;  "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
         ("e" "email" entry (file caronte/org-agenda-FILE-emails)
@@ -490,7 +490,7 @@ Cuando quieres usar snippets personalizados para código y usarlos como
     ;; (defun caronte/r-src-snippet )
 (require 'org-tempo)
 (after! org
-    (add-to-list 'org-structure-template-alist '("r" . "src R :results output"))
+    (add-to-list 'org-structure-template-alist '("r" . "src R :results output :session"))
 )
 #+END_SRC
 ** Org-Babel
@@ -886,12 +886,12 @@ tiene sus propios problemas, pero no me quejo.
 #+END_SRC
 ***** Sincronización tras guardar archivo .org
 #+BEGIN_SRC emacs-lisp
-(after! org
-    (add-hook 'after-save-hook
-        (lambda ()
-        (when (eq major-mode 'org-mode)
-    (org-caldav-sync-with-delay 3))))
-)
+;; (after! org
+;;     (add-hook 'after-save-hook
+;;         (lambda ()
+;;         (when (eq major-mode 'org-mode)
+;;     (org-caldav-sync-with-delay 3))))
+;; )
 #+END_SRC
 
 ***** Siconrización al cerrar emacs
@@ -935,7 +935,8 @@ De momento esta sección tampoco la estoy usando
         ("g"   . cfw:refresh-calendar-buffer)
         ("j"   . cfw:org-goto-date)
         ("k"   . org-capture)
-        ("q"   . doom-dashboard/open)
+        ;; ("q"  . doom-dashboard/open)
+        ("q"   . kill-buffer)
         ("d"   . cfw:change-view-day)
         ("v d" . cfw:change-view-day)
         ("v w" . cfw:change-view-week)
