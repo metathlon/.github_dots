@@ -17,12 +17,12 @@ if [[ $(hostname) == 'hades' ]]; then
 
     MONITOR='HDMI-0' polybar -c ~/.config/polybar/openbox/config main >> $LOG_MAIN_BAR 2>&1 &
 
-elif [[ $(hostname) == 'udaicfernando' ]]; then
+elif [[ $(hostname) == 'kruskallwallis' ]]; then
     #IZQ
-    # MONITOR='DVI-I-0' polybar -c ~/.config/polybar/bspwm/config top &
+     MONITOR='DVI-I-0' polybar -c ~/.config/polybar/openbox/config main >> $LOG_MAIN_BAR 2>&1
 
     #DRCHO
-    MONITOR='HDMI-0' polybar -c ~/.config/polybar/openbox/config main >> $LOG_MAIN_BAR 2>&1
+    #MONITOR='HDMI-0' polybar -c ~/.config/polybar/openbox/config main >> $LOG_MAIN_BAR 2>&1
 fi
 
 
