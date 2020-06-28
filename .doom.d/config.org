@@ -1121,12 +1121,85 @@ que muestra un ejemplo de cómo sería la configuración "personal"
 ;;     Contactos correo
 ;;---------------------------------------------------------------------------
 ;;===========================================================================
-;; (setq mu4e-org-contacts-file (concat caronte/org-agenda-directory "CONTACTOS.org"))
 (setq mu4e-org-contacts-file org-contacts-files)
 (add-to-list 'mu4e-headers-actions
   '("org-contact-add" . mu4e-action-add-org-contact) t)
 (add-to-list 'mu4e-view-actions
   '("org-contact-add" . mu4e-action-add-org-contact) t)
+
+
+;; ----- CODIGO OBTENIDO DE http://pragmaticemacs.com/emacs/even-better-email-contact-completion-in-mu4e/
+
+;;need this for hash access
+;; (require 'subr-x)
+
+
+;; ;;my favourite contacts - these will be put at front of list
+;; ;; (setq bjm/contact-file "/homeb/bjm/docs/fave-contacts.txt")
+;;  (setq bjm/contact-file org-contacts-files)
+
+;; (defun bjm/read-contact-list ()
+;;   "Return a list of email addresses"
+;;   (with-temp-buffer
+;;     (insert-file-contents bjm/contact-file)
+;;     (split-string (buffer-string) "\n" t)))
+
+;; ;; code from https://github.com/abo-abo/swiper/issues/596
+;; (defun bjm/counsel-email-action (contact)
+;;   (with-ivy-window
+;;     (insert contact)))
+
+;; ;; bind comma to launch new search
+;; (defvar bjm/counsel-email-map
+;;   (let ((map (make-sparse-keymap)))
+;;     (define-key map "," 'bjm/counsel-email-more)
+;;     map))
+
+;; (defun bjm/counsel-email-more ()
+;;   "Insert email address and prompt for another."
+;;   (interactive)
+;;   (ivy-call)
+;;   (with-ivy-window
+;;     (insert ", "))
+;;   (delete-minibuffer-contents)
+;;   (setq ivy-text ""))
+
+;; ;; ivy contacts
+;; ;; based on http://kitchingroup.cheme.cmu.edu/blog/2015/03/14/A-helm-mu4e-contact-selector/
+;; (defun bjm/ivy-select-and-insert-contact (&optional start)
+;;   (interactive)
+;;   ;; make sure mu4e contacts list is updated - I was having
+;;   ;; intermittent problems that this was empty but couldn't see why
+;;   (mu4e~request-contacts)
+;;   (let ((eoh ;; end-of-headers
+;;          (save-excursion
+;;            (goto-char (point-min))
+;;            (search-forward-regexp mail-header-separator nil t)))
+;;         ;; append full sorted contacts list to favourites and delete duplicates
+;;         (contacts-list
+;;          (delq nil (delete-dups (append (bjm/read-contact-list) (mu4e~sort-contacts-for-completion (hash-table-keys mu4e~contacts)))))))
+
+;;     ;; only run if we are in the headers section
+;;     (when (and eoh (> eoh (point)) (mail-abbrev-in-expansion-header-p))
+;;       (let* ((end (point))
+;;            (start
+;;             (or start
+;;                 (save-excursion
+;;                   (re-search-backward "\\(\\`\\|[\n:,]\\)[ \t]*")
+;;                   (goto-char (match-end 0))
+;;                   (point))))
+;;            (initial-input (buffer-substring-no-properties start end)))
+
+;;       (delete-region start end)
+
+;;       (ivy-read "Contact: "
+;;                 contacts-list
+;;                 :re-builder #'ivy--regex
+;;                 :sort nil
+;;                 :initial-input initial-input
+;;                 :action 'bjm/counsel-email-action
+;;                 :keymap bjm/counsel-email-map)
+;;       ))))
 
 
 #+END_SRC
