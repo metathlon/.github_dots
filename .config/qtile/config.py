@@ -100,7 +100,7 @@ MONITOR_GROUPS[2] = [
 
 #----------- LOGGIN
 LOG=True
-LOG_DIR=HOME + "/.local/share/qtile/caronte/"
+LOG_DIR=HOME + "/.logs/"
 
 #======================================================================================
 # ---- LOGGER
@@ -163,9 +163,9 @@ keys = [
     # multiple stack panes
     # Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
     Key([mod], "Return", lazy.spawn(MY_TERM)),
-    Key([mod, "shift"], "Return", lazy.spawn("dmenu_run -fn 'UbuntuMono Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'"))
+    Key([mod, "shift"], "Return", lazy.spawn("dmenu_run -fn 'UbuntuMono Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'")),
     # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout()),
+    Key([mod], "Tab", lazy.next.layout()),
     Key([mod], "w", lazy.window.kill()),
 
     # Key([mod, "mod1"], "r", lazy.restart()), # lo quito porque hago la validación abajo

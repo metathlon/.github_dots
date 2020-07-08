@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# TITULO=$(xtitle -s -f)
+
+FG_COLOR=$fg_color
+BG_COLOR=$bg_color
+while read xtit; do echo "<span background='${BG_COLOR}' foreground='${FG_COLOR}'> ${xtit} </span>"; done < <(xtitle -s)
+# echo "<span background='${BG_COLOR}' foreground='${FG_COLOR}'> Ventana: ${TITULO} </span>"
