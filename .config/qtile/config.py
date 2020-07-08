@@ -51,7 +51,7 @@ DEBUG = os.environ.get("DEBUG")
 HOME = os.path.expanduser('~')
 QTILE_CONFIG_DIR = HOME + '/.config/qtile/'
 ROFI_SCRIPTS_DIR = HOME + '/.config/rofi/'
-#MY_TERM = "alacritty"
+MY_TERM = "alacritty"
 #MY_ETHERNET = "enp3s0"
 
 #------------------------------------------------------------------------------------------------------
@@ -82,19 +82,20 @@ MAIN_MONITOR_NUM = 0     # to configure this you can run "python ~/.config/qtile
 
 MONITOR_GROUPS = {}
 MONITOR_GROUPS[0] = [
-                        ("MAIN", {'layout': 'monadtall'}),
-                        ("CODe", {'layout': 'monadtall'}),
-                        ("GAMES", {'layout': 'monadtall'})
+                        ("[1]MAIN", {'layout': 'monadtall'}),
+                        ("[2]CODe", {'layout': 'monadtall'}),
+                        ("[3]GAMES", {'layout': 'monadtall'}),
+                        ("[4]WWW", {'layout': 'monadtall'})
                     ]
 MONITOR_GROUPS[1] = [
-                        ("WWW", {'layout': 'monadtall'}),
-                        ("WWW2", {'layout': 'monadtall'}),
-                        ("WWW3", {'layout': 'monadtall'})
+
+                        ("[5]WWW2", {'layout': 'monadtall'}),
+                        ("[6]WWW3", {'layout': 'monadtall'}),
+                        ("[7]AUX", {'layout': 'monadtall'})
                     ]
 MONITOR_GROUPS[2] = [
-                        ("VIDEO", {'layout': 'monadtall'}),
-                        ("AUX2", {'layout': 'monadtall'}),
-                        ("AUX3", {'layout': 'monadtall'})
+                        ("[8]VIDEO", {'layout': 'monadtall'}),
+                        ("[9]AUX3", {'layout': 'monadtall'})
 
                     ]
 
@@ -163,19 +164,19 @@ keys = [
     # multiple stack panes
     # Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
     Key([mod], "Return", lazy.spawn(MY_TERM)),
-    Key([mod, "shift"], "Return", lazy.spawn("dmenu_run -fn 'UbuntuMono Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'")),
+    Key([mod], "r", lazy.spawn("dmenu_run -fn 'UbuntuMono Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'")),
     # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next.layout()),
-    Key([mod], "w", lazy.window.kill()),
+    Key([mod], "Tab", lazy.layout.next()),
+    Key([mod, "shift"], "w", lazy.window.kill()),
 
     # Key([mod, "mod1"], "r", lazy.restart()), # lo quito porque hago la validación abajo
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "mod1"], "r", validate_and_restart),
     Key([mod, "mod1"], "q", lazy.shutdown()),
-    Key([mod], "r", lazy.spawncmd()),
+    # Key([mod], "r", lazy.spawncmd()),
     Key([mod, "mod1"], "Escape", lazy.spawn(ROFI_SCRIPTS_DIR +'rofi_logout.sh') ),
 
-    Key([mod], "space", lazy.spawn(ROFI_SCRIPTS_DIR + 'rofi_menu.sh')),
+    Key([mod, "shift"], "Return", lazy.spawn(ROFI_SCRIPTS_DIR + 'rofi_menu.sh')),
 ]
 #-----------------------------------------------------------------------
 # --- ASSIGN BARS TO MONITORS

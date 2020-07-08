@@ -36,7 +36,7 @@ def init_widgets_list():
                         foreground = colors[2],
                         background = colors[0]
                         ),
-               widget.GroupBox(font="Ubuntu Bold",
+               widget.AGroupBox(font="Ubuntu Bold",
                         fontsize = 9,
                         margin_y = 0,
                         margin_x = 0,
@@ -52,7 +52,8 @@ def init_widgets_list():
                         other_current_screen_border = colors[0],
                         other_screen_border = colors[0],
                         foreground = colors[2],
-                        background = colors[0]
+                        background = colors[0],
+                        hide_unused = True
                         ),
                widget.Prompt(
                         prompt=prompt,
@@ -119,6 +120,48 @@ def init_widgets_list():
                         background = colors[5],
                         padding = 5
                         ),
+               # widget.TextBox(
+               #          text='',
+               #          background = colors[5],
+               #          foreground = colors[4],
+               #          padding=0,
+               #          fontsize=37
+               #          ),
+               # widget.TextBox(
+               #          text=" ↯",
+               #          foreground=colors[2],
+               #          background=colors[4],
+               #          padding = 0,
+               #          fontsize=14
+               #          ),
+               # widget.Net(
+               #          interface = MY_ETHERNET,
+               #          foreground = colors[2],
+               #          background = colors[4],
+               #          padding = 5
+               #          ),
+               # widget.TextBox(
+               #          text='',
+               #          background = colors[4],
+               #          foreground = colors[5],
+               #          padding=0,
+               #          fontsize=37
+               #          ),
+               # widget.TextBox(
+               #          font="Ubuntu Bold",
+               #          text=" ♫",
+               #          padding = 5,
+               #          foreground=colors[2],
+               #          background=colors[5],
+               #          fontsize=14
+               #          ),
+               # widget.Cmus(
+               #          max_chars = 40,
+               #          update_interval = 0.5,
+               #          background=colors[5],
+               #          play_color = colors[2],
+               #          noplay_color = colors[2]
+               #          ),
                widget.TextBox(
                         text='',
                         background = colors[5],
@@ -127,49 +170,8 @@ def init_widgets_list():
                         fontsize=37
                         ),
                widget.TextBox(
-                        text=" ↯",
-                        foreground=colors[2],
-                        background=colors[4],
-                        padding = 0,
-                        fontsize=14
-                        ),
-               widget.Net(
-                        interface = MY_ETHERNET,
-                        foreground = colors[2],
-                        background = colors[4],
-                        padding = 5
-                        ),
-               widget.TextBox(
-                        text='',
-                        background = colors[4],
-                        foreground = colors[5],
-                        padding=0,
-                        fontsize=37
-                        ),
-               widget.TextBox(
-                        font="Ubuntu Bold",
-                        text=" ♫",
-                        padding = 5,
-                        foreground=colors[2],
-                        background=colors[5],
-                        fontsize=14
-                        ),
-               widget.Cmus(
-                        max_chars = 40,
-                        update_interval = 0.5,
-                        background=colors[5],
-                        play_color = colors[2],
-                        noplay_color = colors[2]
-                        ),
-               widget.TextBox(
-                        text='',
-                        background = colors[5],
-                        foreground = colors[4],
-                        padding=0,
-                        fontsize=37
-                        ),
-               widget.TextBox(
-                        text=" 🔊",
+                        font="Iosevka",
+                        text=" ",
                         foreground=colors[2],
                         background=colors[4],
                         padding = 0,
@@ -180,26 +182,26 @@ def init_widgets_list():
                         background = colors[4],
                         padding = 5
                         ),
-               widget.TextBox(
-                        text='',
-                        background = colors[4],
-                        foreground = colors[5],
-                        padding=0,
-                        fontsize=37
-                        ),
-               widget.TextBox(
-                        font="Ubuntu Bold",
-                        text=" ☵",
-                        padding = 5,
-                        foreground=colors[2],
-                        background=colors[5],
-                        fontsize=14
-                        ),
-               widget.CurrentLayout(
-                        foreground = colors[2],
-                        background = colors[5],
-                        padding = 5
-                        ),
+               # widget.TextBox(
+               #          text='',
+               #          background = colors[4],
+               #          foreground = colors[5],
+               #          padding=0,
+               #          fontsize=37
+               #          ),
+               # widget.TextBox(
+               #          font="Ubuntu Bold",
+               #          text=" ☵",
+               #          padding = 5,
+               #          foreground=colors[2],
+               #          background=colors[5],
+               #          fontsize=14
+               #          ),
+               # widget.CurrentLayout(
+               #          foreground = colors[2],
+               #          background = colors[5],
+               #          padding = 5
+               #          ),
                widget.TextBox(
                         text='',
                         background = colors[5],
@@ -208,8 +210,8 @@ def init_widgets_list():
                         fontsize=37
                         ),
                widget.TextBox(
-                        font="Ubuntu Bold",
-                        text=" 🕒",
+                        font="Iosevka",
+                        text=" ",
                         foreground=colors[2],
                         background=colors[4],
                         padding = 5,
@@ -218,7 +220,8 @@ def init_widgets_list():
                widget.Clock(
                         foreground = colors[2],
                         background = colors[4],
-                        format="%A, %B %d - %H:%M"
+                        # format="%A, %B %d - %H:%M"
+                        format="%d-%m-%Y - %H:%M"
                         ),
                widget.Sep(
                         linewidth = 0,
@@ -228,6 +231,7 @@ def init_widgets_list():
                         ),
                widget.Systray(
                         background=colors[0],
+                        icon_size = 20,
                         padding = 5
                         ),
               ]
