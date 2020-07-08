@@ -51,8 +51,30 @@ DEBUG = os.environ.get("DEBUG")
 HOME = os.path.expanduser('~')
 QTILE_CONFIG_DIR = HOME + '/.config/qtile/'
 ROFI_SCRIPTS_DIR = HOME + '/.config/rofi/'
-MY_TERM = "alacritty"
+# MY_TERM = "alacritty"
 #MY_ETHERNET = "enp3s0"
+
+#======================================================================================
+# ---- QTILE CONFIG
+#======================================================================================
+hostname = platform.uname().node
+mod = "mod4"
+space = 12
+
+
+
+# Si arrancamos en modo debug cambiamos el "modificador" a bloqueo de mays, para evitar liarla con los qtile al tiempo
+if DEBUG:
+    hostname = "PRUEBAS"
+    mod = "lock"  # Cambiamos el MOD a Caps-Lock
+
+
+#======================================================================================
+# ---- MONITORS IDENTIFICATION
+#======================================================================================
+monitor_list = get_monitors()
+num_monitors = get_num_monitors(monitor_list)
+
 
 #------------------------------------------------------------------------------------------------------
 # If you want all groups in all monitors:
@@ -79,24 +101,40 @@ MY_TERM = "alacritty"
 # MONITOR_GROUPS_NUM[2] = "AUX_RIGHT"
 
 MAIN_MONITOR_NUM = 0     # to configure this you can run "python ~/.config/qtile/config.py" it will show the numbes
-
 MONITOR_GROUPS = {}
-MONITOR_GROUPS[0] = [
+
+if num_monitors > 2:
+    MONITOR_GROUPS[0] = [
                         ("[1]MAIN", {'layout': 'monadtall'}),
                         ("[2]CODe", {'layout': 'monadtall'}),
                         ("[3]GAMES", {'layout': 'monadtall'}),
                         ("[4]WWW", {'layout': 'monadtall'})
                     ]
-MONITOR_GROUPS[1] = [
+    MONITOR_GROUPS[1] = [
 
                         ("[5]WWW2", {'layout': 'monadtall'}),
                         ("[6]WWW3", {'layout': 'monadtall'}),
                         ("[7]AUX", {'layout': 'monadtall'})
                     ]
-MONITOR_GROUPS[2] = [
+    MONITOR_GROUPS[2] = [
                         ("[8]VIDEO", {'layout': 'monadtall'}),
                         ("[9]AUX3", {'layout': 'monadtall'})
 
+                    ]
+else:
+    MONITOR_GROUPS[0] = [
+                        ("[1]", {'layout': 'monadtall'}),
+                        ("[2]", {'layout': 'monadtall'}),
+                        ("[3]", {'layout': 'monadtall'}),
+                        ("[4]", {'layout': 'monadtall'}),
+                        ("[5]", {'layout': 'monadtall'}),
+                        ("[6]", {'layout': 'monadtall'})
+                    ]
+    MONITOR_GROUPS[1] = [
+
+                        ("[7]WWW2", {'layout': 'monadtall'}),
+                        ("[8]WWW3", {'layout': 'monadtall'}),
+                        ("[9]AUX", {'layout': 'monadtall'})
                     ]
 
 #----------- LOGGIN
@@ -118,26 +156,7 @@ if LOG:
     )
 
 
-#======================================================================================
-# ---- MONITORS IDENTIFICATION
-#======================================================================================
-monitor_list = get_monitors()
-num_monitors = get_num_monitors(monitor_list)
 
-
-#======================================================================================
-# ---- QTILE CONFIG
-#======================================================================================
-hostname = platform.uname().node
-mod = "mod4"
-space = 12
-
-
-
-# Si arrancamos en modo debug cambiamos el "modificador" a bloqueo de mays, para evitar liarla con los qtile al tiempo
-if DEBUG:
-    hostname = "PRUEBAS"
-    mod = "lock"  # Cambiamos el MOD a Caps-Lock
 
 
 #======================================================================================

@@ -55,6 +55,9 @@ font pango: Noto Sans 12
 #----------------------------------------------------------------------------------------------
 #              AUTOSTART
 #----------------------------------------------------------------------------------------------
+# polybar
+exec --no-startup-id sh ~/.config/polybar/i3/polybar_launcher.sh
+
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
@@ -67,8 +70,6 @@ exec --no-startup-id picom &
 #walpaper
 exec --no-startup-id nitrogen --restore &
 
-# polybar
-exec --no-startup-id sh ~/.config/polybar/i3/polybar_launcher.sh
 
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
