@@ -77,7 +77,7 @@ exec --no-startup-id nitrogen --restore &
 exec --no-startup-id nm-applet &
 
 # Icono de system-tray para syncthing
-exec --no-startup-id syncthingtray &
+exec --no-startup-id "sh -c 'sleep 10; exec syncthingtray &'"
 
 
 #----------------------------------------------------------------------------------------------
