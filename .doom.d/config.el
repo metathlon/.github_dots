@@ -8,22 +8,24 @@
 
 
 ;; fuentes
-(when (member "Source Code Pro" (font-family-list))
-  (setq doom-font (font-spec :family "Source Code Pro" :size 14)))
+;; (when (member "Source Code Pro" (font-family-list))
+;;   (setq doom-font (font-spec :family "Source Code Pro" :size 14)))
 
+(when (member "Hack Nerd Font Mono" (font-family-list))
+  (setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 14)))
 
 ;; --- THEMES ---
 ;;
 ;; (setq doom-theme 'doom-one)
-;; (setq doom-theme 'doom-dracula)
-(setq doom-theme 'doom-nord)
+(setq doom-theme 'doom-dracula)
+;; (setq doom-theme 'doom-nord)
 ;; (setq doom-theme 'doom-tomorrow-night)
 ;; (setq doom-theme 'doom-monokai-pro)
 ;; (setq doom-theme 'doom-palenight)
 
 ;; --- DASHBOARD IMAGE ---
-(add-hook! '(+doom-dashboard-mode-hook)
-           (setq fancy-splash-image "~/dotfiles/emacs/doom.d/images/crypto.png"))
+;; (add-hook! '(+doom-dashboard-mode-hook)
+;;            (setq fancy-splash-image "~/dotfiles/emacs/doom.d/images/crypto.png"))
 
 
 
