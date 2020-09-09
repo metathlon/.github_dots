@@ -102,29 +102,29 @@
   (load! "org.babel.config.el")
 
   ;; --- LOGS ---
-    (setq org-log-done 'time)
-    ;; Guarda cuando se ha cambiado la fecha de una tarea
-    (setq org-log-reschedule 'time)
-    ;; Guarda cuando se ha cambiado la ubicación de una tarea (de un archivo a otro)
-    (setq org-log-refile 'time)
-    ;; Guarda cuando se ha cambiado la fecha limite de una tarea
-    (setq org-log-redeadline 'time)
+  (setq org-log-done 'time)
+  ;; Guarda cuando se ha cambiado la fecha de una tarea
+  (setq org-log-reschedule 'time)
+  ;; Guarda cuando se ha cambiado la ubicación de una tarea (de un archivo a otro)
+  (setq org-log-refile 'time)
+  ;; Guarda cuando se ha cambiado la fecha limite de una tarea
+  (setq org-log-redeadline 'time)
 
-    ;; --- CHECKBOX EN TABLAS ---
-    ;; *** Checkbox en tabla
-    ;; Estoy buscando un sistema para poder poner checkbox como estas:
-    ;; - [ ] Sin marcar
-    ;; - [X] Marcada
+  ;; --- CHECKBOX EN TABLAS ---
+  ;; *** Checkbox en tabla
+  ;; Estoy buscando un sistema para poder poner checkbox como estas:
+  ;; - [ ] Sin marcar
+  ;; - [X] Marcada
 
-    ;; En las tablas, pero esto *no funciona* por lo menos de momento.
-    (defun check-cell ()
-      (interactive)
-      (let ((cell (org-table-get-field)))
-        (if (string-match "[[:graph:]]" cell)
-            (org-table-blank-field)
-          (insert "X")
-          (org-table-align))
-        (org-table-next-field)))
+  ;; En las tablas, pero esto *no funciona* por lo menos de momento.
+  (defun check-cell ()
+    (interactive)
+    (let ((cell (org-table-get-field)))
+      (if (string-match "[[:graph:]]" cell)
+          (org-table-blank-field)
+        (insert "X")
+        (org-table-align))
+      (org-table-next-field)))
 
   (load! "org.agenda.config.el")
   (load! "org.calendario.config.el")

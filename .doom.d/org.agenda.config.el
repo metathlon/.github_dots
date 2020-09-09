@@ -27,37 +27,34 @@
 ;; muestre ESE día en vez de *hoy*.
 
 ;; *** Basic config
-;; #+BEGIN_SRC emacs-lisp
 ;;   ;; -- Metemos en agenda TODOS los archivos que hay en el directorio que he configurado en org.persojnal.el
 ;;   ;; La idea es que ahí tendré los TODO de proyectos, asesoramientos, personales... y como todo son cosas que hay que hacer... pues tanto da
 (after! org
   (setq org-agenda-files
         (find-lisp-find-files caronte/org-agenda-directory"\.org$"))
 )
-;; #+END_SRC
+
+
 ;; *** Primer día de la semana
-;; #+BEGIN_SRC emacs-lisp
 ;; (after! org
 ;;     ;; --- si quieres que la semana empice en lunes
 ;;     (setq org-agenda-start-on-weekday 1)
 ;; )
-;; #+END_SRC
 
 ;; *** Mostrar solo un día
-;; #+BEGIN_SRC emacs-lisp
 (after! org
     ;; --- si quieres que se muestre solo HOY
     (setq org-agenda-start-on-weekday nil)
     (setq org-agenda-start-day "+0d")
     (setq org-agenda-span 1)
 )
-;; #+END_SRC
+
+
 ;; *** Funciones de control de elementos a mostrar
 ;; Estas funciones no son necesarias gracias a la super-agenda, pero las dejo aquí por si decidiera
 ;; usarlas en el futuro.
 ;; **** Función de gestión de prioridades
 ;; Con esta función podemos separar las tareas según prioridad
-;; #+BEGIN_SRC emacs-lisp
 (defun air-org-skip-subtree-if-priority (priority)
   "Saltarse un subtree de la agenda si tiene una prioridad de PRIORIDAD
 
@@ -69,7 +66,6 @@
           subtree-end
         nil)))
 
-;; #+END_SRC
 
 ;; **** Función para la gestión de hábitos
 ;; De momento no estoy usando los /hábitos/ de org-mode. Pero por si los uso, he
