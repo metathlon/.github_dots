@@ -321,52 +321,53 @@ bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN
 #===========================================================
 #                       MAIN BAR
 #===========================================================
-# bar {
-#         colors {
-#                 background #2f343f
-#                 statusline #2f343f
-#                 separator #4b5262
+bar {
+        colors {
+                background #2f343f
+                statusline #2f343f
+                separator #4b5262
 
-#                 # colour of border, background, and text
-#                 focused_workspace       #2f343f #f59335 #d8dee8
-#                 active_workspace        #2f343f #2f343f #d8dee8
-#                 inactive_workspace      #2f343f #2f343f #d8dee8
-#                 urgent_workspace       #2f343f #bf616b #2f343f
-#         }
-#         # status_command i3status --config ~/.config/i3/i3status.conf
-#         status_command i3blocks -c ~/.config/i3/i3blocks.main.conf
-#         font pango: Noto Sans Medium 12, Iosevka Nerd Font 12
-#         # font pango: UbuntuMono Nerd Font regular 12, Iosevka Nerd Font 12
-#         output $mainmonitor
-#         position top
-#         verbose yes
-#         id bar-main
-#         tray_output primary
-# }
+                # colour of border, background, and text
+                focused_workspace       #2f343f #f59335 #d8dee8
+                active_workspace        #2f343f #2f343f #d8dee8
+                inactive_workspace      #2f343f #2f343f #d8dee8
+                urgent_workspace       #2f343f #bf616b #2f343f
+        }
+        # status_command i3status --config ~/.config/i3/i3status.conf
+        status_command i3blocks -c ~/.config/i3/i3blocks.main.conf
+        # font pango: Noto Sans Medium 12, Iosevka Nerd Font 12
+        font pango: Hack Nerd Font Mono 12
+        # font pango: UbuntuMono Nerd Font regular 12, Iosevka Nerd Font 12
+        output $mainmonitor
+        position top
+        verbose yes
+        id bar-main
+        tray_output primary
+}
 
 # #===========================================================
 # #                       AUX BAR
 # #===========================================================
-# bar {
-#         colors {
-#                 background #2f343f
-#                 statusline #2f343f
-#                 separator #4b5262
+bar {
+        colors {
+                background #2f343f
+                statusline #2f343f
+                separator #4b5262
 
-#                 # colour of border, background, and text
-#                 focused_workspace       #2f343f #f59335 #d8dee8
-#                 active_workspace        #2f343f #2f343f #d8dee8
-#                 inactive_workspace      #2f343f #2f343f #d8dee8
-#                 urgent_workspace       #2f343f #bf616b #2f343f
-#         }
+                # colour of border, background, and text
+                focused_workspace       #2f343f #f59335 #d8dee8
+                active_workspace        #2f343f #2f343f #d8dee8
+                inactive_workspace      #2f343f #2f343f #d8dee8
+                urgent_workspace       #2f343f #bf616b #2f343f
+        }
 
-#         output $leftmonitor
-#         output $rightmonitor
-#         position top
-#         status_command i3blocks
-#         tray_output primary
-#         # tray_padding 100
-#         # tray_output none
-#         id bar-aux
-#         status_command i3blocks -c ~/.config/i3/i3blocks.aux.conf
-# }
+        output $leftmonitor
+        output $rightmonitor
+        position top
+        status_command i3blocks
+        tray_output primary
+        # tray_padding 100
+        # tray_output none
+        id bar-aux
+        status_command i3blocks -c ~/.config/i3/i3blocks.aux.conf
+}

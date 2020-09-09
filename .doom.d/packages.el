@@ -54,7 +54,7 @@
 ;;
 ;;
 ;; --- Edicion en multiples lineas al mismo tiempo
-(package! evil-multiedit)	;; Multicursor
+;; (package! evil-multiedit)	;; Multicursor
 
 ;; -- Calendarios
 (package! oauth2)		;; Google Auth para el calendario
@@ -104,3 +104,15 @@
 (package! pyenv-mode)
 (package! py-autopep8)
 (package! blacken)
+
+
+
+;; --- Contactos mu4e
+(package! bbdb)
+(package! counsel-bbdb)
+
+(package! bbdb-csv-import :recipe
+          (:host gitlab
+           :repo "iankelling/bbdb-csv-import"
+          )
+)
