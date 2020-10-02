@@ -105,23 +105,21 @@ MONITOR_GROUPS = {}
 
 if num_monitors > 2:
     MONITOR_GROUPS[0] = [
-                        ("[1]MAIN", {'layout': 'monadtall'}),
-                        ("[2]CODe", {'layout': 'monadtall'}),
-                        ("[3]GAMES", {'layout': 'monadtall'}),
-                        ("[4]WWW", {'layout': 'monadtall'})
+                        ("[1]", {'layout': 'monadtall'}),
+                        ("[2]", {'layout': 'monadtall'}),
+                        ("[3]", {'layout': 'monadtall'}),
+                        ("[4]", {'layout': 'monadtall'})
                     ]
     MONITOR_GROUPS[1] = [
-
-                        ("[5]WWW2", {'layout': 'monadtall'}),
-                        ("[6]WWW3", {'layout': 'monadtall'}),
-                        ("[7]AUX", {'layout': 'monadtall'})
+                        ("[5]", {'layout': 'monadtall'}),
+                        ("[6]", {'layout': 'monadtall'}),
+                        ("[7]", {'layout': 'monadtall'})
                     ]
     MONITOR_GROUPS[2] = [
-                        ("[8]VIDEO", {'layout': 'monadtall'}),
-                        ("[9]AUX3", {'layout': 'monadtall'})
-
+                        ("[8]", {'layout': 'monadtall'}),
+                        ("[9]", {'layout': 'monadtall'})
                     ]
-else:
+elif num_monitors == 2:
     MONITOR_GROUPS[0] = [
                         ("[1]", {'layout': 'monadtall'}),
                         ("[2]", {'layout': 'monadtall'}),
@@ -131,11 +129,24 @@ else:
                         ("[6]", {'layout': 'monadtall'})
                     ]
     MONITOR_GROUPS[1] = [
-
                         ("[7]WWW2", {'layout': 'monadtall'}),
                         ("[8]WWW3", {'layout': 'monadtall'}),
                         ("[9]AUX", {'layout': 'monadtall'})
                     ]
+else:
+    MONITOR_GROUPS[0] = [
+                        ("[1]", {'layout': 'monadtall'}),
+                        ("[2]", {'layout': 'monadtall'}),
+                        ("[3]", {'layout': 'monadtall'}),
+                        ("[4]", {'layout': 'monadtall'}),
+                        ("[5]", {'layout': 'monadtall'}),
+                        ("[6]", {'layout': 'monadtall'}),
+                        ("[7]WWW2", {'layout': 'monadtall'}),
+                        ("[8]WWW3", {'layout': 'monadtall'}),
+                        ("[9]AUX", {'layout': 'monadtall'})
+                    ]
+
+
 
 #----------- LOGGIN
 LOG=True
@@ -193,7 +204,7 @@ keys = [
     Key([mod, "mod1"], "r", validate_and_restart),
     Key([mod, "mod1"], "q", lazy.shutdown()),
     # Key([mod], "r", lazy.spawncmd()),
-    Key([mod, "mod1"], "Escape", lazy.spawn(ROFI_SCRIPTS_DIR +'rofi_logout.sh') ),
+    Key([mod, "shift"], "Escape", lazy.spawn(ROFI_SCRIPTS_DIR +'rofi_logout.sh') ),
 
     Key([mod, "shift"], "Return", lazy.spawn(ROFI_SCRIPTS_DIR + 'rofi_menu.sh')),
 ]
@@ -362,6 +373,8 @@ floating_layout = layout.Floating(float_rules=[
     {'wname': 'branchdialog'},  # gitk
     {'wname': 'pinentry'},  # GPG key password entry
     {'wmclass': 'ssh-askpass'},  # ssh-askpass
+    {'wname': 'Steam Login'},  # Steam Login window
+    {'wname': 'Steam - News'},  # Steam News window
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"

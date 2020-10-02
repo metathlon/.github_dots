@@ -1,13 +1,2 @@
-# Este archivo se supone que se ejecuta con xmodmap
-# la idea es remapear Caps_Lock a mod3 para poder usarlo
-#
-# El problema es que no parece cargar bien o algo... no se muy bien que ocurre
-#
-# Si lo quieres usar para probar qtile deberías ponerlo a cargar ANTES de lanzar el servidor
-#
-# algo así como poner en xinitrc:
-#         xmodmap  ~/.config/qtile/remapmod3
-
-
 clear lock
 add mod3 = Caps_Lock

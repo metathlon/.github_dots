@@ -12,7 +12,8 @@ colors = [["#282a36", "#282a36"], # panel background
           ["#ffffff", "#ffffff"], # font color for group names
           ["#ff5555", "#ff5555"], # background color for layout widget
           ["#A77AC4", "#A77AC4"], # dark green gradiant for other screen tabs
-          ["#7197E7", "#7197E7"]] # background color for pacman widget
+          ["#7197E7", "#7197E7"], # background color for pacman widget
+          ["#FCAE1E", "#FCAE1E"]] # highlight for groups
 
 ##### PROMPT #####
 prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
@@ -36,25 +37,45 @@ def init_widgets_list():
                         foreground = colors[2],
                         background = colors[0]
                         ),
-               widget.AGroupBox(font="Ubuntu Bold",
-                        fontsize = 9,
-                        margin_y = 0,
-                        margin_x = 0,
-                        padding_y = 5,
-                        padding_x = 5,
-                        borderwidth = 1,
-                        active = colors[2],
-                        inactive = colors[2],
-                        rounded = False,
-                        highlight_method = "block",
-                        this_current_screen_border = colors[4],
-                        this_screen_border = colors [1],
-                        other_current_screen_border = colors[0],
-                        other_screen_border = colors[0],
-                        foreground = colors[2],
-                        background = colors[0],
-                        hide_unused = True
-                        ),
+               # widget.AGroupBox(font="Ubuntu Bold",
+               #          fontsize = 9,
+               #          margin_y = 0,
+               #          margin_x = 0,
+               #          padding_y = 5,
+               #          padding_x = 5,
+               #          borderwidth = 0,
+               #          active = colors[2],
+               #          inactive = colors[2],
+               #          rounded = False,
+               #          highlight_method = "block",
+               #          this_current_screen_border = colors[4],
+               #          this_screen_border = colors [1],
+               #          other_current_screen_border = colors[0],
+               #          other_screen_border = colors[0],
+               #          foreground = colors[2],
+               #          background = colors[0],
+               #          hide_unused = True
+               #          ),
+               widget.GroupBox(
+                   foreground = colors[1],
+                   background = colors[0],
+                   active = colors[4],
+                   inactive = colors[1],
+                   block_highlight_text_color = colors[2],
+                   highlight_method = "block",
+                   borderwidth = 1,
+                   this_current_screen_border = colors[4],
+                   this_screen_border = colors [1],
+                   highlight_color = [colors[0], colors[6]]
+
+# colors = [["#282a36", "#282a36"], # panel background
+#           ["#434758", "#434758"], # background for current screen tab
+#           ["#ffffff", "#ffffff"], # font color for group names
+#           ["#ff5555", "#ff5555"], # background color for layout widget
+#           ["#A77AC4", "#A77AC4"], # dark green gradiant for other screen tabs
+#           ["#7197E7", "#7197E7"], # background color for pacman widget
+#           ["#FCAE1E", "#FCAE1E"]] # highlight for groups
+                               ),
                widget.Prompt(
                         prompt=prompt,
                         font="Ubuntu Mono",
@@ -74,13 +95,13 @@ def init_widgets_list():
                         background = colors[0],
                         padding = 5
                         ),
-               widget.TextBox(
-                        text='',
-                        background = colors[0],
-                        foreground = colors[4],
-                        padding=0,
-                        fontsize=37
-                        ),
+               # widget.TextBox(
+               #          text='',
+               #          background = colors[0],
+               #          foreground = colors[4],
+               #          padding=0,
+               #          fontsize=37
+               #          ),
                widget.TextBox(
                         font="Ubuntu Bold",
                         text=" ⟳",
@@ -89,25 +110,29 @@ def init_widgets_list():
                         background=colors[4],
                         fontsize=14
                         ),
-               widget.Pacman(
-                        execute = MY_TERM,
-                        update_interval = 1800,
-                        foreground = colors[2],
-                        background = colors[4]
-                        ),
-               widget.TextBox(
-                        text="Updates",
-                        padding = 5,
-                        foreground=colors[2],
-                        background=colors[4]
-                        ),
-               widget.TextBox(
-                        text='',
-                        background = colors[4],
-                        foreground = colors[5],
-                        padding= 0,
-                        fontsize=37
-                        ),
+               widget.CheckUpdates(
+                   display_format = "{updates}",
+                   distro = "Arch"
+                                   ),
+               # widget.Pacman(
+               #          execute = MY_TERM,
+               #          update_interval = 1800,
+               #          foreground = colors[2],
+               #          background = colors[4]
+               #          ),
+               # widget.TextBox(
+               #          text="Updates",
+               #          padding = 5,
+               #          foreground=colors[2],
+               #          background=colors[4]
+               #          ),
+               # widget.TextBox(
+               #          text='',
+               #          background = colors[4],
+               #          foreground = colors[5],
+               #          padding= 0,
+               #          fontsize=37
+               #          ),
                widget.TextBox(
                         text=" 🖬",
                         foreground=colors[2],
@@ -162,13 +187,13 @@ def init_widgets_list():
                #          play_color = colors[2],
                #          noplay_color = colors[2]
                #          ),
-               widget.TextBox(
-                        text='',
-                        background = colors[5],
-                        foreground = colors[4],
-                        padding=0,
-                        fontsize=37
-                        ),
+               # widget.TextBox(
+               #          text='',
+               #          background = colors[5],
+               #          foreground = colors[4],
+               #          padding=0,
+               #          fontsize=37
+               #          ),
                widget.TextBox(
                         font="Iosevka",
                         text=" ",
@@ -202,13 +227,13 @@ def init_widgets_list():
                #          background = colors[5],
                #          padding = 5
                #          ),
-               widget.TextBox(
-                        text='',
-                        background = colors[5],
-                        foreground = colors[4],
-                        padding=0,
-                        fontsize=37
-                        ),
+               # widget.TextBox(
+               #          text='',
+               #          background = colors[5],
+               #          foreground = colors[4],
+               #          padding=0,
+               #          fontsize=37
+               #          ),
                widget.TextBox(
                         font="Iosevka",
                         text=" ",
@@ -233,6 +258,6 @@ def init_widgets_list():
                         background=colors[0],
                         icon_size = 20,
                         padding = 5
-                        ),
+                        )
               ]
     return widgets_list
